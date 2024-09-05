@@ -1,0 +1,285 @@
+# V1.0.0
+
+## Summary
+- Complete overhaul.
+- Remove MITRE ATT&CK specific tables (these ought to be folded in as non-unique tables with a mapper).
+- Standardize Table and Column name format conventions.
+- Data Type Standardization.
+- Removed Country/State tables to a more general GeographicLocation table.
+- Cleaned Table and Column descriptions.
+- Make Wheel of Access more modular and scalable.
+- Remove Joining Tables and replace with arrayed list of connections.
+- Update relationship definitions and add name attribute to replaced the Joining Tables.
+- Removed carte blanche not-nullable fields from each column.
+- Fixed the relationships for every column out of the one-to-one relationship type. 
+
+
+## Major changes
+- Removed all references to MITRE ATT&CK
+- (Table Name Change) RDTE_Type -> RDTEType
+- (Table Name Change) PII_PHI_Types -> PIIPHITypes
+- (Table Name Change) CNSS_Questionaire -> CNSSQuestionaire
+- (Table Name Change) Joint_Organization -> JointOrganization
+- (Table Name Change) CyberAttack_Path -> CyberAttackPath
+- (Table Name Change) CyberAttack_Path_Step -> CyberAttackPathStep
+- (Table Name Change) CyberAttack_Vulnerabilities -> CyberAttackVulnerabilities
+- (Table Name Change) NSS_Questionaire -> NSSQuestionaire
+- (Table Name Change) SCG_Operational_Data -> SCGOperationalData
+- (Table Name Change) Joint_Organization_Membership -> JointOrganizationMembership
+- (Table Name Change) Programmatic_Data -> ProgrammaticData
+- (Table Name Change) SCG_Programmatic_Data -> SCGProgrammaticData
+- (Table Name Change) Classification_Control_Caveats -> ClassificationControlCaveats
+- (Table Name Change) Programmatic_Data_Releasability_Country -> ProgrammaticDataReleasabilityCountry
+- (Table Name Change) Operational_Data_Releasability_Country -> OperationalDataReleasabilityCountry
+- (Table Name Change) Programmatic_Data_Releasability_Group -> ProgrammaticDataReleasabilityGroup
+- (Table Name Change) Operational_Data_Releasability_Group -> OperationalDataReleasabilityGroup
+- (Table Name Change) Entry_Point -> EntryPoint
+- (Table Name Change) SystemCollection_Elements -> SystemCollectionElements
+- (Table Name Change) ClassificationStatement_Classification -> ClassificationStatementClassification
+- (Table Name Change) ClassificationStatement_Dissemination -> ClassificationStatementDissemination
+- (Table Name Change) ClassificationStatement_ControlCaveat -> ClassificationStatementControlCaveat
+- (Table Name Change) AuthorizationBoundary_Collection -> AuthorizationBoundaryCollection
+- (Column Name Change) Mission: Safety_Critical_Function -> SafetyCriticalFunction
+- (Column Name Change) Risk: Risk_Mitigated_Value -> RiskMitigatedValue
+- (Column Name Change) Mitigation: Project_Implementation_Date -> ProjectImplementationDate
+- (Column Name Change) Mitigation: Actual_Implementation_Date -> ActualImplementationDate
+- (Column Name Change) Requirement: Reference_Document_Identifier -> ReferenceDocumentIdentifier
+- (Column Name Change) StatementOfWorkItem: SOW_Reference_Number -> SOWReferenceNumber
+- (Column Name Change) State: Name_Short -> NameShort
+- (Column Name Change) Organization: Creation_Date -> CreationDate
+- (Column Name Change) ProgramDtl: ITIPS_Number -> ITIPSNumber
+- (Column Name Change) ProgramDtl: System_Purpose -> SystemPurpose
+- (Column Name Change) ProgramDtl: DITPR_Number -> DITPRNumber
+- (Column Name Change) ProgramDtl: AFID_Number -> AFIDNumber
+- (Column Name Change) ProgramDtl: EMASS_Number -> EMASSNumber
+- (Column Name Change) Program: Created_Date -> CreatedDate
+- (Column Name Change) Program: Modified_Date -> ModifiedDate
+- (Column Name Change) BasisOfEstimate: Created_Date -> CreatedDate
+- (Column Name Change) BasisOfEstimate: Modified_Date -> ModifiedDate
+- (Column Name Change) CNSS_Questionaire: Classified_Processed -> ClassifiedProcessed
+- (Column Name Change) ClassificationType: Country_Owned -> CountryOwned
+- (Column Name Change) ClassificationType: Group_Owned -> GroupOwned
+- (Column Name Change) CriticalProgramInformation: Creation_Date -> CreationDate
+- (Column Name Change) CriticalitySource: Creation_Date -> CreationDate
+- (Column Name Change) CriticalitySource: Reference_Location -> ReferenceLocation
+- (Column Name Change) ImpactValue: Short_Name -> ShortName
+- (Column Name Change) ImpactValue: Numeric_Value -> NumericValue
+- (Column Name Change) ImpactValue: Long_Name -> LongName
+- (Column Name Change) System: Part_Number -> PartNumber
+- (Column Name Change) WheelOfAccess: Major_Category -> MajorCategory
+- (Column Name Change) WheelOfAccess: Minor_Category -> MinorCategory
+- (Column Name Change) CyberAttack: Time_Frame -> TimeFrame
+- (Column Name Change) CyberAttack: Possible_Outcome -> PossibleOutcome
+- (Column Name Change) IntelligenceConfidenceValue: Long_Name -> LongName
+- (Column Name Change) IntelligenceConfidenceValue: Short_Name -> ShortName
+- (Column Name Change) IntelligenceConfidenceValue: Numeric_Value -> NumericValue
+- (Column Name Change) IntelligenceRatingValue: Long_Name -> LongName
+- (Column Name Change) IntelligenceRatingValue: Short_Name -> ShortName
+- (Column Name Change) IntelligenceRatingValue: Numeric_Value -> NumericValue
+- (Column Name Change) IntelligenceProduct: Creation_Date -> CreationDate
+- (Column Name Change) IntelligenceProduct: Reference_Location -> ReferenceLocation
+- (Column Name Change) LikelihoodValue: Long_Name -> LongName
+- (Column Name Change) LikelihoodValue: Short_Name -> ShortName
+- (Column Name Change) LikelihoodValue: Numeric_Value -> NumericValue
+- (Column Name Change) SeveritySource: Creation_Date -> CreationDate
+- (Column Name Change) SeveritySource: Reference_Location -> ReferenceLocation
+- (Column Name Change) Risk: Created_Date -> CreatedDate
+- (Column Name Change) Risk: Modified_Date -> ModifiedDate
+- (Column Name Change) Risk: Risk_Value -> RiskValue
+- (Column Name Change) CyberAttack_Path: Tested_Date -> TestedDate
+- (Column Name Change) CyberAttack_Path: Path_Possible -> PathPossible
+- (Column Name Change) VulnerabilitySource: Creation_Date -> CreationDate
+- (Column Name Change) VulnerabilitySource: Reference_Location -> ReferenceLocation
+- (Column Name Change) UserDtl: First_Name -> FirstName
+- (Column Name Change) UserDtl: Last_Name -> LastName
+- (Column Name Change) UserDtl: Phone_Number -> PhoneNumber
+- (Column Name Change) User: Created_Date -> CreatedDate
+- (Column Name Change) User: Modified_Date -> ModifiedDate
+- (Column Name Change) MemorySizeType: Short_Name -> ShortName
+- (Column Name Change) MemorySizeType: Long_Name -> LongName
+- (Column Name Change) MissionUserRequirements: Clearance_Required -> ClearanceRequired
+- (Column Name Change) Mitigation: Estimated_Cost -> EstimatedCost
+- (Column Name Change) Mitigation: Actual_Cost -> ActualCost
+- (Column Name Change) Mitigation: Created_Date -> CreatedDate
+- (Column Name Change) Mitigation: Modified_Date -> ModifiedDate
+- (Column Name Change) NSS_Questionaire: Command_Control -> CommandControl
+- (Column Name Change) NistSecurityControls: Control_Identifier -> ControlIdentifier
+- (Column Name Change) NistSecurityControls: Control_Text -> ControlText
+- (Column Name Change) SecurityControlOverlay: Create_Date -> CreateDate
+- (Column Name Change) SecurityControlOverlay: Modified_Date -> ModifiedDate
+- (Column Name Change) ProgramAcquisitionMilestones: Start_Date -> StartDate
+- (Column Name Change) ProgramAcquisitionMilestones: Projected_Date -> ProjectedDate
+- (Column Name Change) ProgramUser: User_Title -> UserTitle
+- (Column Name Change) Requirement: Reference_Document -> ReferenceDocument
+- (Column Name Change) SecurityClassificationGuide: Created_Date -> CreatedDate
+- (Column Name Change) SecurityClassificationGuide: Modified_Date -> ModifiedDate
+- (Column Name Change) SoftwareTestingType: Verification_Type -> VerificationType
+- (Column Name Change) StatementOfWork: Reference_Location -> ReferenceLocation
+- (Column Name Change) StatementOfWork: Created_Date -> CreatedDate
+- (Column Name Change) StatementOfWork: Modified_Date -> ModifiedDate
+- (Column Name Change) StatementOfWorkResult: Success_Rating -> SuccessRating
+- (Column Name Change) OperationalData: Data_Description -> DataDescription
+- (Column Name Change) Confidentiality: Numeric_Value -> NumericValue
+- (Column Name Change) Integrity: Numeric_Value -> NumericValue
+- (Column Name Change) Availability: Numeric_Value -> NumericValue
+- (Column Name Change) MissionData: CIA_Justification -> CIAJustification
+- (Column Name Change) MissionHierarchy: Parent_Mission -> ParentMission
+- (Column Name Change) MissionHierarchy: Child_Mission -> ChildMission
+- (Column Name Change) System: DAR_Encryption_Type_ID -> DAREncryptionType_ID
+- (Column Name Change) CyberAttack: Wheel_Of_Access_ID -> WheelOfAccess_ID
+- (Column Name Change) SCG_Operational_Data: Security_Classification_Guide_ID -> SecurityClassificationGuide_ID
+- (Column Name Change) SCG_Programmatic_Data: Security_Classification_Guide_ID -> SecurityClassificationGuide_ID
+- (Column Name Change) ProgramDtl: IT_Type_ID -> ITType_ID
+- (Column Name Change) ProgramDtl: RDTE_Type_ID -> RDTEType_ID
+- (Column Name Change) Mission: Mission_Type_ID -> MissionType_ID
+- (Column Name Change) CriticalitySource: Conducting_Organization_ID -> ConductingOrganization_ID
+- (Column Name Change) IntelligenceProduct: Conducting_Organization_ID -> ConductingOrganization_ID
+- (Column Name Change) IntelligenceFusion: Intent_Conf_ID -> IntentConf_ID
+- (Column Name Change) IntelligenceFusion: Capability_Conf_ID -> CapabilityConf_ID
+- (Column Name Change) SeveritySource: Conducting_Organization_ID -> ConductingOrganization_ID
+- (Column Name Change) CyberAttack_Path_Step: Previous_Attack_ID -> PreviousAttack_ID
+- (Column Name Change) Software: Software_Type_ID -> SoftwareType_ID
+- (Column Name Change) VulnerabilitySource: Conducting_Organization_ID -> ConductingOrganization_ID
+- (Column Name Change) Vulnerability: Vulnerability_Source_ID -> VulnerabilitySource_ID
+- (Column Name Change) CyberAuthorization: Duration_Type_ID -> DurationType_ID
+- (Column Name Change) Memory: Size_Type_ID -> SizeType_ID
+- (Column Name Change) Memory: Memory_Type_ID -> MemoryType_ID
+- (Column Name Change) NistControlRelation: Primary_Control_ID -> PrimaryControl_ID
+- (Column Name Change) NistControlRelation: Related_Control_ID -> RelatedControl_ID
+- (Column Name Change) StatementOfWorkItem: SOW_ItemType_ID -> SOWItemType_ID
+- (Column Name Change) StatementOfWorkResult: SOW_Item_ID -> SOWItem_ID
+- (Column Name Change) SystemConnection: Encryption_Type_ID -> EncryptionType_ID
+- (Column Name Change) SystemConnection: Interface_1_ID -> Interface1_ID
+- (Column Name Change) SystemConnection: Interface_2_ID -> Interface2_ID
+- (Column Name Change) SystemConnection: System_1_ID -> System1_ID
+- (Column Name Change) SystemConnection: System_2_ID -> System2_ID
+- (Column Name Change) OperationalData: Data_Type_ID -> DataType_ID
+- (Column Name Change) SystemConnectionData: System_Connection_ID -> SystemConnection_ID
+- (Column Name Change) SystemConnectionData: Operational_Data_ID -> OperationalData_ID
+- (Column Name Change) SystemConnectionData: Source_System_ID -> SourceSystem_ID
+- (Column Name Change) SystemConnectionData: Target_System_ID -> TargetSystem_ID
+- (Column Name Change) SystemData: Operational_Data_ID -> OperationalData_ID
+- (Column Name Change) MissionData: Operational_Data_ID -> OperationalData_ID
+- (Column Name Change) SCG_Operational_Data: Operational_Data_ID -> OperationalData_ID
+- (Column Name Change) Joint_Organization_Membership: Joint_Org_ID -> JointOrg_ID
+- (Column Name Change) SCG_Programmatic_Data: Programmatic_Data_ID -> ProgrammaticData_ID
+- (Column Name Change) Programmatic_Data_Releasability_Country: Programmatic_Data_ID -> ProgrammaticData_ID
+- (Column Name Change) Operational_Data_Releasability_Country: Operational_Data_ID -> OperationalData_ID
+- (Column Name Change) Programmatic_Data_Releasability_Group: Programmatic_Data_ID -> ProgrammaticData_ID
+- (Column Name Change) Operational_Data_Releasability_Group: Operational_Data_ID -> OperationalData_ID
+- (Column Name Change) Entry_Point: System_Connection_ID -> SystemConnection_ID
+- (Column Deletion) Removed Program.Modified_Date
+- (Column Deletion) Removed Program.Parent_ID
+- (Column Deletion) Removed BasisOfEstimates.Modified_Date
+- (Column Deletion) Removed BasisOfEstimates.Previous_ID
+- (Column Name Change) MemoryType: Acroynm -> Acronym
+- (Column Name Change) OperationalData: DataDescription -> Description
+- (Table Deletion) Table SystemData deleted
+- (Column Name Change) MissionData: Required -> InputData
+- (Table Deletion) Table State deleted
+- (Table Deletion) Table Country deleted
+- (Column Name Change) Base: State_ID -> Location_ID
+- (Column Deletion) Removed Base.Country_ID
+- (Column Name Change) MissionLocation: State_ID -> Location_ID
+- (Column Deletion) Removed MissionLocation.Country_ID
+- (Column Name Change) IntelligenceFusion: Country_ID -> Location_ID
+- (Column Name Change) JointOrganizationMembership: Country_ID -> Location_ID
+- (Column Name Change) OperationalDataReleasabilityCountry: Country_ID -> Location_ID
+- (Column Name Change) ProgrammaticDataReleasabilityCountry: Country_ID -> Location_ID
+- (Column Deletion) Removed WheelOfAccess.MajorCategory
+- (Column Deletion) Removed WheelOfAccess.MinorCategory
+- (Table Deletion) Table SystemCollectionElements removed
+- (Table Deletion) Table MissionHierarchy removed
+- (Table Deletion) Table ClassificationStatementClassification removed
+- (Table Deletion) Table ClassificationStatementDissemination removed
+- (Table Deletion) Table ClassificationStatementControlCaveat removed
+- (Table Deletion) Table AuthorizationBoundaryCollection removed
+- (Table Deletion) Table CyberAttackVulnerabilities removed
+- (Table Deletion) Table MissionLocation removed
+- (Table Deletion) Table NistControlRelation removed
+- (Table Deletion) Table OverlayControls removed
+- (Table Deletion) Table ProgramSecurityControlOverlay removed
+- (Table Deletion) Table SystemRequirements removed
+- (Table Deletion) Table SystemData removed
+- (Table Deletion) Table SCGOperationalData removed
+- (Table Deletion) Table SCGProgrammaticData removed
+- (Table Deletion) Table JointOrganizationMembership removed
+- (Table Deletion) Table SystemSoftware removed
+- (Table Deletion) Table ProgrammaticDataReleasabilityCountry removed
+- (Table Deletion) Table OperationalDataReleasabilityCountry removed
+- (Table Deletion) Table ProgrammaticDataReleasabilityGroup removed
+- (Table Deletion) Table OperationalDataReleasabilityGroup removed
+- (Column Deletion) Removed Criticality.Program_ID
+- (Column Deletion) Removed Severity.Program_ID
+- (Column Deletion) Removed Vulnerability.Program_ID
+- (Column Deletion) Removed Mitigation.Risk_ID
+- (Column Deletion) Removed ClassificationControlCaveats.Parent_ID
+- (Column Deletion) Removed OperationalData.Parent_ID
+- (Column Deletion) Removed StatementOfWorkItemType.Functional_ID
+- (Column Name Change) Mission: MissionType_ID -> MissionTypes
+- (Column Name Change) System: SystemType_ID -> Types
+- (Column Name Change) Interface: RestrictionType_ID -> Restrictions
+- (Column Name Change) Software: SoftwareType_ID -> Types
+- (Column Name Change) SoftwareTest: Software_ID -> Software
+- (Column Name Change) StatementOfWorkItem: Functional_ID -> Functionals
+- (Column Name Change) StatementOfWorkItem: SOWItemType_ID -> Types
+- (Column Deletion) Removed ProgramDtl.AuthorizingOfficialType_ID
+
+
+
+## Minor Changes
+- (Column Add) Add ProposedCost to BasisOfEstimatesDtl table
+- (Column Add) Add Description to SoftwareType table
+- (Column Add) Add OpenSourceSoftware to Software table
+- (Column Add) Add Acronym to CyberAuthorizationType table
+- (Column Add) Add Description to DataType table
+- (Column Add) Add Description to the ProgramOperationalView table
+- (Column Add) Add MissionCritical to MissionData table
+- (Table Add) Add GeographicalLocation table
+- (Table Add) Add GeographicalLocationType table
+- (Table Add) Add GeographicalGrouping table
+- (Column Add) Add Name to WheelOfAccess table
+- (Column Add) Add Version to WheelOfAccess table
+- (Column Add) Add Systems to SystemCollection table
+- (Column Add) Add Children to Mission table
+- (Column Add) Add ClassificationTypes to ClassificationStatement table
+- (Column Add) Add Disseminations to ClassificationStatement table
+- (Column Add) Add ControlCaveats to ClassificationStatement table
+- (Column Add) Add Children to AuthorizationBoundary table
+- (Column Add) Add Vulnerabilities to CyberAttack table
+- (Column Add) Add Locations to Mission table
+- (Column Add) Add RelatedControls to NistSecurityControls table
+- (Column Add) Add SecurityControls to SecurityControlOverlay table
+- (Column Add) Add SecurityControlOverlays to ProgramDtl table
+- (Column Add) Add Requirements to System table
+- (Column Add) Add StoredData to System table
+- (Column Add) Add OperationalData to SecurityClassificationGuide table
+- (Column Add) Add ProgrammaticData to SecurityClassificationGuide table
+- (Column Add) Add Members to JointOrganization table
+- (Column Add) Add Software to System table
+- (Column Add) Add ReleasabilityCountries to ClassificationStatement table
+- (Column Add) Add ReleasabilityGroups to ClassificationStatement table
+- (Column Add) Add Vulnerabilities to Mitigation table
+- (Column Add) Add Children to ClassificationControlCaveats table
+- (Column Add) Add Children to OperationalData table
+- (Column Type Change) Mission.MissionType_ID: VARCHAR(255) -> Array(VARCHAR(255))
+- (Column Type Change) Mission.SystemType_ID: VARCHAR(255) -> Array(VARCHAR(255))
+- (Column Type Change) Interface.RestrictionType_ID: VARCHAR(255) -> Array(VARCHAR(255))
+- (Column Type Change) Software.SoftwareType_ID: VARCHAR(255) -> Array(VARCHAR(255))
+- (Column Type Change) SoftwareTest.Software_ID: VARCHAR(255) -> Array(VARCHAR(255))
+- (Column Type Change) StatementOfWorkItem.Functional_ID: VARCHAR(255) -> Array(VARCHAR(255))
+- (Column Type Change) StatementOfWorkItem.SOWItemType_ID: VARCHAR(255) -> Array(VARCHAR(255))
+- (Column Add) Add AuthorizingOfficialType_ID to AuthorizationBoundary table
+
+
+## Patches
+- Consolidate like data types. Ie, BINARY(1) and BOOLEAN.
+- Add Array(VARCHAR(255)) column type
+- Add One-To-Many relationship type
+- Add Many-To-Many relationship type
+- Add Many-To-One relationship type
+- Change SystemConnectionData.OperationalData_ID to a Array(VARCHAR(255))
+- Add relationship descriptions to every relationship.
+
+
+
