@@ -1,7 +1,7 @@
 # V2.0.0
 
 ## Summary
-- Dissolved the concept of 'Software' and placed under 'System' which now includes hardward, software, and the collection of both.
+- Dissolved the concept of 'Software' and merged under 'System' which now includes both hardware and software concepts. Looking to expand System ReferenceTable in the future to incoperate Next D3f3END (0.17.0) ontological references for higher fidelity identification and improved traciblity to that solution (and it's analyses).
 - Added InstanceOf to System which both ties together physical and logical systems into the same model, allows for OOP style inheritance, and permits for duplicate systems in the same model.
 - Vulnerabilities and Risks had first major overhaul since inception of Cyber Data Schema that now ties together Susceptibilities and permits for shareable Vulnerabilities and Risks in a enterprise wide context.
 
