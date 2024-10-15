@@ -1,6 +1,6 @@
 # Cyber Data Schema (CDS)
 
-Welcome to the Cyber Digital Revolution! The Cyber Data Schema (CDS) is the foundation for the project and was initially developed to facilitate the digital transformation of cybersecurity assessment and authorization content through a relationally-joined database. The CDS is a comprehensive collection of data elments and attributes designed to represent relevant content in a machine-readable and queriable format.
+Welcome to the Cyber Digital Revolution! The Cyber Data Schema (CDS) is the foundation for the project and was initially developed to facilitate the digital transformation of cybersecurity assessment and authorization content through a relationally-joined database. The CDS is a comprehensive collection of data elements and attributes designed to represent relevant content in a machine-readable and queriable format.
 
 ## Features
 
