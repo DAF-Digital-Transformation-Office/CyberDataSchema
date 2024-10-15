@@ -2845,7 +2845,7 @@
               {
                 "uuid": "97fad912-3118-447d-a91f-c9aadcfeedc8",
                 "type": "5046caa3-d81c-4704-aa71-a273d78e2175",
-                "table_uuid": "node-1727442212643",
+                "table_uuid": "4c2269bd-e4a2-42fa-8d14-c7c381deb90b",
                 "column_uuid": "f22ae0fd-1185-48c6-ac8d-9f4616bedf4a",
                 "description": "The susceptibilities discovered during the Evaluation"
               }
@@ -2915,7 +2915,7 @@
               {
                 "uuid": "0e27c4cc-8f51-454e-bac1-26fe74ef5f92",
                 "type": "52c3703b-815a-4af3-97a2-980ffd8c33cb",
-                "table_uuid": "node-1727442212643",
+                "table_uuid": "4c2269bd-e4a2-42fa-8d14-c7c381deb90b",
                 "column_uuid": "f22ae0fd-1185-48c6-ac8d-9f4616bedf4a",
                 "description": "The Cyber Susceptibilitys that resulted in this Vulnerability"
               }
@@ -6317,7 +6317,7 @@
       {
         "uuid": "423ce9a9-22c0-4841-a6db-5c47738290c8",
         "name": "GeographicalLocation",
-        "description": "New Node Description",
+        "description": "A boundary representation of a geographical location",
         "type": "6d4274ae-f823-4373-b428-5ffc57908359",
         "columns": [
           {
@@ -6486,7 +6486,7 @@
         "pos_y": 3037
       },
       {
-        "uuid": "node-1727442212643",
+        "uuid": "4c2269bd-e4a2-42fa-8d14-c7c381deb90b",
         "name": "CyberSusceptibility",
         "description": "A susceptibility is a weakness or flaw in a system's design, implementation, configuration, or operation that could potentially be exploited. It represents a potential security issue inherent in the system, but it may not yet be confirmed or directly exploitable. Susceptibility can be synonymous with Evaluation Finding",
         "type": "59e0eea9-cf3a-448c-8b4c-35cdc2ec8509",
@@ -6547,7 +6547,7 @@
         "pos_y": 4707
       },
       {
-        "uuid": "node-1727442993563",
+        "uuid": "c74a77ca-449d-4133-b36a-931dd47f91b2",
         "name": "VulnerabilityIntelligence",
         "description": "Connecting Table between Vulnerabilities and Intelligence products that validate the legitamacy and provide quantitative metrics of Vulnerabilities",
         "type": "a6aba4b6-93b4-465d-afa1-781eeeadcc37",
@@ -6665,7 +6665,7 @@
         "pos_y": 4429
       },
       {
-        "uuid": "node-1727446082028",
+        "uuid": "79ba3976-1d24-4088-96e3-83d3566da9cc",
         "name": "RiskImpactedMission",
         "description": "The Missions impacted if a Risk were successfully executed along with the metrics pertaining the impact to the Mission",
         "type": "59e0eea9-cf3a-448c-8b4c-35cdc2ec8509",
@@ -6726,7 +6726,7 @@
         "pos_y": 5013
       },
       {
-        "uuid": "node-1727446095756",
+        "uuid": "ea631e81-4652-47ec-868d-7cd9e813e0f1",
         "name": "RiskImpactedSystem",
         "description": "The Systems impacted if a Risk were successfully executed along with the metrics pertaining the impact to the System",
         "type": "59e0eea9-cf3a-448c-8b4c-35cdc2ec8509",
