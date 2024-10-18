@@ -5705,7 +5705,7 @@
                             "column_uuid": "174458dd-0ccd-4429-98f7-f8490a278cd3",
                             "description": "List of Country Groups that the operational or programmatic data can be released to",
                             "uuid": "7b17c373-1f21-46df-be42-ecd3337386a2",
-                            "name": "ClassificationStatementReleasabilityCountries"
+                            "name": "ClassificationStatementReleasabilityReleasabilityGroups"
                         }
                     ],
                     "properties": null
