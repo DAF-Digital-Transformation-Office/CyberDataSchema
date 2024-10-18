@@ -1,72 +1,101 @@
-# V2.0.0
+# V2.0.1
+# 2024-10-18
 
 ## Summary
-- Dissolved the concept of 'Software' and merged under 'System' which now includes both hardware and software concepts. Looking to expand System ReferenceTable in the future to incoperate Next D3f3END (0.17.0) ontological references for higher fidelity identification and improved traciblity to that solution (and it's analyses).
-- Added InstanceOf to System which both ties together physical and logical systems into the same model, allows for OOP style inheritance, and permits for duplicate systems in the same model.
-- Vulnerabilities and Risks had first major overhaul since inception of Cyber Data Schema that now ties together Susceptibilities and permits for shareable Vulnerabilities and Risks in a enterprise wide context.
+- Added PrimaryKey Property to all tables and columns that had a unique identifier.
 
 
 ## Major changes
-- (Table Name Change) VulnerabilitySource -> CyberEvaluation
-- (Table Name Change) CriticalitySource -> CriticalityAssessment
-- (Table Deletion) Table Verification deleted
-- (Table Deletion) Table SoftwareType deleted
-- (Table Deletion) Table SoftwareTestingType deleted
-- (Table Deletion) Table SoftwareTest deleted
-- (Table Deletion) Table Software deleted
-- (Table Deletion) Table SeveritySource deleted
-- (Table Deletion) Table Severity deleted
-- (Table Deletion) Table Opportunity deleted
-- (Table Deletion) Table Means deleted
-- (Table Deletion) Table LikelihoodValue deleted
-- (Table Deletion) Table IntelligenceRatingValue deleted
-- (Table Deletion) Table IntelligenceFusion deleted
-- (Table Deletion) Table IntelligenceConfidenceValue deleted
-- (Table Deletion) Table ImpactValue deleted
-- (Table Deletion) Table Criticality deleted
-- (Column Deletion) Removed Vulnerability.VulnerabilitySource_ID
-- (Column Deletion) Removed Vulnerability.System_ID
-- (Column Deletion) Removed Vulnerability.Software_ID
-- (Column Deletion) Removed System.ExternalEntity
-- (Column Deletion) Removed Risk.Severity_ID
-- (Column Deletion) Removed Risk.Opportunity_ID
-- (Column Deletion) Removed Risk.Means_ID
-- (Column Deletion) Removed Risk.Criticliaty_ID
+- None
 
 
 ## Minor Changes
-- (Table Add) Add VulnerabilityIntelligence table
-- (Table Add) Add RiskImpactedSystem table
-- (Table Add) Add RiskImpactedMission table
-- (Table Add) Add CyberSusceptibility table
-- (Column Add) Vulnerability_ID to VulnerabilityIntelligence table
-- (Column Add) Vulnerabilities to Risk table
-- (Column Add) UUID to CyberSusceptibility table
-- (Column Add) System_ID to RiskImpactedSystem table
-- (Column Add) System_ID to CyberSusceptibility table
-- (Column Add) Susceptibilities to CyberEvaluation table
-- (Column Add) Risk_ID to RiskImpactedSystem table
-- (Column Add) Risk_ID to RiskImpactedMission table
-- (Column Add) Name to CyberSusceptibility table
-- (Column Add) Mission_ID to RiskImpactedMission table
-- (Column Add) IntentConfidence to VulnerabilityIntelligence table
-- (Column Add) Intent to VulnerabilityIntelligence table
-- (Column Add) IntelligenceProduct_ID to VulnerabilityIntelligence table
-- (Column Add) InstanceOf to System table
-- (Column Add) Impact to RiskImpactedSystem table
-- (Column Add) Impact to RiskImpactedMission table
-- (Column Add) Description to CyberSusceptibility table
-- (Column Add) CyberSusceptibilities to Vulnerability table
-- (Column Add) CyberSusceptibilities to CyberEvaluation table
-- (Column Add) Criticality to MissionData table
-- (Column Add) CapabilityConfidence to VulnerabilityIntelligence table
-- (Column Add) Capability to VulnerabilityIntelligence table
+- None
 
 
 ## Patches
-- (Update Table Description) Updated description System table
-- (Update Column Description) Updated description of column Software of System table
-- (New Property) Created the NoLessThan property
-- (New Property) Created the NoGreaterThan property
-- (Column Type Change) Change System.Supplier_ID to a Array(VARCHAR(255))
-- (Column Type Change) Change System.Software to a Boolean
+- (New Property) Created the PrimaryKey property
+- (Add Property) Added the PrimaryKey property to ACAT.UUID
+- (Add Property) Added the PrimaryKey property to AcquisitionMilestones.UUID
+- (Add Property) Added the PrimaryKey property to AuthorizingOfficialType.UUID
+- (Add Property) Added the PrimaryKey property to InformationTechnologyType.UUID
+- (Add Property) Added the PrimaryKey property to OperationalStatusType.UUID
+- (Add Property) Added the PrimaryKey property to Base.UUID
+- (Add Property) Added the PrimaryKey property to Organization.UUID
+- (Add Property) Added the PrimaryKey property to RDTEType.UUID
+- (Add Property) Added the PrimaryKey property to SystemProtectionLevel.UUID
+- (Add Property) Added the PrimaryKey property to ProgramDtl.UUID
+- (Add Property) Added the PrimaryKey property to Program.UUID
+- (Add Property) Added the PrimaryKey property to AuthorizationBoundary.UUID
+- (Add Property) Added the PrimaryKey property to BasisOfEstimate.UUID
+- (Add Property) Added the PrimaryKey property to BasisOfEstimatesDtl.UUID
+- (Add Property) Added the PrimaryKey property to PIIPHITypes.UUID
+- (Add Property) Added the PrimaryKey property to CNSSQuestionaire.UUID
+- (Add Property) Added the PrimaryKey property to JointOrganization.UUID
+- (Add Property) Added the PrimaryKey property to ClassificationType.UUID
+- (Add Property) Added the PrimaryKey property to ConnectionType.UUID
+- (Add Property) Added the PrimaryKey property to CriticalProgramInformation.UUID
+- (Add Property) Added the PrimaryKey property to MissionType.UUID
+- (Add Property) Added the PrimaryKey property to Mission.UUID
+- (Add Property) Added the PrimaryKey property to CriticalityAssessment.UUID
+- (Add Property) Added the PrimaryKey property to InterfaceType.UUID
+- (Add Property) Added the PrimaryKey property to InterfaceRestrictionType.UUID
+- (Add Property) Added the PrimaryKey property to Encryption.UUID
+- (Add Property) Added the PrimaryKey property to SystemType.UUID
+- (Add Property) Added the PrimaryKey property to System.UUID
+- (Add Property) Added the PrimaryKey property to Interface.UUID
+- (Add Property) Added the PrimaryKey property to WheelOfAccess.UUID
+- (Add Property) Added the PrimaryKey property to WheelOfAccessSector.UUID
+- (Add Property) Added the PrimaryKey property to CyberAttack.UUID
+- (Add Property) Added the PrimaryKey property to CyberAttackPath.UUID
+- (Add Property) Added the PrimaryKey property to CyberAttackPathStep.UUID
+- (Add Property) Added the PrimaryKey property to IntelligenceProduct.UUID
+- (Add Property) Added the PrimaryKey property to Risk.UUID
+- (Add Property) Added the PrimaryKey property to CyberEvaluation.UUID
+- (Add Property) Added the PrimaryKey property to Vulnerability.UUID
+- (Add Property) Added the PrimaryKey property to UserDtl.UUID
+- (Add Property) Added the PrimaryKey property to User.UUID
+- (Add Property) Added the PrimaryKey property to UserType.UUID
+- (Add Property) Added the PrimaryKey property to DurationType.UUID
+- (Add Property) Added the PrimaryKey property to CyberAuthorizationType.UUID
+- (Add Property) Added the PrimaryKey property to CyberAuthorization.UUID
+- (Add Property) Added the PrimaryKey property to DataType.UUID
+- (Add Property) Added the PrimaryKey property to FunctionalType.UUID
+- (Add Property) Added the PrimaryKey property to MemoryType.UUID
+- (Add Property) Added the PrimaryKey property to MemorySizeType.UUID
+- (Add Property) Added the PrimaryKey property to Memory.UUID
+- (Add Property) Added the PrimaryKey property to MissionUserRequirements.UUID
+- (Add Property) Added the PrimaryKey property to Mitigation.UUID
+- (Add Property) Added the PrimaryKey property to NSSQuestionaire.UUID
+- (Add Property) Added the PrimaryKey property to NistSecurityControlFamily.UUID
+- (Add Property) Added the PrimaryKey property to NistSecurityControls.UUID
+- (Add Property) Added the PrimaryKey property to OperationalView.UUID
+- (Add Property) Added the PrimaryKey property to SecurityControlOverlay.UUID
+- (Add Property) Added the PrimaryKey property to ProgramAcquisitionMilestones.UUID
+- (Add Property) Added the PrimaryKey property to ProgramOperationalView.UUID
+- (Add Property) Added the PrimaryKey property to ProgramSecurityControls.UUID
+- (Add Property) Added the PrimaryKey property to ProgramUser.UUID
+- (Add Property) Added the PrimaryKey property to Requirement.UUID
+- (Add Property) Added the PrimaryKey property to SecurityClassificationGuide.UUID
+- (Add Property) Added the PrimaryKey property to StatementOfWork.UUID
+- (Add Property) Added the PrimaryKey property to StatementOfWorkItemType.UUID
+- (Add Property) Added the PrimaryKey property to StatementOfWorkItem.UUID
+- (Add Property) Added the PrimaryKey property to StatementOfWorkResult.UUID
+- (Add Property) Added the PrimaryKey property to SystemConnection.UUID
+- (Add Property) Added the PrimaryKey property to ClassificationStatement.UUID
+- (Add Property) Added the PrimaryKey property to OperationalData.UUID
+- (Add Property) Added the PrimaryKey property to SystemConnectionData.UUID
+- (Add Property) Added the PrimaryKey property to SystemSecurityControls.UUID
+- (Add Property) Added the PrimaryKey property to Confidentiality.UUID
+- (Add Property) Added the PrimaryKey property to Integrity.UUID
+- (Add Property) Added the PrimaryKey property to Availability.UUID
+- (Add Property) Added the PrimaryKey property to MissionData.UUID
+- (Add Property) Added the PrimaryKey property to ProgrammaticData.UUID
+- (Add Property) Added the PrimaryKey property to Dissemination.UUID
+- (Add Property) Added the PrimaryKey property to ClassificationControlCaveats.UUID
+- (Add Property) Added the PrimaryKey property to EntryPoint.UUID
+- (Add Property) Added the PrimaryKey property to SystemCollection.UUID
+- (Add Property) Added the PrimaryKey property to GeographicalLocation.UUID
+- (Add Property) Added the PrimaryKey property to GeographicalLocationType.UUID
+- (Add Property) Added the PrimaryKey property to GeographicalGrouping.UUID
+- (Add Property) Added the PrimaryKey property to CyberSusceptibility.UUID
