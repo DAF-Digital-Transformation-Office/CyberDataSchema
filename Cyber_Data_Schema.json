@@ -5358,7 +5358,7 @@
                             "column_uuid": "e8ae632b-0725-42b5-bfee-620926d904a3",
                             "description": "The Item Types this Statement of Work Line item is best categorized as.",
                             "uuid": "82b7ed67-6350-4c3e-a13c-ee2d87b0b542",
-                            "name": "StatementOfWorkItemFunctionals"
+                            "name": "StatementOfWorkItemTypes"
                         }
                     ],
                     "properties": null
