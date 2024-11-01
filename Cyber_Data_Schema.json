@@ -1,7 +1,7 @@
 {
     "version": "2.0.2",
     "release_date": "2024-10-18",
-    "commentary": "Dissolved the concept of 'Software' and placed under 'System' which now includes hardward, software, and the collection of both. Added InstanceOf to System which both ties together physical and logical systems into the same model, allows for OOP style inheritance, and permits for duplicate systems in the same model. Vulnerabilities and Risks had first major overhaul since inception of Cyber Data Schema that now ties together Susceptibilities and permits for shareable Vulnerabilities and Risks in a enterprise wide context.",
+    "commentary": "Dissolved the concept of 'Software' and placed under 'System' which now includes hardware, software, and the collection of both. Added InstanceOf to System which both ties together physical and logical systems into the same model, allows for OOP style inheritance, and permits for duplicate systems in the same model. Vulnerabilities and Risks had first major overhaul since inception of Cyber Data Schema that now ties together Susceptibilities and permits for shareable Vulnerabilities and Risks in a enterprise wide context.",
     "tables": [
         {
             "uuid": "61a97cd7-0c70-4ab7-b338-462c554ca45c",
@@ -291,7 +291,7 @@
         {
             "uuid": "da80c12b-e9b5-43cf-9450-030f54b524ce",
             "name": "Organization",
-            "description": "Reference Table of the different organizations found in the DoD. For example this could be a Majcom, International Alliance, corporate entity, or program office. They are logical collections of groups of people that represent a core unit.",
+            "description": "Reference Table of the different organizations found in the DoD. For example a MAJCOM, International Alliance, corporate entity, or program office. They are logical collections of groups of people that represent a core unit.",
             "type": "6d4274ae-f823-4373-b428-5ffc57908359",
             "pos_x": 4733,
             "pos_y": 2308,
@@ -339,7 +339,7 @@
                 {
                     "uuid": "9fe45bc5-e814-4ffd-9442-89a667e2bdc5",
                     "name": "Base_ID",
-                    "description": "Foreign Key to the Base Table which represents where the Organization is headquarted",
+                    "description": "Foreign Key to the Base Table which represents where the Organization is headquartered",
                     "type": "ad2a149b-2d1c-43e9-a173-de4244a5f075",
                     "relationship": [
                         {
@@ -905,7 +905,7 @@
                             "type": "71ab2455-13e6-444e-85c4-d87a49b72832",
                             "table_uuid": "e6dd26dc-85b5-4831-a7a6-76444d5c22c8",
                             "column_uuid": "f4262c3a-fd65-4a3a-b9a9-1d68bd9a4edc",
-                            "description": "The Authorizing offical type that the program falls under the jurisdiction of",
+                            "description": "The Authorizing official type that the program falls under the jurisdiction of",
                             "uuid": "ed91be6d-17c2-4c55-8f96-073ddcc39872",
                             "name": "AuthorizationBoundary_AuthorizingOfficialType_ID"
                         }
@@ -1956,7 +1956,7 @@
                     "type": "ad2a149b-2d1c-43e9-a173-de4244a5f075",
                     "relationship": null,
                     "properties": null
-                }
+                },
             ]
         },
         {
@@ -2178,7 +2178,7 @@
                 {
                     "uuid": "74e2f57d-7cc8-4d03-801a-691f085f76f0",
                     "name": "InstanceOf",
-                    "description": "Foreign Key to the Sytem Table",
+                    "description": "Foreign Key to the System Table",
                     "type": "ad2a149b-2d1c-43e9-a173-de4244a5f075",
                     "properties": [],
                     "relationship": [
@@ -2307,7 +2307,7 @@
         {
             "uuid": "9aa70f26-8992-4184-aba6-12fcb835d4f5",
             "name": "WheelOfAccess",
-            "description": "Reference Table for the Intelligence Communitys (IC) Wheel of Access",
+            "description": "Reference Table for the Intelligence Communities (IC) Wheel of Access",
             "type": "6d4274ae-f823-4373-b428-5ffc57908359",
             "pos_x": 7856,
             "pos_y": 5541,
@@ -3111,7 +3111,7 @@
                             "type": "52c3703b-815a-4af3-97a2-980ffd8c33cb",
                             "table_uuid": "4c2269bd-e4a2-42fa-8d14-c7c381deb90b",
                             "column_uuid": "f22ae0fd-1185-48c6-ac8d-9f4616bedf4a",
-                            "description": "The Cyber Susceptibilitys that resulted in this Vulnerability",
+                            "description": "The Cyber Susceptibilities that resulted in this Vulnerability",
                             "name": "Vulnerability_CyberSusceptibilities"
                         }
                     ]
@@ -3177,7 +3177,7 @@
                 {
                     "uuid": "802a7a37-50c6-4ffa-aa09-a93aed2d0105",
                     "name": "Organization_ID",
-                    "description": "Foreign Key to which Oranization the User belongs to.",
+                    "description": "Foreign Key to which Organization the User belongs to.",
                     "type": "ad2a149b-2d1c-43e9-a173-de4244a5f075",
                     "relationship": [
                         {
@@ -3528,7 +3528,7 @@
                             "type": "71ab2455-13e6-444e-85c4-d87a49b72832",
                             "table_uuid": "8ad6bcbf-7491-497c-af0f-deae3691860d",
                             "column_uuid": "5d2017be-72ab-4afa-a8ed-fcccec20a218",
-                            "description": "The authorizing offical who signed off and owns the authorization",
+                            "description": "The authorizing official who signed off and owns the authorization",
                             "uuid": "aed75ebf-2c54-4f94-a078-ebbefbd9aa4b",
                             "name": "CyberAuthorization_AuthorizingOffical_ID"
                         }
@@ -3696,7 +3696,7 @@
                 {
                     "uuid": "c401e432-1187-47dc-8465-72d2a994e173",
                     "name": "Volatile",
-                    "description": "Boolean for whether this memory type is volatile. Volatile memory loses its content when power is removed, unlike nonvolatile memory.",
+                    "description": "Boolean for whether this memory type is volatile. Volatile memory loses its content when power is removed, unlike non-volatile memory.",
                     "type": "fdf7e524-ee45-41d8-9025-bd3a0c4617b0",
                     "relationship": null,
                     "properties": null
@@ -4359,7 +4359,7 @@
                             "type": "71ab2455-13e6-444e-85c4-d87a49b72832",
                             "table_uuid": "b09117eb-884d-4bf2-ab11-77a76bb4a4ac",
                             "column_uuid": "0fe2df04-128d-4fa0-b69c-b5caae90dcfe",
-                            "description": "The Family the Nist Control belongs to.",
+                            "description": "The Family the NIST Control belongs to.",
                             "uuid": "1fe4385b-dbc9-40bf-89ed-db2c45dae47f",
                             "name": "NistSecurityControls_Family_ID"
                         }
@@ -4510,7 +4510,7 @@
                 {
                     "uuid": "1c02df9e-26ab-4563-96a0-679bc4453468",
                     "name": "OfficePrimaryResponsibility_ID",
-                    "description": "Foreign Key to the Oranization Table for who the Office of Primary Responsibility for the Overlay is.",
+                    "description": "Foreign Key to the Organization Table for who the Office of Primary Responsibility for the Overlay is.",
                     "type": "ad2a149b-2d1c-43e9-a173-de4244a5f075",
                     "relationship": [
                         {
@@ -4626,7 +4626,7 @@
                             "type": "71ab2455-13e6-444e-85c4-d87a49b72832",
                             "table_uuid": "082e825a-9e55-41f5-b441-d99590bc3880",
                             "column_uuid": "a8bef847-13ad-4aea-adaa-e36863426bb2",
-                            "description": "The actual Acquisition  Milestrone object",
+                            "description": "The actual Acquisition Milestone object",
                             "uuid": "29402e30-fda0-48df-bcab-953a04339bf9",
                             "name": "ProgramAcquisitionMilestones_Milestone_ID"
                         }
@@ -4955,7 +4955,7 @@
                 {
                     "uuid": "b50a3a16-6c2e-4aad-ae49-53585651cbf2",
                     "name": "ReferenceDocumentIdentifier",
-                    "description": "Unique identifier to requirement found in the Reference Document for tracability purposes. Ie, a requirement could be recorded as 1.1.3.4 in a SOW or A.1.c in a RFP.",
+                    "description": "Unique identifier to requirement found in the Reference Document for traceability purposes. Ie, a requirement could be recorded as 1.1.3.4 in a SOW or A.1.c in a RFP.",
                     "type": "ad2a149b-2d1c-43e9-a173-de4244a5f075",
                     "relationship": null,
                     "properties": null
@@ -5080,7 +5080,7 @@
                 {
                     "uuid": "9c30b431-7931-43bd-b155-225148ab51ff",
                     "name": "Parent_ID",
-                    "description": "If Security Classification Guide has an overarching guide, then a reference to this classification guide. Ie, if this SCG was an appendix for further clarirfication.",
+                    "description": "If Security Classification Guide has an overarching guide, then a reference to this classification guide. Ie, if this SCG was an appendix for further clarification.",
                     "type": "ad2a149b-2d1c-43e9-a173-de4244a5f075",
                     "relationship": [
                         {
@@ -5669,7 +5669,7 @@
                             "type": "5046caa3-d81c-4704-aa71-a273d78e2175",
                             "table_uuid": "beb8e59f-29e6-4afd-b8b1-88c19f73c14c",
                             "column_uuid": "596221d9-5495-423b-b830-fd3109fd6ec2",
-                            "description": "The contol caveats found within the classification statement",
+                            "description": "The control caveats found within the classification statement",
                             "uuid": "3e4de4d8-f430-4097-ace3-a3698996f0c1",
                             "name": "ClassificationStatementControlCaveat"
                         }
@@ -5715,7 +5715,7 @@
         {
             "uuid": "67416076-29b2-49cd-82e6-f49c714fc632",
             "name": "OperationalData",
-            "description": "A data type that supports the mission(s) and physically run across System lines. Data types can also belong to an overarching Opertaionl Data object, for example Precise Participant Location and Identification (PPLI) messages are an operational data that can fall under the overarching operational data of J-Series Messages, which can fall under the overarching operational data of Link-16 data.",
+            "description": "A data type that supports the mission(s) and physically run across System lines. Data types can also belong to an overarching Operational Data object",
             "type": "68a83cfc-343c-4f15-a8f1-1f3bcb44e9d8",
             "pos_x": "4628",
             "pos_y": "4760",
@@ -5804,7 +5804,7 @@
                             "type": "71ab2455-13e6-444e-85c4-d87a49b72832",
                             "table_uuid": "d7e6cbfe-4c67-4530-a7e9-bd8c5154426e",
                             "column_uuid": "74ab1997-6853-4a7a-b1d2-95c2668317a9",
-                            "description": "The Classification Statement (classification type, disseminations, and control caveates) that this operational data is declared as.",
+                            "description": "The Classification Statement (classification type, disseminations, and control caveats) that this operational data is declared as.",
                             "uuid": "b537d94d-0d63-4a4d-b658-176f96c4e926",
                             "name": "OperationalData_Classification_ID"
                         }
@@ -5906,7 +5906,7 @@
                             "type": "71ab2455-13e6-444e-85c4-d87a49b72832",
                             "table_uuid": "c74713ae-237b-4103-b93a-5e5221bbe7cb",
                             "column_uuid": "0e834c88-cce4-46a9-b773-21b1bd78f042",
-                            "description": "Since system connections are between strictly two systems, when referring to the data passing over the system connection then this is the target, or receving, system. ",
+                            "description": "Since system connections are between strictly two systems, when referring to the data passing over the system connection then this is the target, sink, or receiving system.",
                             "uuid": "0207cf41-7c05-443d-86fb-995dcbd3b3b7",
                             "name": "SystemConnectionData_TargetSystem_ID"
                         }
@@ -6442,7 +6442,7 @@
                             "type": "71ab2455-13e6-444e-85c4-d87a49b72832",
                             "table_uuid": "d7e6cbfe-4c67-4530-a7e9-bd8c5154426e",
                             "column_uuid": "74ab1997-6853-4a7a-b1d2-95c2668317a9",
-                            "description": "The Classification Statement (classification type, disseminations, and control caveates) that this programmatic data is declared as.",
+                            "description": "The Classification Statement (classification type, disseminations, and control caveats) that this programmatic data is declared as.",
                             "uuid": "8a992952-a788-43cf-8229-19a9e9847233",
                             "name": "ProgrammaticData_Classification_ID"
                         }
@@ -6655,7 +6655,7 @@
         {
             "uuid": "a76f9564-2b0b-49b6-b16d-eed8154d40f3",
             "name": "SystemCollection",
-            "description": "System Collections are somewhat like Authorization Boundary but in a non cyber sense. Ie, side mirrors and rear view mirror belong to mirror collection but they do not have a distinct authorization boundary.. This is for a logic collection not for a physical collection",
+            "description": "System Collections are somewhat like Authorization Boundary but in a non cyber sense. Ie, side mirrors and rear view mirror belong to mirror collection but they do not have a distinct authorization boundary. This is for a logic collection not for a physical collection",
             "type": "68a83cfc-343c-4f15-a8f1-1f3bcb44e9d8",
             "pos_x": "5581",
             "pos_y": "4081",
@@ -6975,7 +6975,7 @@
         {
             "uuid": "c74a77ca-449d-4133-b36a-931dd47f91b2",
             "name": "VulnerabilityIntelligence",
-            "description": "Connecting Table between Vulnerabilities and Intelligence products that validate the legitamacy and provide quantitative metrics of Vulnerabilities",
+            "description": "Connecting Table between Vulnerabilities and Intelligence products that validate legitimacy and provide quantitative metrics of Vulnerabilities",
             "type": "a6aba4b6-93b4-465d-afa1-781eeeadcc37",
             "columns": [
                 {
@@ -7173,7 +7173,7 @@
                             "type": "5046caa3-d81c-4704-aa71-a273d78e2175",
                             "table_uuid": "c74713ae-237b-4103-b93a-5e5221bbe7cb",
                             "column_uuid": "f22ae0fd-1185-48c6-ac8d-9f4616bedf4a",
-                            "description": "The System being affected by the successful execuition of the Risk",
+                            "description": "The System being affected by the successful execution of the Risk",
                             "name": "RiskImpactedSystem_System_ID"
                         }
                     ]
@@ -7198,7 +7198,7 @@
                 {
                     "uuid": "25bf539b-70a3-4819-b498-a5bede6ca626",
                     "name": "Impact",
-                    "description": "The Impact rating, also known as Severity, to the System if the Risk were succesfully executed",
+                    "description": "The Impact rating, also known as Severity, to the System if the Risk were successfully executed",
                     "type": "5ac9de0d-4d3b-404c-a1d4-4df12901d444",
                     "properties": [
                         {
@@ -7230,7 +7230,7 @@
             "uuid": "6d4274ae-f823-4373-b428-5ffc57908359",
             "name": "Reference",
             "color": "#FFD12A",
-            "description": "Generally accepted values or reference data that should be utilized in order to standardize data across disparate programs and services. So when person says they live in the OH State object we know its going to be the same exact values as someone who's livinging Ohio State object and there is no confusion on the computer side."
+            "description": "A structured collection of predefined values used for standardized data across disparate programs and services, typically serving as shorthand for specific codes or identifiers (e.g., "OH" stands for Ohio State)."
         },
         {
             "uuid": "43e0eaac-06a0-42d9-be4e-b99553448172",
