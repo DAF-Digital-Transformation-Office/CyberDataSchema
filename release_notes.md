@@ -1,8 +1,8 @@
-# V2.0.2
-# 2024-10-18
+# V2.0.4
+# 2024-11-24
 
 ## Summary
-- Added names to relationships where connecting tables will be needed. This is on Array[Varchar] columns.
+- Added D3FEND_ID to SystemType reference table for tracibility and further interoperability. Misc administrative changes.
 
 
 ## Major changes
@@ -14,4 +14,5 @@
 
 
 ## Patches
-- Add relationship names.
+- Added D3FEND_ID to SystemType
+- Updated ACAT UUID definition (2.0.3). 
