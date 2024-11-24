@@ -1,7 +1,7 @@
 {
-    "version": "2.0.2",
-    "release_date": "2024-10-18",
-    "commentary": "Dissolved the concept of 'Software' and placed under 'System' which now includes hardware, software, and the collection of both. Added InstanceOf to System which both ties together physical and logical systems into the same model, allows for OOP style inheritance, and permits for duplicate systems in the same model. Vulnerabilities and Risks had first major overhaul since inception of Cyber Data Schema that now ties together Susceptibilities and permits for shareable Vulnerabilities and Risks in a enterprise wide context.",
+    "version": "2.0.4",
+    "release_date": "2024-11-24",
+    "commentary": "Added D3FEND_ID to SystemType reference table for tracibility and further interoperability. Misc administrative changes.",
     "tables": [
         {
             "uuid": "61a97cd7-0c70-4ab7-b338-462c554ca45c",
@@ -14,7 +14,7 @@
                 {
                     "uuid": "f22ae0fd-1185-48c6-ac8d-9f4616bedf4a",
                     "name": "UUID",
-                    "description": "Unique identifier assigned to each entry in the ACAT table for easy reference and data management.",
+                    "description": "Unique identifier assigned to each entry in the ACAT table.",
                     "type": "ad2a149b-2d1c-43e9-a173-de4244a5f075",
                     "relationship": null,
                     "properties": [
@@ -291,7 +291,7 @@
         {
             "uuid": "da80c12b-e9b5-43cf-9450-030f54b524ce",
             "name": "Organization",
-            "description": "Reference Table of the different organizations found in the DoD. For example a MAJCOM, International Alliance, corporate entity, or program office. They are logical collections of groups of people that represent a core unit.",
+            "description": "Reference Table of the different organizations found in the DoD. For example a Majcom, International Alliance, corporate entity, or program office. They are logical collections of groups of people that represent a core unit.",
             "type": "6d4274ae-f823-4373-b428-5ffc57908359",
             "pos_x": 4733,
             "pos_y": 2308,
@@ -1956,6 +1956,20 @@
                     "type": "ad2a149b-2d1c-43e9-a173-de4244a5f075",
                     "relationship": null,
                     "properties": null
+                },
+                {
+                    "uuid": "a87dd719-ea6d-414c-acd3-baf16ae0430f",
+                    "name": "D3FEND_ID",
+                    "description": "MITRE D3FEND identifier for a digital artifact type (https://d3fend.mitre.org/dao/)",
+                    "type": "ad2a149b-2d1c-43e9-a173-de4244a5f075",
+                    "relationship": null,
+                    "properties": [
+                        {
+                            "type": "1f82125e-8e5b-438e-b436-b9ae10eaf2a4",
+                            "value": "^d3f:.+$",
+                            "uuid": "c4d5e6f7-8g9h-0i1j-2k3l-4m5n6o7p8q9r"
+                        }
+                    ]
                 }
             ]
         },
@@ -5906,7 +5920,7 @@
                             "type": "71ab2455-13e6-444e-85c4-d87a49b72832",
                             "table_uuid": "c74713ae-237b-4103-b93a-5e5221bbe7cb",
                             "column_uuid": "0e834c88-cce4-46a9-b773-21b1bd78f042",
-                            "description": "Since system connections are between strictly two systems, when referring to the data passing over the system connection then this is the target, sink, or receiving system.",
+                            "description": "Since system connections are between strictly two systems, when referring to the data passing over the system connection then this is the sink, or receiving system.",
                             "uuid": "0207cf41-7c05-443d-86fb-995dcbd3b3b7",
                             "name": "SystemConnectionData_TargetSystem_ID"
                         }
@@ -6975,7 +6989,7 @@
         {
             "uuid": "c74a77ca-449d-4133-b36a-931dd47f91b2",
             "name": "VulnerabilityIntelligence",
-            "description": "Connecting Table between Vulnerabilities and Intelligence products that validate legitimacy and provide quantitative metrics of Vulnerabilities",
+            "description": "Connecting Table between Vulnerabilities and Intelligence products that validate legitamacy and provide quantitative metrics of Vulnerabilities",
             "type": "a6aba4b6-93b4-465d-afa1-781eeeadcc37",
             "columns": [
                 {
@@ -7230,7 +7244,7 @@
             "uuid": "6d4274ae-f823-4373-b428-5ffc57908359",
             "name": "Reference",
             "color": "#FFD12A",
-            "description": "A structured collection of predefined values used for standardized data across disparate programs and services, typically serving as shorthand for specific codes or identifiers (e.g., "OH" stands for Ohio State)."
+            "description": "A structured collection of predefined values used for standardized data across disparate programs and services, typically serving as shorthand for specific codes or identifiers (e.g., OH stands for Ohio State)."
         },
         {
             "uuid": "43e0eaac-06a0-42d9-be4e-b99553448172",
