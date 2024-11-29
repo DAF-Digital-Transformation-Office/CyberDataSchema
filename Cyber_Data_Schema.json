@@ -1958,7 +1958,7 @@
                     "properties": null
                 },
                 {
-                    "uuid": "a87dd719-ea6d-414c-acd3-baf16ae0430f",
+                    "uuid": "74ebc43e-9a23-4fd6-956e-2ae683516bd6",
                     "name": "D3FEND_ID",
                     "description": "MITRE D3FEND identifier for a digital artifact type (https://d3fend.mitre.org/dao/)",
                     "type": "ad2a149b-2d1c-43e9-a173-de4244a5f075",
@@ -1967,7 +1967,7 @@
                         {
                             "type": "1f82125e-8e5b-438e-b436-b9ae10eaf2a4",
                             "value": "^d3f:.+$",
-                            "uuid": "c4d5e6f7-8g9h-0i1j-2k3l-4m5n6o7p8q9r"
+                            "uuid": "8f9e51e2-eb78-4315-bb7f-330e5f9a2df3"
                         }
                     ]
                 }
