@@ -2,7 +2,7 @@
   "_comment": "EXAMPLE DATA ONLY. This file contains no real-world, operational, personal, or program data. All values are synthetic and were 100% auto-generated using GPT-5.2 on 2025-12-19. Any information which looks real is a result of the model's predictions from the training data. Do not use for decisions, assessments, or operational purposes. It may contain significant errors in the schema and table keys.",
   "_generated_by": "GPT-5.2",
   "_generated_on": "2025-12-19",
-  "_data_classification": "UNCLASSIFIED // FOR TRAINING AND DEMONSTRATION ONLY",
+  "_data_classification": "FOR TRAINING AND DEMONSTRATION ONLY",
   "schema_version": "2.0.4",
   "example": "C-130Z",
   "data": {
