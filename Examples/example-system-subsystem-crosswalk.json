@@ -1,0 +1,39 @@
+{
+  "_comment": "EXTERNAL CROSSWALK FILE. EXAMPLE AND TRAINING USE ONLY. No real systems, programs, organizations, or identifiers are represented. 100% auto-generated using GPT-5.2.",
+  "_purpose": "Provides an additive, non-authoritative mapping layer to relate independently managed system datasets without modifying source files.",
+  "_generated_by": "GPT-5.2",
+  "_generated_on": "2025-12-19",
+  "_data_classification": "FOR TRAINING AND DEMONSTRATION ONLY",
+
+  "_guardrails": {
+    "Ownership": "This file does not own or define system data. It only references identifiers owned by other datasets.",
+    "NonAuthoritative": "Relationships expressed here do not override or supersede authoritative system or program records.",
+    "NoUUIDCreation": "This crosswalk must not introduce new system, program, or control UUIDs. It may only reference existing ones.",
+    "NoSchemaMutation": "This file must not extend, reinterpret, or replace schema-defined relationships inside source datasets.",
+    "AdditiveOnly": "Crosswalk entries are additive and optional. Deleting this file must not invalidate any source dataset.",
+    "FederatedGovernance": "Source datasets may evolve independently. This file absorbs change rather than forcing coordination.",
+    "MinimalDisclosure": "Only UUIDs and minimal descriptive metadata are permitted. No technical, security, or operational details are stored here.",
+    "ExpressiveButLimited": "The crosswalk may express relationship type, cardinality, confidence, and rationale, but not implementation details.",
+    "TrainingIntent": "This file exists to demonstrate federated digital engineering and RMF traceability patterns for education and experimentation."
+  },
+
+  "SystemCrosswalk": [
+    {
+      "RelationshipType": "SubsystemInstanceOf",
+      "Description": "The Really Cool Data Loader is a standalone system definition representing a portable data loader that functions as a child subsystem within the C-130J aircraft system-of-systems.",
+      "ParentDataset": "C-130Z Example Dataset",
+      "ParentSystem": {
+        "UUID": "e5f6a7b8-c9d0-4e1f-2a3b-4c5d6e7f8091",
+        "Name": "Portable Data Loader"
+      },
+      "ChildDataset": "Really Cool Data Loader Example Dataset",
+      "ChildSystem": {
+        "UUID": "e7dfd6b2-1b6f-4db1-8b6a-5b2a0a6a2a10",
+        "Name": "Really Cool Data Loader Device"
+      },
+      "Cardinality": "One-to-Many",
+      "Confidence": "High",
+      "Rationale": "The aircraft platform contains portable data loaders as subordinate systems. The RCDL dataset defines one such loader independently to enable reuse, independent RMF posture, and lifecycle management."
+    }
+  ]
+}
