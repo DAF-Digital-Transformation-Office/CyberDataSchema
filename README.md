@@ -19,13 +19,39 @@ The Cyber Data Schema is licensed under the Apache 2.0 Commons License. See the 
 
 ## Acknowledgements
 
-We'd like to thank all the contributors who have helped make the Cyber Data Schema possible. 
+We'd like to thank all the contributors who have helped make the Cyber Data Schema possible.
 
+## What’s new in v3.0.0
+
+- JSON Schema (Draft 2020-12) compliance across the project.
+- New top-level aggregator `CyberDataSchema.json` with `$id` and strict `additionalProperties` usage.
+- Modularization into domain sub-schemas located in `SubSchemas/` for clearer ownership and easier evolution.
+- Substantial renaming and re-modeling of legacy v2 constructs; the old relational meta-model (tables/columns/relationships) has been replaced with explicit typed JSON objects.
+
+### Repository layout
+
+- `CyberDataSchema.json`: top-level aggregator referencing each domain via `$ref`.
+- `SubSchemas/`: domain JSON Schemas
+  - `AcquisitionProgram.json`
+  - `CyberSecurity.json`
+  - `DataClassification.json`
+  - `Entities.json`
+  - `Geography.json`
+  - `MissionEngineering.json`
+  - `Questionnaires.json`
+  - `RiskManagementFramework.json`
+  - `SecurityClassificationGuide.json`
+  - `SecurityControls.json`
+  - `SystemArchitecture.json`
+  - `SystemSecurityEngineering.json`
+- `Cyber_Data_Schema.json`: legacy v2.x artifact kept for archival/reference only.
 
 ## Version Control
 
 ### Major Version Update
+
 Increase the major version when you make incompatible API changes or schema changes. This includes removing or renaming fields, changing the data type of existing fields, or making other changes that would break backward compatibility.
+
 - **Delete Table**: Removes an entire table, breaking any implementations that depend on its existence.
 - **Delete Column**: Removes a column, affecting data structure and any dependencies on that column.
 - **Delete Relationship**: Removes a relationship, potentially breaking dependencies between tables.
@@ -34,7 +60,9 @@ Increase the major version when you make incompatible API changes or schema chan
 - **Delete Relationship Type**: Removing a relationship type impacts all relationships utilizing this type.
 
 ### Minor Version Update
+
 Increase the minor version when you add functionality in a backward-compatible manner. This can include adding new fields or new tables, or perhaps introducing new optional features in the schema that do not disturb existing data and functionality.
+
 - **Add Table**: Introduces a new table without affecting existing ones.
 - **Add Column**: Adds a new column without altering existing columns' behavior.
 - **Add Relationship**: Introduces new relationships without changing existing ones.
@@ -45,7 +73,9 @@ Increase the minor version when you add functionality in a backward-compatible m
 - **Edit Relationship (type, table_uuid, column_uuid, description)**: Modifies details of a relationship but doesn't remove it or change its fundamental linking behavior.
 
 ### Patch Version Update
+
 Increase the patch version when you make backward-compatible bug fixes. This is typically reserved for small changes that fix errors in the existing schema without adding new features or changing the behavior of the system.
+
 - **Add/Edit table description, type, or coordinates**: Minor updates for better clarity or correction of typos.
 - **Edit name or description**: Updates for clarity or correction of errors in metadata.
 - **Edit relationship description**: Minor textual corrections or updates for clarity.

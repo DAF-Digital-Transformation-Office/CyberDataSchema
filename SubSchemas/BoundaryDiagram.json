@@ -1,0 +1,385 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Boundary Diagram",
+  "description": "Schema to describe a boundary diagram including systems, authorization boundaries, system connections, and entry points with geometric/layout metadata so applications can consistently render the same diagram.",
+  "$comment": {
+    "version": "2.0.0",
+    "releaseDate": "2026-02-02"
+  },
+  "type": "object",
+  "$defs": {
+    "position": {
+      "type": "object",
+      "description": "2D coordinate position in diagram space (units are application-defined; typically pixels).",
+      "properties": {
+        "x": { "type": "number" },
+        "y": { "type": "number" }
+      },
+      "required": ["x", "y"],
+      "additionalProperties": false
+    },
+    "size": {
+      "type": "object",
+      "description": "Width and height of a rectangular shape.",
+      "properties": {
+        "width": {
+          "type": "number",
+          "minimum": 0,
+          "description": "The width of the rectangular shape."
+        },
+        "height": {
+          "type": "number",
+          "minimum": 0,
+          "description": "The height of the rectangular shape."
+        }
+      },
+      "required": ["width", "height"],
+      "additionalProperties": false
+    },
+    "bounds": {
+      "type": "object",
+      "description": "Rectangle defined by position (top-left) and size.",
+      "properties": {
+        "position": { "$ref": "#/$defs/position" },
+        "size": { "$ref": "#/$defs/size" }
+      },
+      "required": ["position", "size"],
+      "additionalProperties": false
+    },
+    "color": {
+      "type": "string",
+      "description": "CSS color string (e.g., '#RRGGBB', 'rgba()', or named colors)."
+    },
+    "label": {
+      "type": "object",
+      "description": "Text label and its optional layout overrides.",
+      "properties": {
+        "text": { "type": "string" },
+        "position": { "$ref": "#/$defs/position" },
+        "maxWidth": { "type": "number" },
+        "wrap": { "type": "boolean", "default": true },
+        "rotation": { "type": "number", "description": "Rotation in degrees." }
+      },
+      "required": ["text"],
+      "additionalProperties": false
+    },
+    "strokeStyle": {
+      "type": "object",
+      "description": "Line stroke style settings.",
+      "properties": {
+        "color": { "$ref": "#/$defs/color" },
+        "width": { "type": "number", "minimum": 0 },
+        "dash": {
+          "type": "array",
+          "items": { "type": "number", "minimum": 0 },
+          "default": []
+        },
+        "arrowStart": {
+          "type": "string",
+          "enum": ["none", "triangle", "circle", "diamond"],
+          "default": "none"
+        },
+        "arrowEnd": {
+          "type": "string",
+          "enum": ["none", "triangle", "circle", "diamond"],
+          "default": "none"
+        }
+      },
+      "additionalProperties": false
+    },
+    "fillStyle": {
+      "type": "object",
+      "description": "Fill style for closed shapes.",
+      "properties": {
+        "color": { "$ref": "#/$defs/color" },
+        "opacity": { "type": "number", "minimum": 0, "maximum": 1 }
+      },
+      "additionalProperties": false
+    },
+    "fontStyle": {
+      "type": "object",
+      "description": "Font styling for labels.",
+      "properties": {
+        "family": { "type": "string" },
+        "size": { "type": "number" },
+        "weight": { "type": "string" },
+        "color": { "$ref": "#/$defs/color" }
+      },
+      "additionalProperties": false
+    },
+    "nodeStyle": {
+      "type": "object",
+      "description": "Composite style for nodes.",
+      "properties": {
+        "stroke": { "$ref": "#/$defs/strokeStyle" },
+        "fill": { "$ref": "#/$defs/fillStyle" },
+        "font": { "$ref": "#/$defs/fontStyle" },
+        "cornerRadius": { "type": "number", "minimum": 0 }
+      },
+      "additionalProperties": false
+    },
+    "edgeStyle": {
+      "type": "object",
+      "description": "Composite style for edges.",
+      "properties": {
+        "stroke": { "$ref": "#/$defs/strokeStyle" },
+        "font": { "$ref": "#/$defs/fontStyle" }
+      },
+      "additionalProperties": false
+    },
+    "interfaceEndpoint": {
+      "type": "object",
+      "description": "Endpoint specifying a component and optional interface (for connection pinning).",
+      "properties": {
+        "component": {
+          "$comment": "References: SystemArchitecture.json - system, hardware, or software",
+          "description": "Reference to a component (system, hardware, or software).",
+          "allOf": [
+            { "$ref": "../common/identifier.json" }
+          ]
+        },
+        "interfaceId": {
+          "$comment": "References: SystemArchitecture.json#/$defs/interface",
+          "description": "Reference to an interface identifier on the component.",
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^interface--" }
+          ]
+        }
+      },
+      "required": ["component"],
+      "additionalProperties": false
+    },
+    "boundaryDiagram": {
+      "type": "object",
+      "description": "A boundary diagram with metadata, canvas settings, and visual elements.",
+      "properties": {
+        "id": {
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^boundaryDiagram--" }
+          ],
+          "description": "Unique identifier for this boundary diagram."
+        },
+        "name": { "type": "string", "description": "Name of the boundary diagram." },
+        "description": { "type": "string", "description": "Description of the boundary diagram." },
+        "created": { "type": "string", "format": "date-time", "description": "Creation timestamp." },
+        "modified": { "type": "string", "format": "date-time", "description": "Last modified timestamp." },
+        "version": { "type": "string", "description": "Version of the diagram." },
+        "canvas": {
+          "type": "object",
+          "description": "Rendering surface configuration.",
+          "properties": {
+            "size": { "$ref": "#/$defs/size" },
+            "grid": {
+              "type": "object",
+              "properties": {
+                "visible": { "type": "boolean", "default": true },
+                "size": { "type": "number", "minimum": 1 }
+              },
+              "additionalProperties": false
+            },
+            "background": { "$ref": "#/$defs/color" },
+            "zoom": { "type": "number", "minimum": 0 },
+            "pan": { "$ref": "#/$defs/position" }
+          },
+          "additionalProperties": false
+        },
+        "systemNodes": {
+          "type": "array",
+          "description": "Visual nodes representing systems from SystemArchitecture.",
+          "items": { "$ref": "#/$defs/systemNode" },
+          "default": []
+        },
+        "authorizationBoundaryNodes": {
+          "type": "array",
+          "description": "Visual nodes representing authorization boundaries.",
+          "items": { "$ref": "#/$defs/authorizationBoundaryNode" },
+          "default": []
+        },
+        "entryPointNodes": {
+          "type": "array",
+          "description": "Visual markers for entry points.",
+          "items": { "$ref": "#/$defs/entryPointNode" },
+          "default": []
+        },
+        "connectionEdges": {
+          "type": "array",
+          "description": "Edges representing system connections.",
+          "items": { "$ref": "#/$defs/connectionEdge" },
+          "default": []
+        }
+      },
+      "required": ["id", "name"],
+      "additionalProperties": false
+    },
+    "systemNode": {
+      "type": "object",
+      "description": "Visual node representing a system from SystemArchitecture.",
+      "properties": {
+        "id": {
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^systemNode--" }
+          ],
+          "description": "Unique identifier for this system node."
+        },
+        "systemId": {
+          "$comment": "References: SystemArchitecture.json#/$defs/system",
+          "description": "Reference to a system identifier.",
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^system--" }
+          ]
+        },
+        "bounds": { "$ref": "#/$defs/bounds" },
+        "rotation": {
+          "type": "number",
+          "description": "Rotation in degrees.",
+          "default": 0
+        },
+        "label": { "$ref": "#/$defs/label" },
+        "style": { "$ref": "#/$defs/nodeStyle" },
+        "zIndex": { "type": "integer" },
+        "imageReference": {
+          "type": "string",
+          "description": "Optional image or icon reference for the node."
+        },
+        "parentAuthorizationBoundaryNodeId": {
+          "$comment": "References: #/$defs/authorizationBoundaryNode",
+          "description": "If provided, this node is visually contained within an authorization boundary node.",
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^authorizationBoundaryNode--" }
+          ]
+        },
+        "locked": { "type": "boolean", "default": false }
+      },
+      "required": ["id", "systemId", "bounds"],
+      "additionalProperties": false
+    },
+    "authorizationBoundaryNode": {
+      "type": "object",
+      "description": "Visual node representing an authorization boundary from the Risk Management Framework.",
+      "properties": {
+        "id": {
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^authorizationBoundaryNode--" }
+          ],
+          "description": "Unique identifier for this authorization boundary node."
+        },
+        "authorizationBoundaryId": {
+          "$comment": "References: RiskManagementFramework.json#/$defs/AuthorizationBoundary",
+          "description": "Reference to an authorization boundary identifier.",
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^authorizationBoundary--" }
+          ]
+        },
+        "bounds": { "$ref": "#/$defs/bounds" },
+        "label": { "$ref": "#/$defs/label" },
+        "style": { "$ref": "#/$defs/nodeStyle" },
+        "zIndex": { "type": "integer" },
+        "shape": {
+          "type": "string",
+          "enum": ["rectangle", "roundedRectangle", "ellipse", "cloud"],
+          "default": "rectangle"
+        },
+        "clipChildren": {
+          "type": "boolean",
+          "description": "If true, child nodes are visually clipped to this boundary's shape.",
+          "default": false
+        },
+        "locked": { "type": "boolean", "default": false }
+      },
+      "required": ["id", "authorizationBoundaryId", "bounds"],
+      "additionalProperties": false
+    },
+    "entryPointNode": {
+      "type": "object",
+      "description": "Visual marker for an entry point defined in the Risk Management Framework.",
+      "properties": {
+        "id": {
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^entryPointNode--" }
+          ],
+          "description": "Unique identifier for this entry point node."
+        },
+        "entryPointId": {
+          "$comment": "References: RiskManagementFramework.json#/$defs/EntryPoint",
+          "description": "Reference to an entry point identifier.",
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^entryPoint--" }
+          ]
+        },
+        "position": { "$ref": "#/$defs/position" },
+        "label": { "$ref": "#/$defs/label" },
+        "style": { "$ref": "#/$defs/nodeStyle" },
+        "attachedToEdgeId": {
+          "$comment": "References: #/$defs/connectionEdge",
+          "description": "Optional reference to a connection edge this entry point annotates.",
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^connectionEdge--" }
+          ]
+        },
+        "zIndex": { "type": "integer" },
+        "locked": { "type": "boolean", "default": false }
+      },
+      "required": ["id", "entryPointId", "position"],
+      "additionalProperties": false
+    },
+    "connectionEdge": {
+      "type": "object",
+      "description": "Edge representing a system connection from SystemArchitecture, with waypoints for routing.",
+      "properties": {
+        "id": {
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^connectionEdge--" }
+          ],
+          "description": "Unique identifier for this connection edge."
+        },
+        "connectionId": {
+          "$comment": "References: SystemArchitecture.json#/$defs/connection",
+          "description": "Reference to a connection identifier.",
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^connection--" }
+          ]
+        },
+        "source": { "$ref": "#/$defs/interfaceEndpoint" },
+        "target": { "$ref": "#/$defs/interfaceEndpoint" },
+        "waypoints": {
+          "type": "array",
+          "description": "Polyline points describing the routed edge path.",
+          "items": { "$ref": "#/$defs/position" },
+          "default": []
+        },
+        "directed": {
+          "type": "boolean",
+          "description": "If true, render an arrow from source to target.",
+          "default": false
+        },
+        "label": { "$ref": "#/$defs/label" },
+        "style": { "$ref": "#/$defs/edgeStyle" },
+        "zIndex": { "type": "integer" },
+        "locked": { "type": "boolean", "default": false }
+      },
+      "required": ["id", "connectionId"],
+      "additionalProperties": false
+    }
+  },
+  "properties": {
+    "boundaryDiagrams": {
+      "type": "array",
+      "description": "A collection of boundary diagrams.",
+      "items": {
+        "$ref": "#/$defs/boundaryDiagram"
+      }
+    }
+  }
+}

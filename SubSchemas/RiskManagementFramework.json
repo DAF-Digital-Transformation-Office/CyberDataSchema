@@ -1,0 +1,430 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://web.git.mil/daf-digital-transformation-office/CyberDataSchema/SubSchemas/RiskManagementFramework.json",
+  "title": "Risk Management Framework",
+  "description": "A schema for representing the Risk Management Framework concepts.",
+  "$comment": {
+    "version": "2.0.0",
+    "releaseDate": "2026-02-02"
+  },
+  "type": "object",
+  "$defs": {
+    "AuthorizationBoundaryType": {
+      "type": "object",
+      "description": "A unique type for authorization boundaries to determine the appropriate Authorizing Official.",
+      "properties": {
+        "id": {
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^authorizationBoundaryType--" }
+          ],
+          "description": "Unique identifier for this authorization boundary type."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the authorization boundary type (e.g., 'residential', 'commercial', 'historical')."
+        },
+        "description": {
+          "type": "string",
+          "description": "Optional description of the authorization boundary type."
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ]
+    },
+    "AuthorizationBoundary": {
+      "type": "object",
+      "description": "A unique authorization boundary to determine the appropriate Authorizing Official.",
+      "properties": {
+        "id": {
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^authorizationBoundary--" }
+          ],
+          "description": "Unique identifier for this authorization boundary."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the authorization boundary (e.g., 'residential', 'commercial', 'historical')."
+        },
+        "acronym": {
+          "type": "string",
+          "description": "Acronym or abbreviation for the authorization boundary (e.g., 'RES' for residential)."
+        },
+        "type": {
+          "$comment": "References: #/$defs/AuthorizationBoundaryType",
+          "description": "Reference to an AuthorizationBoundaryType.",
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^authorizationBoundaryType--" }
+          ]
+        },
+        "children": {
+          "type": "array",
+          "description": "List of child authorization boundaries.",
+          "items": {
+            "$comment": "References: #/$defs/AuthorizationBoundary",
+            "description": "Reference to a child authorization boundary.",
+            "allOf": [
+              { "$ref": "../common/identifier.json" },
+              { "pattern": "^authorizationBoundary--" }
+            ]
+          }
+        },
+        "description": {
+          "type": "string",
+          "description": "Optional description of the authorization boundary."
+        },
+        "systems": {
+          "type": "array",
+          "description": "List of top-level systems that are contained within this authorization boundary and that would explicitly be articulated in any Cyber Authorization.",
+          "items": {
+            "$comment": "References: SystemArchitecture.json - system, hardware, or software",
+            "description": "Reference to a system component.",
+            "allOf": [
+              { "$ref": "../common/identifier.json" }
+            ]
+          }
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ]
+    },
+    "CyberAuthorizationType": {
+      "type": "object",
+      "description": "A unique type for cyber authorization such as ATO, IATT, etc.",
+      "properties": {
+        "id": {
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^cyberAuthorizationType--" }
+          ],
+          "description": "Unique identifier for this cyber authorization type."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the cyber authorization type (e.g., 'ATO', 'IATT')."
+        },
+        "acronym": {
+          "type": "string",
+          "description": "Acronym or abbreviation for the cyber authorization type (e.g., 'ATO' for Authorized To Operate)."
+        },
+        "description": {
+          "type": "string",
+          "description": "Optional description of the cyber authorization type."
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ]
+    },
+    "CyberAuthorization": {
+      "type": "object",
+      "description": "Represents a cyber authorization for a system.",
+      "properties": {
+        "id": {
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^cyberAuthorization--" }
+          ],
+          "description": "Unique identifier for this cyber authorization."
+        },
+        "duration": {
+          "type": "string",
+          "description": "The duration of the authorization (e.g., '3 years', '6 months')."
+        },
+        "type": {
+          "$comment": "References: #/$defs/CyberAuthorizationType",
+          "description": "The type of cyber authorization.",
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^cyberAuthorizationType--" }
+          ]
+        },
+        "approvalDate": {
+          "type": "string",
+          "format": "date",
+          "description": "The date the authorization was approved (YYYY-MM-DD)."
+        },
+        "effectiveDate": {
+          "type": "string",
+          "format": "date",
+          "description": "The date the authorization becomes effective (YYYY-MM-DD)."
+        },
+        "authorizingOfficial": {
+          "$comment": "References: Entities.json#/$defs/person",
+          "description": "Reference to the person who is the Authorizing Official who accepts the risk and responsibility for the systems in the boundary.",
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^person--" }
+          ]
+        },
+        "owningProgramOffice": {
+          "$comment": "References: Entities.json#/$defs/organization",
+          "description": "Reference to the organization that is the owning and responsible program office for the boundary.",
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^organization--" }
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "duration",
+        "type",
+        "approvalDate",
+        "effectiveDate",
+        "authorizingOfficial",
+        "owningProgramOffice"
+      ]
+    },
+    "ConfidentialityLevel": {
+      "type": "object",
+      "description": "Collection of Confidentiality Levels which is defined as preserving authorized restrictions on information access and disclosure; including means for protecting privacy and proprietary information.",
+      "properties": {
+        "id": {
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^confidentialityLevel--" }
+          ],
+          "description": "Unique identifier for this confidentiality level."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the confidentiality level (e.g., 'Low', 'Moderate', 'High')."
+        },
+        "acronym": {
+          "type": "string",
+          "description": "Acronym or abbreviation for the confidentiality level (e.g., 'L' for Low)."
+        },
+        "numericValue": {
+          "type": "integer",
+          "description": "Numeric value of the confidentiality level (e.g., 1 for Low, 2 for Moderate, 3 for High)."
+        },
+        "description": {
+          "type": "string",
+          "description": "Optional description of the confidentiality level."
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "acronym",
+        "numericValue",
+        "description"
+      ]
+    },
+    "IntegrityLevel": {
+      "type": "object",
+      "description": "Collection of Integrity Levels which is defined as guarding against improper information modification or destruction; including ensuring information non-repudiation and authenticity.",
+      "properties": {
+        "id": {
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^integrityLevel--" }
+          ],
+          "description": "Unique identifier for this integrity level."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the integrity level (e.g., 'Low', 'Moderate', 'High')."
+        },
+        "acronym": {
+          "type": "string",
+          "description": "Acronym or abbreviation for the integrity level (e.g., 'L' for Low)."
+        },
+        "numericValue": {
+          "type": "integer",
+          "description": "Numeric value of the integrity level (e.g., 1 for Low, 2 for Moderate, 3 for High)."
+        },
+        "description": {
+          "type": "string",
+          "description": "Optional description of the integrity level."
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "acronym",
+        "numericValue",
+        "description"
+      ]
+    },
+    "AvailabilityLevel": {
+      "type": "object",
+      "description": "Collection of Availability Levels which is defined as ensuring timely and reliable access to and use of information.",
+      "properties": {
+        "id": {
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^availabilityLevel--" }
+          ],
+          "description": "Unique identifier for this availability level."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the availability level (e.g., 'Low', 'Moderate', 'High')."
+        },
+        "acronym": {
+          "type": "string",
+          "description": "Acronym or abbreviation for the availability level (e.g., 'L' for Low)."
+        },
+        "numericValue": {
+          "type": "integer",
+          "description": "Numeric value of the availability level (e.g., 1 for Low, 2 for Moderate, 3 for High)."
+        },
+        "description": {
+          "type": "string",
+          "description": "Optional description of the availability level."
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "acronym",
+        "numericValue",
+        "description"
+      ]
+    },
+    "PrivacyType": {
+      "type": "object",
+      "description": "Collection of Privacy Types which define the sensitivity and handling requirements for personal information such as PII, PHI, etc.",
+      "properties": {
+        "id": {
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^privacyType--" }
+          ],
+          "description": "Unique identifier for this privacy type."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the privacy type (e.g., Name, Birth Date, SSN, etc)."
+        },
+        "acronym": {
+          "type": "string",
+          "description": "Acronym or abbreviation for the privacy type."
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description of the privacy type and its implications."
+        },
+        "confidentialityLevel": {
+          "$comment": "References: #/$defs/ConfidentialityLevel",
+          "description": "Reference to the confidentiality level for the privacy type.",
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^confidentialityLevel--" }
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "description",
+        "confidentialityLevel"
+      ]
+    },
+    "EntryPoint": {
+      "type": "object",
+      "description": "Represents an entry point into a system within an authorization boundary.",
+      "properties": {
+        "id": {
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^entryPoint--" }
+          ],
+          "description": "Unique identifier for this entry point."
+        },
+        "systemConnection": {
+          "$comment": "References: SystemArchitecture.json#/$defs/connection",
+          "description": "Reference to the system connection this entry point represents.",
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^connection--" }
+          ]
+        },
+        "text": {
+          "type": "string",
+          "description": "Descriptive text about the entry point."
+        },
+        "authorizationBoundary": {
+          "$comment": "References: #/$defs/AuthorizationBoundary",
+          "description": "Reference to the authorization boundary this entry point belongs to.",
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^authorizationBoundary--" }
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "systemConnection",
+        "text",
+        "authorizationBoundary"
+      ]
+    }
+  },
+  "properties": {
+    "authorizationBoundaryTypes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/AuthorizationBoundaryType"
+      }
+    },
+    "authorizationBoundaries": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/AuthorizationBoundary"
+      }
+    },
+    "cyberAuthorizationTypes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/CyberAuthorizationType"
+      }
+    },
+    "cyberAuthorizations": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/CyberAuthorization"
+      }
+    },
+    "confidentialityLevels": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ConfidentialityLevel"
+      }
+    },
+    "integrityLevels": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/IntegrityLevel"
+      }
+    },
+    "availabilityLevels": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/AvailabilityLevel"
+      }
+    },
+    "privacyTypes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/PrivacyType"
+      }
+    },
+    "entryPoints": {
+      "type": "array",
+      "description": "Collection of entry points into systems within authorization boundaries.",
+      "items": {
+        "$ref": "#/$defs/EntryPoint"
+      }
+    }
+  }
+}

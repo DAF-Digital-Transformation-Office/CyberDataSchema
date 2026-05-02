@@ -1,0 +1,752 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://web.git.mil/daf-digital-transformation-office/CyberDataSchema/SubSchemas/CyberSecurity.json",
+  "title": "Cyber Risk and Attack Path Schema",
+  "description": "A schema for representing cyber risk, attack paths, threat actors, and courses of action.",
+  "$comment": {
+    "version": "2.0.0",
+    "releaseDate": "2026-02-02"
+  },
+  "type": "object",
+  "$defs": {
+    "stixThreatActor": {
+      "description": "A STIX 2.1 Threat Actor object.",
+      "$ref": "https://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/sdos/threat-actor.json"
+    },
+    "stixAttackPattern": {
+      "description": "A STIX 2.1 Attack Pattern object, used to represent techniques from frameworks like MITRE ATT&CK.",
+      "$ref": "https://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/sdos/attack-pattern.json"
+    },
+    "courseOfAction": {
+      "description": "A course of action or mitigation that combines the STIX standard definition with internal details about its implementation, cost, and status.",
+      "allOf": [
+        {
+          "$ref": "https://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/sdos/course-of-action.json"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "id": {
+              "allOf": [
+                { "$ref": "../common/identifier.json" },
+                { "pattern": "^courseOfAction--" }
+              ],
+              "description": "Unique identifier for this course of action."
+            },
+            "mitigationType": {
+              "type": "string",
+              "enum": ["technical", "administrative"],
+              "description": "The nature of the mitigation."
+            },
+            "cost": {
+              "type": "object",
+              "properties": {
+                "estimatedCost": {
+                  "type": "number",
+                  "description": "Estimated cost of the mitigation."
+                },
+                "actualCost": {
+                  "type": "number",
+                  "description": "Actual cost of the mitigation."
+                }
+              },
+              "description": "Estimated and actual costs for the mitigation."
+            },
+            "timeline": {
+              "type": "object",
+              "properties": {
+                "projectedImplementation": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "The date and time when the course of action is projected to be implemented."
+                },
+                "actualImplementation": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "The date and time when the course of action was actually implemented."
+                }
+              },
+              "description": "Projected and actual implementation dates."
+            },
+            "mitigatesVulnerabilities": {
+              "type": "array",
+              "description": "A list of specific vulnerabilities that this course of action mitigates.",
+              "items": {
+                "$comment": "References: #/$defs/vulnerability",
+                "allOf": [
+                  { "$ref": "../common/identifier.json" },
+                  { "pattern": "^vulnerability--" }
+                ]
+              }
+            },
+            "controlReference": {
+              "type": "array",
+              "description": "A reference to one or more internal security controls that implement this course of action.",
+              "items": {
+                "$comment": "References: SecurityControls.json#/$defs/Control",
+                "allOf": [
+                  { "$ref": "../common/identifier.json" },
+                  { "pattern": "^control--" }
+                ]
+              }
+            }
+          },
+          "required": ["id", "mitigationType", "mitigatesVulnerabilities"]
+        }
+      ]
+    },
+    "susceptibility": {
+      "type": "object",
+      "description": "A potential weakness in a system that could be exploitable but is not yet confirmed as directly exploitable.",
+      "properties": {
+        "id": {
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^susceptibility--" }
+          ],
+          "description": "Unique identifier for this susceptibility."
+        },
+        "title": {
+          "type": "string",
+          "description": "Title or short name of the susceptibility."
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed explanation of the susceptibility."
+        },
+        "associatedComponents": {
+          "type": "array",
+          "items": {
+            "$comment": "References: SystemArchitecture.json - system, hardware, or software",
+            "allOf": [
+              { "$ref": "../common/identifier.json" }
+            ]
+          },
+          "description": "Components potentially affected by this susceptibility."
+        },
+        "externalReferences": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "External references or documentation links related to the susceptibility."
+        },
+        "falsePositiveJustification": {
+          "type": "string",
+          "description": "A justification or reasoning as to why this susceptibility is not a vulnerability."
+        }
+      },
+      "required": ["id", "title"]
+    },
+    "vulnerability": {
+      "type": "object",
+      "description": "A confirmed exploitable susceptibility.",
+      "properties": {
+        "id": {
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^vulnerability--" }
+          ],
+          "description": "Unique identifier for this vulnerability."
+        },
+        "title": {
+          "type": "string",
+          "description": "Title or short name of the vulnerability."
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description of the vulnerability."
+        },
+        "exploitabilityScore": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Score indicating the ease of exploitation."
+        },
+        "exploitedInterfaces": {
+          "type": "array",
+          "items": {
+            "$comment": "References: SystemArchitecture.json#/$defs/interface",
+            "allOf": [
+              { "$ref": "../common/identifier.json" },
+              { "pattern": "^interface--" }
+            ]
+          },
+          "description": "System interfaces potentially exploited by this vulnerability."
+        },
+        "exploitedComponents": {
+          "type": "array",
+          "items": {
+            "$comment": "References: SystemArchitecture.json - system, hardware, or software",
+            "allOf": [
+              { "$ref": "../common/identifier.json" }
+            ]
+          },
+          "description": "Components potentially exploited by this vulnerability."
+        },
+        "derivedFrom": {
+          "type": "array",
+          "items": {
+            "$comment": "References: #/$defs/susceptibility",
+            "allOf": [
+              { "$ref": "../common/identifier.json" },
+              { "pattern": "^susceptibility--" }
+            ]
+          },
+          "description": "List of susceptibilities from which this vulnerability originated."
+        },
+        "externalReferences": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "External references or documentation links related to the vulnerability."
+        }
+      },
+      "required": ["id", "title"]
+    },
+    "attackStep": {
+      "type": "object",
+      "description": "A reusable atomic action within an attack path.",
+      "properties": {
+        "id": {
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^attackStep--" }
+          ],
+          "description": "Unique identifier for this attack step."
+        },
+        "identifier": {
+          "type": "string",
+          "description": "Human-friendly identifier (e.g., '1', '2a', 'B3')."
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description of the attack step."
+        },
+        "attackPattern": {
+          "$ref": "#/$defs/stixAttackPattern",
+          "description": "A reference to a STIX 2.1 Attack Pattern object, used to represent techniques from frameworks like MITRE ATT&CK."
+        },
+        "targetedVulnerabilities": {
+          "type": "array",
+          "description": "List of vulnerability identifiers targeted by this attack step.",
+          "items": {
+            "$comment": "References: #/$defs/vulnerability",
+            "allOf": [
+              { "$ref": "../common/identifier.json" },
+              { "pattern": "^vulnerability--" }
+            ]
+          }
+        },
+        "targetedAsset": {
+          "$comment": "References: SystemArchitecture.json - system, hardware, or software",
+          "description": "A reference to a component in the system architecture that is targeted by this attack step.",
+          "allOf": [
+            { "$ref": "../common/identifier.json" }
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "identifier",
+        "description",
+        "targetedVulnerability",
+        "targetedAsset"
+      ]
+    },
+    "attackPath": {
+      "type": "object",
+      "description": "A potential sequence of actions a threat actor might take to achieve an objective.",
+      "properties": {
+        "id": {
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^attackPath--" }
+          ],
+          "description": "Unique identifier for this attack path."
+        },
+        "title": {
+          "type": "string",
+          "description": "Title or short name of the attack path."
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description of the attack path."
+        },
+        "wheelOfAccessSector": {
+          "$comment": "References: #/$defs/wheelOfAccessSector",
+          "description": "A reference to a sector in a Wheel of Access that this attack path is associated with.",
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^wheelOfAccessSector--" }
+          ]
+        },
+        "threatActors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/stixThreatActor"
+          },
+          "description": "Threat actors likely to use this attack path."
+        },
+        "attackSteps": {
+          "type": "array",
+          "description": "Linked references to attack steps comprising this path. Traverse starting from the item without a previousStepId.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "attackStepId": {
+                "$comment": "References: #/$defs/attackStep",
+                "description": "Identifier of the attack step.",
+                "allOf": [
+                  { "$ref": "../common/identifier.json" },
+                  { "pattern": "^attackStep--" }
+                ]
+              },
+              "previousStepId": {
+                "$comment": "References: #/$defs/attackStep",
+                "description": "Identifier of the previous step; omit for the first step in the path. If omitted, the first step in the path is assumed.",
+                "allOf": [
+                  { "$ref": "../common/identifier.json" },
+                  { "pattern": "^attackStep--" }
+                ]
+              }
+            },
+            "required": ["attackStepId"]
+          }
+        },
+        "targetOutcomes": {
+          "type": "array",
+          "description": "Desired outcomes or impacts of the attack path.",
+          "items": {
+            "$ref": "#/$defs/outcome"
+          }
+        }
+      },
+      "required": ["id", "title", "description"]
+    },
+    "outcome": {
+      "type": "object",
+      "description": "The end state or impact achieved through exploitation of an attack path.",
+      "properties": {
+        "id": {
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^outcome--" }
+          ],
+          "description": "Unique identifier for this outcome."
+        },
+        "title": {
+          "type": "string",
+          "description": "Title or short name of the outcome."
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description of the outcome."
+        },
+        "impactMetric": {
+          "$ref": "#/$defs/impactMetric",
+          "description": "A detailed, multi-faceted assessment of the impact of an outcome, linking to system architecture, missions, and capabilities."
+        }
+      },
+      "required": ["id", "title", "description"]
+    },
+    "impactMetric": {
+      "type": "object",
+      "description": "A detailed, multi-faceted assessment of the impact of an outcome, linking to system architecture, missions, and capabilities.",
+      "properties": {
+        "impactedSystems": {
+          "type": "array",
+          "description": "A list of specific systems affected by the outcome.",
+          "items": {
+            "$comment": "References: SystemArchitecture.json - system, hardware, or software",
+            "allOf": [
+              { "$ref": "../common/identifier.json" }
+            ]
+          }
+        },
+        "missionImpact": {
+          "type": "array",
+          "description": "A list of missions affected by the outcome and a description of the impact.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "missionId": {
+                "$comment": "References: MissionEngineering.json#/$defs/mission",
+                "description": "Identifier of the mission that is affected by the outcome.",
+                "allOf": [
+                  { "$ref": "../common/identifier.json" },
+                  { "pattern": "^mission--" }
+                ]
+              },
+              "degradation": {
+                "type": "string",
+                "description": "Description of mission degradation, e.g., 'Reduced sensor accuracy', 'Complete loss of communication'."
+              },
+              "disruptionDuration": {
+                "type": "string",
+                "description": "Estimated duration of the disruption, e.g., '4 hours', '2 days'"
+              },
+              "impactedObjectives": {
+                "type": "array",
+                "description": "A list of specific mission objectives that are impacted.",
+                "items": {
+                  "$comment": "References: MissionEngineering.json#/$defs/objective",
+                  "allOf": [
+                    { "$ref": "../common/identifier.json" },
+                    { "pattern": "^objective--" }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "capabilityImpact": {
+          "type": "array",
+          "description": "A list of system capabilities affected by the outcome.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "capabilityId": {
+                "$comment": "References: MissionEngineering.json#/$defs/capability",
+                "description": "Identifier of the capability that is affected by the outcome.",
+                "allOf": [
+                  { "$ref": "../common/identifier.json" },
+                  { "pattern": "^capability--" }
+                ]
+              },
+              "degradationDescription": {
+                "type": "string",
+                "description": "A description of how the capability is degraded."
+              },
+              "impactLevel": {
+                "type": "string",
+                "enum": ["None", "Partial", "Complete"],
+                "description": "The level of impact on the capability."
+              }
+            },
+            "required": ["capabilityId", "impactLevel"]
+          }
+        },
+        "compromisedDataImpact": {
+          "type": "array",
+          "description": "A list of operational data elements that were compromised as part of the outcome.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "operationalDataId": {
+                "$comment": "References: SystemArchitecture.json#/$defs/operationalData",
+                "description": "Identifier of the operational data that is affected by the outcome.",
+                "allOf": [
+                  { "$ref": "../common/identifier.json" },
+                  { "pattern": "^operationalData--" }
+                ]
+              },
+              "impactType": {
+                "type": "array",
+                "description": "The type of impact on the operational data.",
+                "items": {
+                  "type": "string",
+                  "enum": ["Confidentiality", "Integrity", "Availability"]
+                }
+              }
+            },
+            "required": ["operationalDataId", "impactType"]
+          }
+        }
+      }
+    },
+    "risk": {
+      "type": "object",
+      "description": "An assessment of an attack path with likelihood, impact, and recommended mitigation strategies.",
+      "properties": {
+        "id": {
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^risk--" }
+          ],
+          "description": "Unique identifier for this risk."
+        },
+        "title": {
+          "type": "string",
+          "description": "Title or short name of the risk."
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description of the risk."
+        },
+        "attackPath": {
+          "$ref": "#/$defs/attackPath",
+          "description": "A reference to the attack path that this risk is associated with."
+        },
+        "likelihoodScore": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Score indicating how likely the attack is."
+        },
+        "impactScore": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Score indicating the potential impact."
+        },
+        "riskRating": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Overall risk rating computed from likelihood and impact."
+        },
+        "recommendedMitigations": {
+          "type": "array",
+          "description": "Recommended courses of action to mitigate this risk.",
+          "items": {
+            "$ref": "#/$defs/courseOfAction"
+          }
+        }
+      },
+      "required": ["id", "title", "description"]
+    },
+    "wheelOfAccessSector": {
+      "type": "object",
+      "description": "A specific sector within a Wheel of Access, which can contain child sectors to form a hierarchy.",
+      "properties": {
+        "id": {
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^wheelOfAccessSector--" }
+          ],
+          "description": "Unique identifier for this wheel of access sector."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name or title of the sector."
+        },
+        "description": {
+          "type": "string",
+          "description": "A detailed description of the sector."
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/wheelOfAccessSector"
+          },
+          "description": "Child sectors of this sector in a hierarchical structure."
+        }
+      },
+      "required": ["id", "name"]
+    },
+    "wheelOfAccess": {
+      "type": "object",
+      "description": "A hierarchical model, often used in intelligence, to represent different areas or categories of access or information that vulnerabilities can exploit.",
+      "properties": {
+        "id": {
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^wheelOfAccess--" }
+          ],
+          "description": "Unique identifier for this wheel of access."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name or title of the wheel of access."
+        },
+        "description": {
+          "type": "string",
+          "description": "A detailed description of the wheel of access."
+        },
+        "version": {
+          "type": "string",
+          "description": "The version of the wheel of access."
+        },
+        "sectors": {
+          "type": "array",
+          "description": "The root sectors of the Wheel of Access.",
+          "items": {
+            "$ref": "#/$defs/wheelOfAccessSector"
+          }
+        }
+      },
+      "required": ["id", "name", "sectors"]
+    },
+    "evaluationType": {
+      "type": "object",
+      "description": "A type of evaluation, such as a penetration test or vulnerability scan.",
+      "properties": {
+        "id": {
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^evaluationType--" }
+          ],
+          "description": "Unique identifier for this evaluation type."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name or title of the evaluation type."
+        },
+        "description": {
+          "type": "string",
+          "description": "A detailed description of the evaluation type."
+        }
+      },
+      "required": ["id", "name"]
+    },
+    "cyberEvaluation": {
+      "type": "object",
+      "description": "An activity, such as a scan, test, or exercise, that assesses a target for weaknesses and identifies susceptibilities.",
+      "properties": {
+        "id": {
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^cyberEvaluation--" }
+          ],
+          "description": "Unique identifier for this cyber evaluation."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name or title of the evaluation activity, e.g., 'Q3 Network Penetration Test'."
+        },
+        "evaluationTypeId": {
+          "$comment": "References: #/$defs/evaluationType",
+          "description": "A reference to the type of evaluation that was performed.",
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^evaluationType--" }
+          ]
+        },
+        "conductedBy": {
+          "type": "array",
+          "description": "The entities (people or organizations) that conducted the evaluation.",
+          "items": {
+            "$comment": "References: Entities.json - person or organization",
+            "allOf": [
+              { "$ref": "../common/identifier.json" }
+            ]
+          }
+        },
+        "completionDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The date and time when the evaluation was completed."
+        },
+        "plannedDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The date and time when the evaluation was planned."
+        },
+        "scope": {
+          "type": "array",
+          "description": "The systems or components that were the target of this evaluation.",
+          "items": {
+            "$comment": "References: SystemArchitecture.json - system, hardware, or software",
+            "allOf": [
+              { "$ref": "../common/identifier.json" }
+            ]
+          }
+        },
+        "findings": {
+          "type": "array",
+          "description": "A list of susceptibilities that were discovered during this evaluation.",
+          "items": {
+            "$comment": "References: #/$defs/susceptibility",
+            "allOf": [
+              { "$ref": "../common/identifier.json" },
+              { "pattern": "^susceptibility--" }
+            ]
+          }
+        },
+        "summary": {
+          "type": "string",
+          "description": "A summary of the evaluation's purpose, scope, and overall results."
+        }
+      },
+      "required": ["id", "name", "evaluationTypeId", "completionDate"]
+    }
+  },
+  "properties": {
+    "susceptibilities": {
+      "type": "array",
+      "description": "A collection of susceptibilities.",
+      "items": {
+        "$ref": "#/$defs/susceptibility"
+      }
+    },
+    "vulnerabilities": {
+      "type": "array",
+      "description": "A collection of vulnerabilities.",
+      "items": {
+        "$ref": "#/$defs/vulnerability"
+      }
+    },
+    "attackPaths": {
+      "type": "array",
+      "description": "A collection of attack paths.",
+      "items": {
+        "$ref": "#/$defs/attackPath"
+      }
+    },
+    "attackSteps": {
+      "type": "array",
+      "description": "A collection of attack steps.",
+      "items": {
+        "$ref": "#/$defs/attackStep"
+      }
+    },
+    "outcomes": {
+      "type": "array",
+      "description": "A collection of outcomes.",
+      "items": {
+        "$ref": "#/$defs/outcome"
+      }
+    },
+    "risks": {
+      "type": "array",
+      "description": "A collection of risks.",
+      "items": {
+        "$ref": "#/$defs/risk"
+      }
+    },
+    "threatActors": {
+      "type": "array",
+      "description": "A collection of threat actors.",
+      "items": {
+        "$ref": "#/$defs/stixThreatActor"
+      }
+    },
+    "attackPatterns": {
+      "type": "array",
+      "description": "A collection of attack patterns.",
+      "items": {
+        "$ref": "#/$defs/stixAttackPattern"
+      }
+    },
+    "coursesOfAction": {
+      "type": "array",
+      "description": "A collection of courses of action.",
+      "items": {
+        "$ref": "#/$defs/courseOfAction"
+      }
+    },
+    "wheelsOfAccess": {
+      "type": "array",
+      "description": "A collection of Wheels of Access.",
+      "items": {
+        "$ref": "#/$defs/wheelOfAccess"
+      }
+    },
+    "evaluationTypes": {
+      "type": "array",
+      "description": "A collection of evaluation types.",
+      "items": {
+        "$ref": "#/$defs/evaluationType"
+      }
+    },
+    "cyberEvaluations": {
+      "type": "array",
+      "description": "A collection of cyber evaluations.",
+      "items": {
+        "$ref": "#/$defs/cyberEvaluation"
+      }
+    }
+  }
+}

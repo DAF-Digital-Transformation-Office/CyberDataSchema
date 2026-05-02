@@ -1,0 +1,281 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://web.git.mil/daf-digital-transformation-office/CyberDataSchema/SubSchemas/SecurityClassificationGuide.json",
+  "title": "Security Classification Guide Schema (SCG)",
+  "description": "A JSON schema for decomposing and representing the structure and contents of a Security Classification Guide (SCG). This schema allows for describing metadata, purpose, scope, references, contacts, and detailed classification entries organized into sections.",
+  "$comment": {
+    "version": "2.0.0",
+    "releaseDate": "2026-02-02"
+  },
+  "type": "object",
+  "$defs": {
+    "securityClassificationGuide": {
+      "type": "object",
+      "description": "A Security Classification Guide (SCG) document.",
+      "properties": {
+        "id": {
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^securityClassificationGuide--" }
+          ],
+          "description": "Unique identifier for the SCG document."
+        },
+        "title": {
+          "type": "string",
+          "description": "The official title of the Security Classification Guide."
+        },
+        "scgClassification": {
+          "$comment": "References: DataClassification.json#/$defs/classificationType",
+          "description": "The overall classification level of the SCG document. Foreign key to the Classification Type table.",
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^classificationType--" }
+          ]
+        },
+        "issuingAuthority": {
+          "$comment": "References: Entities.json#/$defs/organization",
+          "description": "The agency or organization issuing the SCG. Foreign key to the Organization table.",
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^organization--" }
+          ]
+        },
+        "originalClassificationAuthority": {
+          "$comment": "References: Entities.json#/$defs/person",
+          "description": "The name or position of the Original Classification Authority (OCA). Foreign key to the Person table.",
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^person--" }
+          ]
+        },
+        "issuanceDate": {
+          "type": "string",
+          "format": "date",
+          "description": "The date the SCG was issued (YYYY-MM-DD)."
+        },
+        "revisionNumber": {
+          "type": "string",
+          "description": "The revision or version number of the SCG."
+        },
+        "revisionDate": {
+          "type": "string",
+          "format": "date",
+          "description": "The date of the latest revision (YYYY-MM-DD)."
+        },
+        "approvalAuthority": {
+          "$comment": "References: Entities.json#/$defs/person",
+          "description": "The name or position of the approving authority. Foreign key to the Person table.",
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^person--" }
+          ]
+        },
+        "purpose": {
+          "type": "string",
+          "description": "A statement describing the purpose of the SCG."
+        },
+        "scope": {
+          "type": "string",
+          "description": "A description of the scope, including the systems, programs, or information covered by the SCG."
+        },
+        "references": {
+          "type": "array",
+          "description": "A list of references to laws, executive orders, regulations, or other documents (e.g., EO 13526).",
+          "items": {
+            "type": "string"
+          }
+        },
+        "pointsOfContact": {
+          "type": "array",
+          "description": "List of points of contact for questions or updates related to the SCG. Foreign key to the Person table.",
+          "items": {
+            "$comment": "References: Entities.json#/$defs/person",
+            "allOf": [
+              { "$ref": "../common/identifier.json" },
+              { "pattern": "^person--" }
+            ]
+          }
+        },
+        "classificationSections": {
+          "type": "array",
+          "description": "The main body of the SCG, organized into sections (e.g., by category like Hardware, Operations). Each section contains classification entries.",
+          "items": {
+            "$ref": "#/$defs/classificationSection"
+          }
+        }
+      },
+      "required": ["id", "title", "issuingAuthority", "issuanceDate"]
+    },
+    "classificationSection": {
+      "type": "object",
+      "description": "A section within an SCG containing classification entries.",
+      "properties": {
+        "id": {
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^classificationSection--" }
+          ],
+          "description": "Unique identifier for the section."
+        },
+        "sectionId": {
+          "type": "string",
+          "description": "Human-readable identifier for the section (e.g., 1.0)."
+        },
+        "sectionTitle": {
+          "type": "string",
+          "description": "Title of the section (e.g., 'Personnel Information')."
+        },
+        "sectionDescription": {
+          "type": "string",
+          "description": "Optional description of the section."
+        },
+        "subsections": {
+          "type": "array",
+          "description": "Optional nested subsections for hierarchical organization.",
+          "items": {
+            "$ref": "#/$defs/classificationSection"
+          }
+        },
+        "classificationEntries": {
+          "type": "array",
+          "description": "List of specific classification entries within this section.",
+          "items": {
+            "$ref": "#/$defs/classificationEntry"
+          }
+        }
+      },
+      "required": ["id", "sectionId", "sectionTitle", "classificationEntries"]
+    },
+    "classificationEntry": {
+      "type": "object",
+      "description": "A specific classification entry within an SCG section.",
+      "properties": {
+        "id": {
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^classificationEntry--" }
+          ],
+          "description": "Unique identifier for the classification entry."
+        },
+        "itemId": {
+          "type": "string",
+          "description": "Human-readable identifier for the item (e.g., 1.1)."
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description of the information element to be classified."
+        },
+        "classificationLevel": {
+          "$comment": "References: DataClassification.json#/$defs/classificationType",
+          "description": "The classification level assigned to this item. Foreign key to the Classification Type table.",
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^classificationType--" }
+          ]
+        },
+        "reason": {
+          "$ref": "#/$defs/classificationReason",
+          "description": "A reference to a classification reason."
+        },
+        "declassification": {
+          "type": "object",
+          "description": "Declassification instructions.",
+          "properties": {
+            "date": {
+              "type": "string",
+              "format": "date",
+              "description": "Specific declassification date (YYYY-MM-DD)."
+            },
+            "event": {
+              "type": "string",
+              "description": "Event triggering declassification (e.g., 'End of program')."
+            },
+            "exemption": {
+              "$ref": "#/$defs/declassificationExemption",
+              "description": "A reference to a declassification exemption."
+            },
+            "instructions": {
+              "type": "string",
+              "description": "Additional declassification instructions."
+            }
+          }
+        },
+        "downgrading": {
+          "type": "object",
+          "description": "Optional downgrading instructions.",
+          "properties": {
+            "toLevel": {
+              "type": "string",
+              "description": "Level to downgrade to (e.g., CONFIDENTIAL).",
+              "enum": ["UNCLASSIFIED", "CONFIDENTIAL", "SECRET"]
+            },
+            "date": {
+              "type": "string",
+              "format": "date",
+              "description": "Downgrade date (YYYY-MM-DD)."
+            },
+            "event": {
+              "type": "string",
+              "description": "Event triggering downgrade."
+            }
+          }
+        },
+        "additionalMarkings": {
+          "type": "array",
+          "description": "Additional control markings. Foreign key to the Classification Control Caveat table.",
+          "items": {
+            "$comment": "References: DataClassification.json#/$defs/classificationControlCaveat",
+            "allOf": [
+              { "$ref": "../common/identifier.json" },
+              { "pattern": "^classificationControlCaveat--" }
+            ]
+          }
+        },
+        "remarks": {
+          "type": "string",
+          "description": "Any additional remarks or notes for this entry."
+        }
+      },
+      "required": ["id", "itemId", "description", "classificationLevel", "reason", "declassification"]
+    },
+    "classificationReason": {
+      "type": "object",
+      "description": "A classification reason based on EO 13526 Section 1.4.",
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "The code for the classification reason.",
+          "enum": [
+            "1.4(a)",
+            "1.4(b)",
+            "1.4(c)",
+            "1.4(d)",
+            "1.4(e)",
+            "1.4(f)",
+            "1.4(g)",
+            "1.4(h)"
+          ]
+        },
+        "description": {
+          "type": "string",
+          "description": "Optional description of the reason code."
+        }
+      },
+      "required": ["code"]
+    },
+    "declassificationExemption": {
+      "type": "string",
+      "description": "Declassification exemption codes from EO 13526.",
+      "enum": ["X1", "X2", "X3", "X4", "X5", "X6", "X7", "X8"]
+    }
+  },
+  "properties": {
+    "securityClassificationGuides": {
+      "type": "array",
+      "description": "A collection of Security Classification Guides (SCGs).",
+      "items": {
+        "$ref": "#/$defs/securityClassificationGuide"
+      }
+    }
+  }
+}

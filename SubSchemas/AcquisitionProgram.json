@@ -1,0 +1,800 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://web.git.mil/daf-digital-transformation-office/CyberDataSchema/SubSchemas/AcquisitionProgram.json",
+    "title": "Acquisition Program",
+    "description": "A schema for representing acquisition program concepts",
+    "$comment": {
+        "version": "2.0.0",
+        "releaseDate": "2026-02-02"
+    },
+    "type": "object",
+    "$defs": {
+        "acat": {
+            "type": "object",
+            "description": "Represents the Acquisition Category (ACAT) classification of a program, determining oversight and reporting requirements.",
+            "properties": {
+                "id": {
+                    "allOf": [
+                        {
+                            "$ref": "../common/identifier.json"
+                        },
+                        {
+                            "pattern": "^acat--"
+                        }
+                    ],
+                    "description": "Unique identifier for this ACAT."
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Descriptive label of the ACAT Type. Ie, ACAT 1, ACAT 2, etc"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Description of the ACAT Type."
+                }
+            },
+            "required": [
+                "id",
+                "name"
+            ]
+        },
+        "informationTechnologyCategory": {
+            "type": "object",
+            "description": "Defines the categorization of Information Technology systems within DoD acquisition (e.g., PIT, IS, Services).",
+            "properties": {
+                "id": {
+                    "allOf": [
+                        {
+                            "$ref": "../common/identifier.json"
+                        },
+                        {
+                            "pattern": "^informationTechnologyCategory--"
+                        }
+                    ],
+                    "description": "Unique identifier for this IT category."
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Name of the Information Technology category. E.g., Information System, PIT, IT Services, Major Applications, Enclaves, etc."
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Description of the Information Technology category."
+                },
+                "children": {
+                    "type": "array",
+                    "description": "Array of references to child Information Technology categories that fall under this category, allowing for hierarchy.",
+                    "items": {
+                        "$comment": "References: #/$defs/informationTechnologyCategory",
+                        "allOf": [
+                            {
+                                "$ref": "../common/identifier.json"
+                            },
+                            {
+                                "pattern": "^informationTechnologyCategory--"
+                            }
+                        ]
+                    }
+                }
+            },
+            "required": [
+                "id",
+                "name"
+            ]
+        },
+        "operationalStatusType": {
+            "type": "object",
+            "description": "Defines the operational condition or readiness of a system or program.",
+            "properties": {
+                "id": {
+                    "allOf": [
+                        {
+                            "$ref": "../common/identifier.json"
+                        },
+                        {
+                            "pattern": "^operationalStatusType--"
+                        }
+                    ],
+                    "description": "Unique identifier for this operational status type."
+                },
+                "type": {
+                    "type": "string",
+                    "description": "Description of the status"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Description of the operational status type."
+                }
+            },
+            "required": [
+                "id",
+                "type"
+            ]
+        },
+        "rdteType": {
+            "type": "object",
+            "description": "Represents the Research, Development, Test & Evaluation (RDT&E) classification for program funding and activity alignment.",
+            "properties": {
+                "id": {
+                    "allOf": [
+                        {
+                            "$ref": "../common/identifier.json"
+                        },
+                        {
+                            "pattern": "^rdteType--"
+                        }
+                    ],
+                    "description": "Unique identifier for this RDT&E type."
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Name of the RDT&E zone type."
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Description of the RDT&E zone type."
+                }
+            },
+            "required": [
+                "id",
+                "name"
+            ]
+        },
+        "program": {
+            "type": "object",
+            "description": "Represents an acquisition program and its associated identifiers, classifications, and relationships.",
+            "properties": {
+                "id": {
+                    "allOf": [
+                        {
+                            "$ref": "../common/identifier.json"
+                        },
+                        {
+                            "pattern": "^program--"
+                        }
+                    ],
+                    "description": "Unique identifier for this program."
+                },
+                "name": {
+                    "type": "string",
+                    "description": "The name of the acquisition program"
+                },
+                "conops": {
+                    "type": "string",
+                    "description": "The Concept of Operations of the acquisition program"
+                },
+                "mds": {
+                    "type": "string",
+                    "description": "The Mission Designation Series of the acquisition program"
+                },
+                "version": {
+                    "type": "string",
+                    "description": "Version number of the program"
+                },
+                "acronym": {
+                    "type": "string",
+                    "description": "Acronym for the Program"
+                },
+                "itipsNumber": {
+                    "type": "string",
+                    "description": "Information Technology Investment Portfolio System (ITIPS) Number."
+                },
+                "systemPurpose": {
+                    "type": "string",
+                    "description": "Short; informal; description of what the System/Program is intended to do."
+                },
+                "ditprNumber": {
+                    "type": "string",
+                    "description": "Department of Defense Information Technology Portfolio Repository (DITPR) number assigned to Program."
+                },
+                "afidNumber": {
+                    "type": "string",
+                    "description": "Unique identifier given to SAP programs to account for them in an anonymous manner"
+                },
+                "emassNumber": {
+                    "type": "string",
+                    "description": "Enterprise Mission Assurance Support Service (EMASS) assigned identification number"
+                },
+                "acat": {
+                    "$comment": "References: #/$defs/acat",
+                    "description": "Reference to the ACAT type.",
+                    "allOf": [
+                        {
+                            "$ref": "../common/identifier.json"
+                        },
+                        {
+                            "pattern": "^acat--"
+                        }
+                    ]
+                },
+                "informationTechnologyCategory": {
+                    "$comment": "References: #/$defs/informationTechnologyCategory",
+                    "description": "Reference to the Information Technology Category.",
+                    "allOf": [
+                        {
+                            "$ref": "../common/identifier.json"
+                        },
+                        {
+                            "pattern": "^informationTechnologyCategory--"
+                        }
+                    ]
+                },
+                "operationalStatus": {
+                    "$comment": "References: #/$defs/operationalStatusType",
+                    "description": "Reference to the Operational Status.",
+                    "allOf": [
+                        {
+                            "$ref": "../common/identifier.json"
+                        },
+                        {
+                            "pattern": "^operationalStatusType--"
+                        }
+                    ]
+                },
+                "rdteType": {
+                    "$comment": "References: #/$defs/rdteType",
+                    "description": "Reference to the RDT&E Type.",
+                    "allOf": [
+                        {
+                            "$ref": "../common/identifier.json"
+                        },
+                        {
+                            "pattern": "^rdteType--"
+                        }
+                    ]
+                },
+                "managingProgramOffice": {
+                    "$comment": "References: Entities.json#/$defs/organization",
+                    "description": "Reference to the organization that manages this program.",
+                    "allOf": [
+                        {
+                            "$ref": "../common/identifier.json"
+                        },
+                        {
+                            "pattern": "^organization--"
+                        }
+                    ]
+                },
+                "questionnaireResponseSets": {
+                    "type": "array",
+                    "description": "A list of references to questionnaire response sets associated with this program.",
+                    "items": {
+                        "$comment": "References: Questionnaires.json#/$defs/questionnaireResponseSet",
+                        "allOf": [
+                            {
+                                "$ref": "../common/identifier.json"
+                            },
+                            {
+                                "pattern": "^questionnaireResponseSet--"
+                            }
+                        ]
+                    }
+                }
+            },
+            "required": [
+                "id",
+                "name"
+            ]
+        },
+        "functional": {
+            "type": "object",
+            "description": "Represents a functional category (e.g., finance, legal, cyber, engineering) relevant to acquisition programs.",
+            "properties": {
+                "id": {
+                    "allOf": [
+                        {
+                            "$ref": "../common/identifier.json"
+                        },
+                        {
+                            "pattern": "^functional--"
+                        }
+                    ],
+                    "description": "Unique identifier for this functional category."
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Name of the functional category (e.g., Finance, Legal, Cyber, Engineering, etc.)."
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Description of the functional category and its role in acquisition programs."
+                }
+            },
+            "required": [
+                "id",
+                "name"
+            ]
+        },
+        "acquisitionPhase": {
+            "type": "object",
+            "description": "Reference object for the phases of the DoD acquisition lifecycle.",
+            "properties": {
+                "id": {
+                    "allOf": [
+                        {
+                            "$ref": "../common/identifier.json"
+                        },
+                        {
+                            "pattern": "^acquisitionPhase--"
+                        }
+                    ],
+                    "description": "Unique identifier for this acquisition phase."
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Name of the acquisition phase (e.g., Materiel Solution Analysis, Technology Maturation & Risk Reduction)."
+                },
+                "description": {
+                    "type": "string",
+                    "description": "A brief description of the acquisition phase."
+                },
+                "phaseOrder": {
+                    "type": "integer",
+                    "description": "The sequential order of the phase in the acquisition lifecycle."
+                }
+            },
+            "required": [
+                "id",
+                "name"
+            ]
+        },
+        "acquisitionMilestone": {
+            "type": "object",
+            "description": "Reference object for major decision points (Milestones) in the DoD acquisition lifecycle.",
+            "properties": {
+                "id": {
+                    "allOf": [
+                        {
+                            "$ref": "../common/identifier.json"
+                        },
+                        {
+                            "pattern": "^acquisitionMilestone--"
+                        }
+                    ],
+                    "description": "Unique identifier for this acquisition milestone."
+                },
+                "name": {
+                    "type": "string",
+                    "description": "The name of the milestone (e.g., Milestone A, Milestone B, Milestone C)."
+                },
+                "description": {
+                    "type": "string",
+                    "description": "A brief description of the milestone and its purpose."
+                }
+            },
+            "required": [
+                "id",
+                "name"
+            ]
+        },
+        "acquisitionEvent": {
+            "type": "object",
+            "description": "Reference object for significant events that occur within an acquisition phase (e.g., Critical Design Review).",
+            "properties": {
+                "id": {
+                    "allOf": [
+                        {
+                            "$ref": "../common/identifier.json"
+                        },
+                        {
+                            "pattern": "^acquisitionEvent--"
+                        }
+                    ],
+                    "description": "Unique identifier for this acquisition event."
+                },
+                "name": {
+                    "type": "string",
+                    "description": "The name of the event."
+                },
+                "description": {
+                    "type": "string",
+                    "description": "A brief description of the event."
+                }
+            },
+            "required": [
+                "id",
+                "name"
+            ]
+        },
+        "programPhase": {
+            "type": "object",
+            "description": "Tracks the acquisition phases for a specific program.",
+            "properties": {
+                "id": {
+                    "allOf": [
+                        {
+                            "$ref": "../common/identifier.json"
+                        },
+                        {
+                            "pattern": "^programPhase--"
+                        }
+                    ],
+                    "description": "Unique identifier for this program phase."
+                },
+                "program": {
+                    "$comment": "References: #/$defs/program",
+                    "description": "Reference to the program associated with this phase.",
+                    "allOf": [
+                        {
+                            "$ref": "../common/identifier.json"
+                        },
+                        {
+                            "pattern": "^program--"
+                        }
+                    ]
+                },
+                "phase": {
+                    "$comment": "References: #/$defs/acquisitionPhase",
+                    "description": "Reference to the acquisition phase associated with this program phase.",
+                    "allOf": [
+                        {
+                            "$ref": "../common/identifier.json"
+                        },
+                        {
+                            "pattern": "^acquisitionPhase--"
+                        }
+                    ]
+                },
+                "projectedStartDate": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "The projected start date of the program phase"
+                },
+                "actualStartDate": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "The actual start date of the program phase if it has occurred"
+                },
+                "projectedEndDate": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "The projected end date of the program phase"
+                },
+                "actualEndDate": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "The actual end date of the program phase if it has occurred"
+                },
+                "status": {
+                    "type": "string",
+                    "description": "The current status of this phase for the program (e.g., Not Started, In Progress, Completed)."
+                }
+            },
+            "required": [
+                "id",
+                "program",
+                "phase"
+            ]
+        },
+        "programMilestone": {
+            "type": "object",
+            "description": "Tracks the achievement of acquisition milestones for a specific program.",
+            "properties": {
+                "id": {
+                    "allOf": [
+                        {
+                            "$ref": "../common/identifier.json"
+                        },
+                        {
+                            "pattern": "^programMilestone--"
+                        }
+                    ],
+                    "description": "Unique identifier for this program milestone."
+                },
+                "program": {
+                    "$comment": "References: #/$defs/program",
+                    "description": "Reference to the program associated with this milestone.",
+                    "allOf": [
+                        {
+                            "$ref": "../common/identifier.json"
+                        },
+                        {
+                            "pattern": "^program--"
+                        }
+                    ]
+                },
+                "milestone": {
+                    "$comment": "References: #/$defs/acquisitionMilestone",
+                    "description": "Reference to the acquisition milestone associated with this program milestone.",
+                    "allOf": [
+                        {
+                            "$ref": "../common/identifier.json"
+                        },
+                        {
+                            "pattern": "^acquisitionMilestone--"
+                        }
+                    ]
+                },
+                "programPhase": {
+                    "$comment": "References: #/$defs/programPhase",
+                    "description": "The program phase during which this milestone occurred.",
+                    "allOf": [
+                        {
+                            "$ref": "../common/identifier.json"
+                        },
+                        {
+                            "pattern": "^programPhase--"
+                        }
+                    ]
+                },
+                "projectedDate": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "The projected date of the milestone if it has occurred"
+                },
+                "actualDate": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "The actual date of the milestone if it has occurred"
+                },
+                "status": {
+                    "type": "string",
+                    "description": "The status of the milestone (e.g., Planned, Achieved, Delayed)."
+                }
+            },
+            "required": [
+                "id",
+                "program",
+                "milestone"
+            ]
+        },
+        "programEvent": {
+            "type": "object",
+            "description": "Tracks the occurrence of acquisition events for a specific program.",
+            "properties": {
+                "id": {
+                    "allOf": [
+                        {
+                            "$ref": "../common/identifier.json"
+                        },
+                        {
+                            "pattern": "^programEvent--"
+                        }
+                    ],
+                    "description": "Unique identifier for this program event."
+                },
+                "program": {
+                    "$comment": "References: #/$defs/program",
+                    "description": "Reference to the program associated with this event.",
+                    "allOf": [
+                        {
+                            "$ref": "../common/identifier.json"
+                        },
+                        {
+                            "pattern": "^program--"
+                        }
+                    ]
+                },
+                "event": {
+                    "$comment": "References: #/$defs/acquisitionEvent",
+                    "description": "Reference to the acquisition event associated with this program event.",
+                    "allOf": [
+                        {
+                            "$ref": "../common/identifier.json"
+                        },
+                        {
+                            "pattern": "^acquisitionEvent--"
+                        }
+                    ]
+                },
+                "programPhase": {
+                    "$comment": "References: #/$defs/programPhase",
+                    "description": "The program phase during which this event occurred.",
+                    "allOf": [
+                        {
+                            "$ref": "../common/identifier.json"
+                        },
+                        {
+                            "pattern": "^programPhase--"
+                        }
+                    ]
+                },
+                "projectedDate": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "The projected date of the event if it has occurred"
+                },
+                "actualDate": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "The actual date of the event if it has occurred"
+                },
+                "status": {
+                    "type": "string",
+                    "description": "The status of the event (e.g., Planned, Completed, Canceled)."
+                }
+            },
+            "required": [
+                "id",
+                "program",
+                "event"
+            ]
+        },
+        "acquisitionViewType": {
+            "type": "object",
+            "description": "Reference object for the types of architectural views (e.g., Operational, System).",
+            "properties": {
+                "id": {
+                    "allOf": [
+                        {
+                            "$ref": "../common/identifier.json"
+                        },
+                        {
+                            "pattern": "^acquisitionViewType--"
+                        }
+                    ],
+                    "description": "Unique identifier for this acquisition view type."
+                },
+                "name": {
+                    "type": "string",
+                    "description": "The name of the view type (e.g., Operational, System)."
+                },
+                "description": {
+                    "type": "string",
+                    "description": "A brief description of the view type."
+                }
+            },
+            "required": [
+                "id",
+                "name"
+            ]
+        },
+        "programView": {
+            "type": "object",
+            "description": "Represents a specific architectural view for an acquisition program.",
+            "properties": {
+                "id": {
+                    "allOf": [
+                        {
+                            "$ref": "../common/identifier.json"
+                        },
+                        {
+                            "pattern": "^programView--"
+                        }
+                    ],
+                    "description": "Unique identifier for this program view."
+                },
+                "program": {
+                    "$comment": "References: #/$defs/program",
+                    "description": "Reference to the program associated with this view.",
+                    "allOf": [
+                        {
+                            "$ref": "../common/identifier.json"
+                        },
+                        {
+                            "pattern": "^program--"
+                        }
+                    ]
+                },
+                "viewType": {
+                    "$comment": "References: #/$defs/acquisitionViewType",
+                    "description": "Reference to the acquisition view type associated with this program view.",
+                    "allOf": [
+                        {
+                            "$ref": "../common/identifier.json"
+                        },
+                        {
+                            "pattern": "^acquisitionViewType--"
+                        }
+                    ]
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Name of the specific view instance (e.g., 'System X's Overview Diagram')."
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Description of what this specific view depicts for the program."
+                },
+                "referenceNumber": {
+                    "type": "string",
+                    "description": "Reference number for the view instance (e.g., OV-1, SV-4)."
+                },
+                "externalReferenceLink": {
+                    "type": "string",
+                    "description": "Link to the external reference for the graphical view instance."
+                }
+            },
+            "required": [
+                "id",
+                "program",
+                "viewType",
+                "externalReferenceLink"
+            ]
+        }
+    },
+    "properties": {
+        "acats": {
+            "type": "array",
+            "description": "A collection of ACAT types.",
+            "items": {
+                "$ref": "#/$defs/acat"
+            }
+        },
+        "informationTechnologyCategories": {
+            "type": "array",
+            "description": "A collection of Information Technology categories.",
+            "items": {
+                "$ref": "#/$defs/informationTechnologyCategory"
+            }
+        },
+        "operationalStatusTypes": {
+            "type": "array",
+            "description": "A collection of operational status types.",
+            "items": {
+                "$ref": "#/$defs/operationalStatusType"
+            }
+        },
+        "rdteTypes": {
+            "type": "array",
+            "description": "A collection of RDT&E types.",
+            "items": {
+                "$ref": "#/$defs/rdteType"
+            }
+        },
+        "programs": {
+            "type": "array",
+            "description": "A collection of acquisition programs.",
+            "items": {
+                "$ref": "#/$defs/program"
+            }
+        },
+        "functionalCategories": {
+            "type": "array",
+            "description": "A collection of functional categories.",
+            "items": {
+                "$ref": "#/$defs/functional"
+            }
+        },
+        "acquisitionPhases": {
+            "type": "array",
+            "items": {
+                "$ref": "#/$defs/acquisitionPhase"
+            }
+        },
+        "acquisitionMilestones": {
+            "type": "array",
+            "items": {
+                "$ref": "#/$defs/acquisitionMilestone"
+            }
+        },
+        "acquisitionEvents": {
+            "type": "array",
+            "items": {
+                "$ref": "#/$defs/acquisitionEvent"
+            }
+        },
+        "programPhases": {
+            "type": "array",
+            "items": {
+                "$ref": "#/$defs/programPhase"
+            }
+        },
+        "programMilestones": {
+            "type": "array",
+            "items": {
+                "$ref": "#/$defs/programMilestone"
+            }
+        },
+        "programEvents": {
+            "type": "array",
+            "items": {
+                "$ref": "#/$defs/programEvent"
+            }
+        },
+        "acquisitionViewTypes": {
+            "type": "array",
+            "description": "A collection of architectural view types.",
+            "items": {
+                "$ref": "#/$defs/acquisitionViewType"
+            }
+        },
+        "programViews": {
+            "type": "array",
+            "description": "A collection of specific program views.",
+            "items": {
+                "$ref": "#/$defs/programView"
+            }
+        }
+    }
+}

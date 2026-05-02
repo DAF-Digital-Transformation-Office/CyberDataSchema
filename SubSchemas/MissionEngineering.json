@@ -1,0 +1,442 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://web.git.mil/daf-digital-transformation-office/CyberDataSchema/SubSchemas/MissionEngineering.json",
+  "title": "Mission Engineering",
+  "description": "JSON Schema representing missions, objectives, performance criteria, capabilities, and requirements.",
+  "$comment": {
+    "version": "2.0.0",
+    "releaseDate": "2026-02-02"
+  },
+  "type": "object",
+  "$defs": {
+    "mission": {
+      "type": "object",
+      "description": "A mission is a high-level task or objective that is assigned to an individual, team, or organization. It is a broad, overarching goal that may be broken down into more specific objectives.",
+      "properties": {
+        "id": {
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^mission--" }
+          ],
+          "description": "Unique identifier for this mission."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the mission."
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description of the assignment, operation, or task."
+        },
+        "missionType": {
+          "$comment": "References: #/$defs/missionType",
+          "description": "Reference to the type of the mission.",
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^missionType--" }
+          ]
+        },
+        "safetyCritical": {
+          "type": "boolean",
+          "description": "Indicates if the mission is safety critical which in this context is defined as if failed there could be a significant risk of physical harm or worse to individuals or the environment."
+        },
+        "undertakenBy": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "entityId": {
+                "$comment": "References: Entities.json - person or organization",
+                "description": "Reference to an entity.",
+                "allOf": [
+                  { "$ref": "../common/identifier.json" }
+                ]
+              },
+              "role": {
+                "type": "string",
+                "description": "The role of the entity in the mission (e.g., 'pilot', 'reviewer')."
+              }
+            },
+            "required": ["entityId", "role"]
+          },
+          "description": "Individuals, teams, or organizations undertaking the mission and their roles."
+        },
+        "locations": {
+          "type": "array",
+          "description": "List of geographical locations where the mission takes place.",
+          "items": {
+            "$comment": "References: Geography.json#/$defs/GeographicalEntity",
+            "description": "Reference to a geographical entity.",
+            "allOf": [
+              { "$ref": "../common/identifier.json" },
+              { "pattern": "^geographicalEntity--" }
+            ]
+          }
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$comment": "References: #/$defs/mission",
+            "description": "Reference to a child mission.",
+            "allOf": [
+              { "$ref": "../common/identifier.json" },
+              { "pattern": "^mission--" }
+            ]
+          },
+          "description": "Sub-missions for hierarchical organization."
+        },
+        "objectives": {
+          "type": "array",
+          "items": {
+            "$comment": "References: #/$defs/objective",
+            "description": "Reference to an objective.",
+            "allOf": [
+              { "$ref": "../common/identifier.json" },
+              { "pattern": "^objective--" }
+            ]
+          },
+          "description": "Objectives that the mission is tasked with achieving."
+        },
+        "inputs": {
+          "type": "array",
+          "description": "Operational data required for the mission, with associated CIA ratings for that mission context.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "operationalDataId": {
+                "$comment": "References: SystemArchitecture.json#/$defs/operationalData",
+                "description": "Reference to operational data that is an input to the mission.",
+                "allOf": [
+                  { "$ref": "../common/identifier.json" },
+                  { "pattern": "^operationalData--" }
+                ]
+              },
+              "ciaTriad": {
+                "type": "object",
+                "description": "The confidentiality, integrity, and availability ratings for this data in the context of this mission.",
+                "properties": {
+                  "confidentiality": {
+                    "$comment": "References: RiskManagementFramework.json#/$defs/ConfidentialityLevel",
+                    "description": "The confidentiality level of the data in the context of this mission.",
+                    "allOf": [
+                      { "$ref": "../common/identifier.json" },
+                      { "pattern": "^confidentialityLevel--" }
+                    ]
+                  },
+                  "integrity": {
+                    "$comment": "References: RiskManagementFramework.json#/$defs/IntegrityLevel",
+                    "description": "The integrity level of the data in the context of this mission.",
+                    "allOf": [
+                      { "$ref": "../common/identifier.json" },
+                      { "pattern": "^integrityLevel--" }
+                    ]
+                  },
+                  "availability": {
+                    "$comment": "References: RiskManagementFramework.json#/$defs/AvailabilityLevel",
+                    "description": "The availability level of the data in the context of this mission.",
+                    "allOf": [
+                      { "$ref": "../common/identifier.json" },
+                      { "pattern": "^availabilityLevel--" }
+                    ]
+                  }
+                },
+                "required": ["confidentiality", "integrity", "availability"]
+              }
+            },
+            "required": ["operationalDataId"]
+          }
+        },
+        "outputs": {
+          "type": "array",
+          "description": "Operational data generated by the mission.",
+          "items": {
+            "$comment": "References: SystemArchitecture.json#/$defs/operationalData",
+            "description": "Reference to operational data that is an output of the mission.",
+            "allOf": [
+              { "$ref": "../common/identifier.json" },
+              { "pattern": "^operationalData--" }
+            ]
+          }
+        },
+        "dependsOn": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "missionId": {
+                "$comment": "References: #/$defs/mission",
+                "description": "Reference to a mission that this mission depends on.",
+                "allOf": [
+                  { "$ref": "../common/identifier.json" },
+                  { "pattern": "^mission--" }
+                ]
+              },
+              "dependencyType": {
+                "type": "string",
+                "enum": ["FS", "SS", "FF", "SF"],
+                "description": "Dependency type: FS (Finish-to-Start), SS (Start-to-Start), FF (Finish-to-Finish), SF (Start-to-Finish)."
+              }
+            },
+            "required": ["missionId", "dependencyType"],
+            "description": "A dependency relationship with another mission."
+          },
+          "description": "List of mission dependencies and their relationship types that must be satisfied before this mission can proceed according to the dependency type."
+        },
+        "anticipatedStartDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The planned start date and time for the mission."
+        },
+        "anticipatedEndDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The planned end date and time for the mission."
+        },
+        "actualStartDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The actual start date and time for the mission."
+        },
+        "actualEndDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The actual end date and time for the mission."
+        }
+      },
+      "required": ["id", "name"]
+    },
+    "objective": {
+      "type": "object",
+      "description": "A specific, measurable outcome that contributes to the fulfillment of a mission. Objectives are more focused than missions and provide clear targets for achievement.",
+      "properties": {
+        "id": {
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^objective--" }
+          ],
+          "description": "Unique identifier for this objective."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the objective."
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description of the measurable, mission-specific outcome."
+        },
+        "childObjectives": {
+          "type": "array",
+          "items": {
+            "$comment": "References: #/$defs/objective",
+            "description": "Reference to a child objective.",
+            "allOf": [
+              { "$ref": "../common/identifier.json" },
+              { "pattern": "^objective--" }
+            ]
+          },
+          "description": "Child objectives for hierarchical organization."
+        },
+        "measuresOfSuccess": {
+          "type": "array",
+          "items": {
+            "$comment": "References: #/$defs/performanceCriteria",
+            "description": "Reference to performance criteria.",
+            "allOf": [
+              { "$ref": "../common/identifier.json" },
+              { "pattern": "^performanceCriteria--" }
+            ]
+          },
+          "description": "Quantitative expressions for measures of success for the objective."
+        },
+        "measuresOfEffectiveness": {
+          "type": "array",
+          "items": {
+            "$comment": "References: #/$defs/performanceCriteria",
+            "description": "Reference to performance criteria.",
+            "allOf": [
+              { "$ref": "../common/identifier.json" },
+              { "pattern": "^performanceCriteria--" }
+            ]
+          },
+          "description": "Quantitative expressions for measures of effectiveness for the objective."
+        }
+      },
+      "required": ["id", "name"]
+    },
+    "performanceCriteria": {
+      "type": "object",
+      "description": "A standard or metric against which the achievement of an objective can be assessed. Performance criteria provide a clear basis for evaluating success.",
+      "properties": {
+        "id": {
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^performanceCriteria--" }
+          ],
+          "description": "Unique identifier for this performance criteria."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the performance criteria."
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description of the metric."
+        },
+        "quantitativeExpression": {
+          "$comment": "References: LogicalExpressions.json#/$defs/logicalExpression",
+          "description": "The quantitative expressions for this criterion.",
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^logicalExpression--" }
+          ]
+        }
+      },
+      "required": ["id", "name", "quantitativeExpression"]
+    },
+    "capability": {
+      "type": "object",
+      "description": "An expression of the ability to achieve a desired effect under specified standards and conditions through combinations of ways and means to perform a set of tasks. It is a more abstract concept than a specific function or feature.",
+      "properties": {
+        "id": {
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^capability--" }
+          ],
+          "description": "Unique identifier for this capability."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the capability."
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description of the functional ability or system feature."
+        },
+        "providedBy": {
+          "type": "array",
+          "items": {
+            "$comment": "References: SystemArchitecture.json - system, hardware, or software",
+            "description": "Reference to a component that provides this capability.",
+            "allOf": [
+              { "$ref": "../common/identifier.json" }
+            ]
+          },
+          "description": "Components that provide or implement this capability."
+        },
+        "requirements": {
+          "type": "array",
+          "items": {
+            "$comment": "References: #/$defs/requirement",
+            "description": "Reference to a requirement.",
+            "allOf": [
+              { "$ref": "../common/identifier.json" },
+              { "pattern": "^requirement--" }
+            ]
+          },
+          "description": "Requirements that are needed to enable the capability."
+        },
+        "objectives": {
+          "type": "array",
+          "items": {
+            "$comment": "References: #/$defs/objective",
+            "description": "Reference to an objective.",
+            "allOf": [
+              { "$ref": "../common/identifier.json" },
+              { "pattern": "^objective--" }
+            ]
+          },
+          "description": "Objectives that this capability enables."
+        }
+      },
+      "required": ["id", "name"]
+    },
+    "requirement": {
+      "type": "object",
+      "description": "A statement that identifies a necessary attribute, capability, characteristic, or quality of a system. It is a formal, verifiable condition that must be met.",
+      "properties": {
+        "id": {
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^requirement--" }
+          ],
+          "description": "Unique identifier for this requirement."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the requirement."
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description of the mandatory, verifiable condition."
+        }
+      },
+      "required": ["id", "name"]
+    },
+    "missionType": {
+      "type": "object",
+      "description": "Defines a type of mission.",
+      "properties": {
+        "id": {
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^missionType--" }
+          ],
+          "description": "Unique identifier for this mission type."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the mission type."
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description of the mission type."
+        }
+      },
+      "required": ["id", "name"]
+    }
+  },
+  "properties": {
+    "missionTypes": {
+      "type": "array",
+      "description": "A collection of mission types.",
+      "items": {
+        "$ref": "#/$defs/missionType"
+      }
+    },
+    "missions": {
+      "type": "array",
+      "description": "A collection of missions.",
+      "items": {
+        "$ref": "#/$defs/mission"
+      }
+    },
+    "objectives": {
+      "type": "array",
+      "description": "A collection of objectives.",
+      "items": {
+        "$ref": "#/$defs/objective"
+      }
+    },
+    "performanceCriteria": {
+      "type": "array",
+      "description": "A collection of performance criteria.",
+      "items": {
+        "$ref": "#/$defs/performanceCriteria"
+      }
+    },
+    "capabilities": {
+      "type": "array",
+      "description": "A collection of capabilities.",
+      "items": {
+        "$ref": "#/$defs/capability"
+      }
+    },
+    "requirements": {
+      "type": "array",
+      "description": "A collection of requirements.",
+      "items": {
+        "$ref": "#/$defs/requirement"
+      }
+    }
+  }
+}

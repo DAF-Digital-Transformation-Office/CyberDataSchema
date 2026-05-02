@@ -1,0 +1,1473 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://web.git.mil/daf-digital-transformation-office/CyberDataSchema/SubSchemas/SystemArchitecture.json",
+  "title": "System Architecture",
+  "description": "A schema for modeling systems, hardware, and software components with interfaces, connections, operational data, connection data, and memory objects.",
+  "$comment": {
+    "version": "2.0.0",
+    "releaseDate": "2026-02-02",
+    "commentary": "Utilizes common identifier schema for consistent referencing across all objects."
+  },
+  "type": "object",
+  "$defs": {
+    "systemType": {
+      "type": "object",
+      "description": "Defines types of systems and their defensive categorization",
+      "properties": {
+        "id": {
+          "allOf": [
+            {
+              "$ref": "../common/identifier.json"
+            },
+            {
+              "pattern": "^systemType--"
+            }
+          ],
+          "description": "Unique identifier for this system type."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the system type."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the system type and its characteristics."
+        },
+        "d3fend": {
+          "type": "string",
+          "description": "Reference to the MITRE D3FEND taxonomy identifiers."
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ]
+    },
+    "hardwareType": {
+      "type": "object",
+      "description": "Defines types of hardware and their categorization.",
+      "properties": {
+        "id": {
+          "allOf": [
+            {
+              "$ref": "../common/identifier.json"
+            },
+            {
+              "pattern": "^hardwareType--"
+            }
+          ],
+          "description": "Unique identifier for this hardware type."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the hardware type."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the hardware type and its characteristics."
+        },
+        "d3fend": {
+          "type": "string",
+          "description": "Reference to the MITRE D3FEND taxonomy identifiers."
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ]
+    },
+    "softwareType": {
+      "type": "object",
+      "description": "Defines types of software and their categorization.",
+      "properties": {
+        "id": {
+          "allOf": [
+            {
+              "$ref": "../common/identifier.json"
+            },
+            {
+              "pattern": "^softwareType--"
+            }
+          ],
+          "description": "Unique identifier for this software type."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the software type."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the software type and its characteristics."
+        },
+        "d3fend": {
+          "type": "string",
+          "description": "Reference to the MITRE D3FEND taxonomy identifiers."
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ]
+    },
+    "system": {
+      "type": "object",
+      "description": "A system can reference other systems, hardware, or software by identifier.",
+      "properties": {
+        "id": {
+          "allOf": [
+            {
+              "$ref": "../common/identifier.json"
+            },
+            {
+              "pattern": "^system--"
+            }
+          ],
+          "description": "Unique identifier for this system."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the component."
+        },
+        "acronym": {
+          "type": "string",
+          "description": "The acronym of the component."
+        },
+        "version": {
+          "type": "string",
+          "description": "Version identifier for the component."
+        },
+        "description": {
+          "type": "string",
+          "description": "The description of the component."
+        },
+        "instanceOf": {
+          "$comment": "References: #/$defs/system",
+          "description": "Reference to the abstract component that this component is an instance of.",
+          "allOf": [
+            {
+              "$ref": "../common/identifier.json"
+            },
+            {
+              "pattern": "^system--"
+            }
+          ]
+        },
+        "children": {
+          "type": "array",
+          "description": "An array of references to child components.",
+          "items": {
+            "$comment": "References: #/$defs/system | #/$defs/hardware | #/$defs/software",
+            "allOf": [
+              {
+                "$ref": "../common/identifier.json"
+              },
+              {
+                "pattern": "^(system|hardware|software)--"
+              }
+            ]
+          },
+          "default": []
+        },
+        "interfaces": {
+          "type": "array",
+          "description": "List of references to interfaces for interaction with the component.",
+          "items": {
+            "$comment": "References: #/$defs/interface",
+            "allOf": [
+              {
+                "$ref": "../common/identifier.json"
+              },
+              {
+                "pattern": "^interface--"
+              }
+            ]
+          },
+          "default": []
+        },
+        "suppliers": {
+          "type": "array",
+          "description": "List of references to organizations or people that supply this component.",
+          "items": {
+            "$comment": "References: Entities.json#/$defs/organization | Entities.json#/$defs/person",
+            "allOf": [
+              {
+                "$ref": "../common/identifier.json"
+              },
+              {
+                "pattern": "^(organization|person)--"
+              }
+            ]
+          },
+          "default": []
+        },
+        "systemTypes": {
+          "type": "array",
+          "description": "List of references to the types/categories of the system.",
+          "items": {
+            "$comment": "References: #/$defs/systemType",
+            "allOf": [
+              {
+                "$ref": "../common/identifier.json"
+              },
+              {
+                "pattern": "^systemType--"
+              }
+            ]
+          },
+          "default": []
+        },
+        "imageReference": {
+          "type": "array",
+          "description": "List of locations/references to images of the system",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ]
+    },
+    "hardware": {
+      "type": "object",
+      "description": "Hardware can only reference other hardware components by identifier.",
+      "properties": {
+        "id": {
+          "allOf": [
+            {
+              "$ref": "../common/identifier.json"
+            },
+            {
+              "pattern": "^hardware--"
+            }
+          ],
+          "description": "Unique identifier for this hardware component."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the component."
+        },
+        "acronym": {
+          "type": "string",
+          "description": "The acronym of the component."
+        },
+        "version": {
+          "type": "string",
+          "description": "Version identifier for the component."
+        },
+        "description": {
+          "type": "string",
+          "description": "The description of the component."
+        },
+        "instanceOf": {
+          "$comment": "References: #/$defs/hardware",
+          "description": "Reference to the abstract hardware component that this component is an instance of.",
+          "allOf": [
+            {
+              "$ref": "../common/identifier.json"
+            },
+            {
+              "pattern": "^hardware--"
+            }
+          ]
+        },
+        "children": {
+          "type": "array",
+          "description": "An array of references to child hardware components.",
+          "items": {
+            "$comment": "References: #/$defs/hardware",
+            "allOf": [
+              {
+                "$ref": "../common/identifier.json"
+              },
+              {
+                "pattern": "^hardware--"
+              }
+            ]
+          },
+          "default": []
+        },
+        "interfaces": {
+          "type": "array",
+          "description": "List of references to interfaces for interaction with the component.",
+          "items": {
+            "$comment": "References: #/$defs/interface",
+            "allOf": [
+              {
+                "$ref": "../common/identifier.json"
+              },
+              {
+                "pattern": "^interface--"
+              }
+            ]
+          },
+          "default": []
+        },
+        "suppliers": {
+          "type": "array",
+          "description": "List of references to organizations or people that supply this component.",
+          "items": {
+            "$comment": "References: Entities.json#/$defs/organization | Entities.json#/$defs/person",
+            "allOf": [
+              {
+                "$ref": "../common/identifier.json"
+              },
+              {
+                "pattern": "^(organization|person)--"
+              }
+            ]
+          },
+          "default": []
+        },
+        "partNumber": {
+          "type": "string",
+          "description": "Manufacturer's part number for the hardware component."
+        },
+        "imageReference": {
+          "type": "array",
+          "description": "List of locations/references to images of the hardware",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ]
+    },
+    "software": {
+      "type": "object",
+      "description": "Software can only reference other software components by identifier.",
+      "properties": {
+        "id": {
+          "allOf": [
+            {
+              "$ref": "../common/identifier.json"
+            },
+            {
+              "pattern": "^software--"
+            }
+          ],
+          "description": "Unique identifier for this software component."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the component."
+        },
+        "acronym": {
+          "type": "string",
+          "description": "The acronym of the component."
+        },
+        "version": {
+          "type": "string",
+          "description": "Version identifier for the component."
+        },
+        "description": {
+          "type": "string",
+          "description": "The description of the component."
+        },
+        "instanceOf": {
+          "$comment": "References: #/$defs/software",
+          "description": "Reference to the abstract software component that this component is an instance of.",
+          "allOf": [
+            {
+              "$ref": "../common/identifier.json"
+            },
+            {
+              "pattern": "^software--"
+            }
+          ]
+        },
+        "children": {
+          "type": "array",
+          "description": "An array of references to child software components.",
+          "items": {
+            "$comment": "References: #/$defs/software",
+            "allOf": [
+              {
+                "$ref": "../common/identifier.json"
+              },
+              {
+                "pattern": "^software--"
+              }
+            ]
+          },
+          "default": []
+        },
+        "interfaces": {
+          "type": "array",
+          "description": "List of references to interfaces for interaction with the component.",
+          "items": {
+            "$comment": "References: #/$defs/interface",
+            "allOf": [
+              {
+                "$ref": "../common/identifier.json"
+              },
+              {
+                "pattern": "^interface--"
+              }
+            ]
+          },
+          "default": []
+        },
+        "suppliers": {
+          "type": "array",
+          "description": "List of references to organizations or people that supply this component.",
+          "items": {
+            "$comment": "References: Entities.json#/$defs/organization | Entities.json#/$defs/person",
+            "allOf": [
+              {
+                "$ref": "../common/identifier.json"
+              },
+              {
+                "pattern": "^(organization|person)--"
+              }
+            ]
+          },
+          "default": []
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ]
+    },
+    "protocolType": {
+      "type": "object",
+      "description": "Defines types of protocols used in interfaces and connections",
+      "properties": {
+        "id": {
+          "allOf": [
+            {
+              "$ref": "../common/identifier.json"
+            },
+            {
+              "pattern": "^protocolType--"
+            }
+          ],
+          "description": "Unique identifier for this protocol type."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the protocol (e.g., 'Universal Serial Bus', 'Ethernet')."
+        },
+        "acronym": {
+          "type": "string",
+          "description": "Acronym of the protocol (e.g., 'USB', 'ETH')."
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description of the protocol."
+        },
+        "wireless": {
+          "type": "boolean",
+          "description": "Indicates if this is a wireless protocol."
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "wireless"
+      ]
+    },
+    "interface": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "allOf": [
+            {
+              "$ref": "../common/identifier.json"
+            },
+            {
+              "pattern": "^interface--"
+            }
+          ],
+          "description": "Unique identifier for this interface."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the interface."
+        },
+        "type": {
+          "$comment": "References: #/$defs/protocolType",
+          "description": "Reference to the protocol type used by this interface.",
+          "allOf": [
+            {
+              "$ref": "../common/identifier.json"
+            },
+            {
+              "pattern": "^protocolType--"
+            }
+          ]
+        },
+        "description": {
+          "type": "string",
+          "description": "Optional description of the interface."
+        },
+        "children": {
+          "type": "array",
+          "description": "List of references to child interfaces.",
+          "items": {
+            "$comment": "References: #/$defs/interface",
+            "allOf": [
+              {
+                "$ref": "../common/identifier.json"
+              },
+              {
+                "pattern": "^interface--"
+              }
+            ]
+          },
+          "default": []
+        }
+      },
+      "required": [
+        "id",
+        "type"
+      ]
+    },
+    "dataType": {
+      "type": "object",
+      "description": "Defines types of data used in operational data",
+      "properties": {
+        "id": {
+          "allOf": [
+            {
+              "$ref": "../common/identifier.json"
+            },
+            {
+              "pattern": "^dataType--"
+            }
+          ],
+          "description": "Unique identifier for this data type."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the data type."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the data type."
+        },
+        "d3fend": {
+          "type": "string",
+          "description": "Reference to the MITRE D3FEND taxonomy identifiers."
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ]
+    },
+    "securityAlgorithm": {
+      "type": "object",
+      "description": "Defines a security algorithm for encryption, hashing, or other cryptographic operations.",
+      "properties": {
+        "id": {
+          "allOf": [
+            {
+              "$ref": "../common/identifier.json"
+            },
+            {
+              "pattern": "^securityAlgorithm--"
+            }
+          ],
+          "description": "Unique identifier for this security algorithm."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the algorithm (e.g., 'AES-256-GCM', 'SHA-256')."
+        },
+        "type": {
+          "type": "string",
+          "description": "Type of algorithm (e.g., 'encryption', 'hashing', 'key_exchange', 'digital_signature')."
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description of the security algorithm."
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "type"
+      ]
+    },
+    "systemCollection": {
+      "type": "object",
+      "description": "A collection of related systems grouped together for organizational purposes and purely informational logical groupings.",
+      "properties": {
+        "id": {
+          "allOf": [
+            {
+              "$ref": "../common/identifier.json"
+            },
+            {
+              "pattern": "^systemCollection--"
+            }
+          ],
+          "description": "Unique identifier for this system collection."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the system collection."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the system collection and its purpose."
+        },
+        "systems": {
+          "type": "array",
+          "description": "List of references to systems that belong to this collection.",
+          "items": {
+            "$comment": "References: #/$defs/system",
+            "allOf": [
+              {
+                "$ref": "../common/identifier.json"
+              },
+              {
+                "pattern": "^system--"
+              }
+            ]
+          },
+          "default": []
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "systems"
+      ]
+    },
+    "connectionEndpoint": {
+      "type": "object",
+      "description": "An endpoint of a connection, referencing a component and optionally an interface.",
+      "properties": {
+        "component": {
+          "$comment": "References: #/$defs/system | #/$defs/hardware | #/$defs/software",
+          "description": "Reference to the component.",
+          "allOf": [
+            {
+              "$ref": "../common/identifier.json"
+            },
+            {
+              "pattern": "^(system|hardware|software)--"
+            }
+          ]
+        },
+        "interfaceId": {
+          "$comment": "References: #/$defs/interface",
+          "description": "Reference to the interface.",
+          "allOf": [
+            {
+              "$ref": "../common/identifier.json"
+            },
+            {
+              "pattern": "^interface--"
+            }
+          ]
+        }
+      },
+      "required": [
+        "component"
+      ]
+    },
+    "operationalData": {
+      "type": "object",
+      "description": "Operational data is the data communicated between components, as if 'running along the wires' so to speak. This data can be logical/notational or physical but it can be capsulated as a construct of data objects.",
+      "properties": {
+        "id": {
+          "allOf": [
+            {
+              "$ref": "../common/identifier.json"
+            },
+            {
+              "pattern": "^operationalData--"
+            }
+          ],
+          "description": "Unique identifier for this operational data."
+        },
+        "children": {
+          "type": "array",
+          "description": "List of references to child operational data.",
+          "items": {
+            "$comment": "References: #/$defs/operationalData",
+            "allOf": [
+              {
+                "$ref": "../common/identifier.json"
+              },
+              {
+                "pattern": "^operationalData--"
+              }
+            ]
+          },
+          "default": []
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the operational data."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the operational data."
+        },
+        "type": {
+          "type": "array",
+          "description": "References to the data types used by this operational data.",
+          "items": {
+            "$comment": "References: #/$defs/dataType",
+            "allOf": [
+              {
+                "$ref": "../common/identifier.json"
+              },
+              {
+                "pattern": "^dataType--"
+              }
+            ]
+          }
+        },
+        "security": {
+          "type": "array",
+          "description": "An array of references to security algorithms for data-at-rest.",
+          "items": {
+            "$comment": "References: #/$defs/securityAlgorithm",
+            "allOf": [
+              {
+                "$ref": "../common/identifier.json"
+              },
+              {
+                "pattern": "^securityAlgorithm--"
+              }
+            ]
+          },
+          "default": []
+        },
+        "classification": {
+          "type": "string",
+          "description": "Classification of the operational data.",
+          "$ref": "DataClassification.json#/$defs/classificationStatement"
+        },
+        "size": {
+          "type": "number",
+          "description": "Size of the operational data, in the units specified by memorySizeType."
+        },
+        "memorySizeTypeId": {
+          "$comment": "References: #/$defs/memorySizeType",
+          "description": "Reference to the size unit of the memory.",
+          "allOf": [
+            {
+              "$ref": "../common/identifier.json"
+            },
+            {
+              "pattern": "^memorySizeType--"
+            }
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ]
+    },
+    "connection": {
+      "type": "object",
+      "description": "A connection is a logical or physical link between two components that can be used to transfer data or information with each other.",
+      "properties": {
+        "id": {
+          "allOf": [
+            {
+              "$ref": "../common/identifier.json"
+            },
+            {
+              "pattern": "^connection--"
+            }
+          ],
+          "description": "Unique identifier for this connection."
+        },
+        "endpoint1": {
+          "description": "The first endpoint of the connection, where order does not matter.",
+          "$ref": "#/$defs/connectionEndpoint"
+        },
+        "endpoint2": {
+          "description": "The second endpoint of the connection, where order does not matter.",
+          "$ref": "#/$defs/connectionEndpoint"
+        },
+        "type": {
+          "$comment": "References: #/$defs/protocolType",
+          "description": "Reference to the protocol type used by this connection.",
+          "allOf": [
+            {
+              "$ref": "../common/identifier.json"
+            },
+            {
+              "pattern": "^protocolType--"
+            }
+          ]
+        },
+        "children": {
+          "type": "array",
+          "description": "List of references to child connections.",
+          "items": {
+            "$comment": "References: #/$defs/connection",
+            "allOf": [
+              {
+                "$ref": "../common/identifier.json"
+              },
+              {
+                "pattern": "^connection--"
+              }
+            ]
+          },
+          "default": []
+        },
+        "persistent": {
+          "type": "boolean",
+          "description": "Indicates if the connection is persistent (always on) or intermittent."
+        },
+        "security": {
+          "type": "array",
+          "description": "An array of references to security algorithms for data-in-transit.",
+          "items": {
+            "$comment": "References: #/$defs/securityAlgorithm",
+            "allOf": [
+              {
+                "$ref": "../common/identifier.json"
+              },
+              {
+                "pattern": "^securityAlgorithm--"
+              }
+            ]
+          },
+          "default": []
+        }
+      },
+      "required": [
+        "id",
+        "endpoint1",
+        "endpoint2"
+      ]
+    },
+    "connectionDirection": {
+      "type": "object",
+      "description": "The direction of the data transfer where the source and destination signify direction.",
+      "properties": {
+        "sourceComponent": {
+          "$comment": "References: #/$defs/system | #/$defs/hardware | #/$defs/software",
+          "description": "Reference to the source component.",
+          "allOf": [
+            {
+              "$ref": "../common/identifier.json"
+            },
+            {
+              "pattern": "^(system|hardware|software)--"
+            }
+          ]
+        },
+        "destinationComponent": {
+          "$comment": "References: #/$defs/system | #/$defs/hardware | #/$defs/software",
+          "description": "Reference to the destination component.",
+          "allOf": [
+            {
+              "$ref": "../common/identifier.json"
+            },
+            {
+              "pattern": "^(system|hardware|software)--"
+            }
+          ]
+        }
+      },
+      "required": [
+        "sourceComponent",
+        "destinationComponent"
+      ]
+    },
+    "connectionData": {
+      "type": "object",
+      "description": "The data that is transferred between two components through a connection where direction is specified.",
+      "properties": {
+        "id": {
+          "allOf": [
+            {
+              "$ref": "../common/identifier.json"
+            },
+            {
+              "pattern": "^connectionData--"
+            }
+          ],
+          "description": "Unique identifier for this connection data."
+        },
+        "connectionId": {
+          "$comment": "References: #/$defs/connection",
+          "description": "Reference to the connection this data refers to.",
+          "allOf": [
+            {
+              "$ref": "../common/identifier.json"
+            },
+            {
+              "pattern": "^connection--"
+            }
+          ]
+        },
+        "direction": {
+          "description": "The direction of the data transfer where the source and destination signify direction.",
+          "$ref": "#/$defs/connectionDirection"
+        },
+        "operationalDataIds": {
+          "type": "array",
+          "description": "References to operational data entries associated with this transfer.",
+          "items": {
+            "$comment": "References: #/$defs/operationalData",
+            "allOf": [
+              {
+                "$ref": "../common/identifier.json"
+              },
+              {
+                "pattern": "^operationalData--"
+              }
+            ]
+          },
+          "default": []
+        }
+      },
+      "required": [
+        "id",
+        "connectionId",
+        "direction"
+      ]
+    },
+    "memoryType": {
+      "type": "object",
+      "description": "Defines a type of memory, its characteristics, and whether it's volatile.",
+      "properties": {
+        "id": {
+          "allOf": [
+            {
+              "$ref": "../common/identifier.json"
+            },
+            {
+              "pattern": "^memoryType--"
+            }
+          ],
+          "description": "Unique identifier for this memory type."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the memory type (e.g., 'Static Random-Access Memory', 'Solid-State Drive')."
+        },
+        "acronym": {
+          "type": "string",
+          "description": "Acronym for the memory type (e.g., 'SRAM', 'SSD')."
+        },
+        "volatile": {
+          "type": "boolean",
+          "description": "Indicates if the memory is volatile (loses data when power is off)."
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "volatile"
+      ]
+    },
+    "memorySizeType": {
+      "type": "object",
+      "description": "Defines a unit of memory size.",
+      "properties": {
+        "id": {
+          "allOf": [
+            {
+              "$ref": "../common/identifier.json"
+            },
+            {
+              "pattern": "^memorySizeType--"
+            }
+          ],
+          "description": "Unique identifier for this memory size type."
+        },
+        "shortName": {
+          "type": "string",
+          "description": "Short name for the unit (e.g., 'GB', 'MiB')."
+        },
+        "longName": {
+          "type": "string",
+          "description": "Long name for the unit (e.g., 'Gigabyte', 'Mebibyte')."
+        },
+        "bytes": {
+          "type": "number",
+          "description": "The number of bytes this unit represents (e.g., 1024 for a kilobyte)."
+        }
+      },
+      "required": [
+        "id",
+        "shortName",
+        "longName",
+        "bytes"
+      ]
+    },
+    "memory": {
+      "type": "object",
+      "description": "Represents a memory instance associated with a component.",
+      "properties": {
+        "id": {
+          "allOf": [
+            {
+              "$ref": "../common/identifier.json"
+            },
+            {
+              "pattern": "^memory--"
+            }
+          ],
+          "description": "Unique identifier for this memory instance."
+        },
+        "component": {
+          "$comment": "References: #/$defs/system | #/$defs/hardware | #/$defs/software",
+          "description": "Reference to the component this memory is attached to.",
+          "allOf": [
+            {
+              "$ref": "../common/identifier.json"
+            },
+            {
+              "pattern": "^(system|hardware|software)--"
+            }
+          ]
+        },
+        "memoryTypeId": {
+          "$comment": "References: #/$defs/memoryType",
+          "description": "Reference to the type of memory.",
+          "allOf": [
+            {
+              "$ref": "../common/identifier.json"
+            },
+            {
+              "pattern": "^memoryType--"
+            }
+          ]
+        },
+        "size": {
+          "type": "number",
+          "description": "Size of the memory, in the units specified by memorySizeType."
+        },
+        "memorySizeTypeId": {
+          "$comment": "References: #/$defs/memorySizeType",
+          "description": "Reference to the size unit of the memory.",
+          "allOf": [
+            {
+              "$ref": "../common/identifier.json"
+            },
+            {
+              "pattern": "^memorySizeType--"
+            }
+          ]
+        },
+        "removable": {
+          "type": "boolean",
+          "description": "Indicates if the memory is removable.",
+          "default": false
+        },
+        "writable": {
+          "type": "boolean",
+          "description": "Indicates if the memory is writable.",
+          "default": true
+        },
+        "security": {
+          "type": "array",
+          "description": "An array of references to security algorithms for data-at-rest encryption.",
+          "items": {
+            "$comment": "References: #/$defs/securityAlgorithm",
+            "allOf": [
+              {
+                "$ref": "../common/identifier.json"
+              },
+              {
+                "pattern": "^securityAlgorithm--"
+              }
+            ]
+          },
+          "default": []
+        }
+      },
+      "required": [
+        "id",
+        "component",
+        "memoryTypeId",
+        "size",
+        "memorySizeTypeId"
+      ]
+    },
+    "functionType": {
+      "type": "object",
+      "description": "Defines a type or category of function (behavioral capability) that a component can realize (e.g., 'navigation', 'sensor fusion', 'key management').",
+      "properties": {
+        "id": {
+          "allOf": [
+            {
+              "$ref": "../common/identifier.json"
+            },
+            {
+              "pattern": "^functionType--"
+            }
+          ],
+          "description": "Unique identifier for this function type."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the function type."
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description of the function type and its typical uses."
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ]
+    },
+    "functionalDependency": {
+      "type": "object",
+      "description": "Defines a dependency relationship between two functions.",
+      "properties": {
+        "functionId": {
+          "$comment": "References: #/$defs/function",
+          "description": "Reference to a function this one depends on.",
+          "allOf": [
+            {
+              "$ref": "../common/identifier.json"
+            },
+            {
+              "pattern": "^function--"
+            }
+          ]
+        },
+        "dependencyType": {
+          "type": "string",
+          "enum": [
+            "FS",
+            "SS",
+            "FF",
+            "SF"
+          ],
+          "description": "Dependency type: FS (Finish-to-Start), SS (Start-to-Start), FF (Finish-to-Finish), SF (Start-to-Finish)."
+        }
+      },
+      "required": [
+        "functionId",
+        "dependencyType"
+      ]
+    },
+    "ciaTriad": {
+      "type": "object",
+      "description": "CIA ratings for confidentiality, integrity, and availability.",
+      "properties": {
+        "confidentiality": {
+          "$comment": "References: RiskManagementFramework.json#/$defs/ConfidentialityLevel",
+          "allOf": [
+            {
+              "$ref": "../common/identifier.json"
+            },
+            {
+              "pattern": "^confidentialityLevel--"
+            }
+          ]
+        },
+        "integrity": {
+          "$comment": "References: RiskManagementFramework.json#/$defs/IntegrityLevel",
+          "allOf": [
+            {
+              "$ref": "../common/identifier.json"
+            },
+            {
+              "pattern": "^integrityLevel--"
+            }
+          ]
+        },
+        "availability": {
+          "$comment": "References: RiskManagementFramework.json#/$defs/AvailabilityLevel",
+          "allOf": [
+            {
+              "$ref": "../common/identifier.json"
+            },
+            {
+              "pattern": "^availabilityLevel--"
+            }
+          ]
+        }
+      },
+      "required": [
+        "confidentiality",
+        "integrity",
+        "availability"
+      ]
+    },
+    "functionDataInput": {
+      "type": "object",
+      "description": "Defines an input data item for a function, including the operational data and its CIA ratings.",
+      "properties": {
+        "operationalDataId": {
+          "$comment": "References: #/$defs/operationalData",
+          "description": "Reference to operational data consumed by the function.",
+          "allOf": [
+            {
+              "$ref": "../common/identifier.json"
+            },
+            {
+              "pattern": "^operationalData--"
+            }
+          ]
+        },
+        "ciaTriad": {
+          "description": "CIA ratings for this data in the context of this function.",
+          "$ref": "#/$defs/ciaTriad"
+        }
+      },
+      "required": [
+        "operationalDataId"
+      ]
+    },
+    "function": {
+      "type": "object",
+      "description": "A function represents a discrete, externally observable behavior that a component (system, hardware, or software) performs under specified conditions. Functions describe what the component does, independent of how it is implemented, and can be decomposed into sub-functions, allocated across multiple components, and sequenced through dependency relationships.",
+      "properties": {
+        "id": {
+          "allOf": [
+            {
+              "$ref": "../common/identifier.json"
+            },
+            {
+              "pattern": "^function--"
+            }
+          ],
+          "description": "Unique identifier for this function."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the function."
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description of the behavior, purpose, operating context, assumptions, and boundaries of the function."
+        },
+        "functionType": {
+          "$comment": "References: #/$defs/functionType",
+          "description": "Reference to the category/type of the function.",
+          "allOf": [
+            {
+              "$ref": "../common/identifier.json"
+            },
+            {
+              "pattern": "^functionType--"
+            }
+          ]
+        },
+        "safetyCritical": {
+          "type": "boolean",
+          "description": "Indicates if failure or malfunction of this function could cause significant physical harm or environmental risk."
+        },
+        "performedBy": {
+          "$comment": "References: #/$defs/system | #/$defs/hardware | #/$defs/software",
+          "description": "Component that realizes/performs this function.",
+          "allOf": [
+            {
+              "$ref": "../common/identifier.json"
+            },
+            {
+              "pattern": "^(system|hardware|software)--"
+            }
+          ]
+        },
+        "children": {
+          "type": "array",
+          "description": "List of references to child (decomposed) functions.",
+          "items": {
+            "$comment": "References: #/$defs/function",
+            "allOf": [
+              {
+                "$ref": "../common/identifier.json"
+              },
+              {
+                "pattern": "^function--"
+              }
+            ]
+          },
+          "default": []
+        },
+        "dependsOn": {
+          "type": "array",
+          "description": "Function dependencies and their relationship types.",
+          "items": {
+            "$ref": "#/$defs/functionalDependency"
+          },
+          "default": []
+        },
+        "inputs": {
+          "type": "array",
+          "description": "Operational data consumed by this function, if applicable.",
+          "items": {
+            "$ref": "#/$defs/functionDataInput"
+          },
+          "default": []
+        },
+        "outputs": {
+          "type": "array",
+          "description": "Operational data produced by this function, if applicable.",
+          "items": {
+            "$comment": "References: #/$defs/operationalData",
+            "allOf": [
+              {
+                "$ref": "../common/identifier.json"
+              },
+              {
+                "pattern": "^operationalData--"
+              }
+            ]
+          },
+          "default": []
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "performedBy"
+      ]
+    }
+  },
+  "properties": {
+    "systemTypes": {
+      "type": "array",
+      "description": "A collection of system types.",
+      "items": {
+        "$ref": "#/$defs/systemType"
+      }
+    },
+    "hardwareTypes": {
+      "type": "array",
+      "description": "A collection of hardware types.",
+      "items": {
+        "$ref": "#/$defs/hardwareType"
+      }
+    },
+    "softwareTypes": {
+      "type": "array",
+      "description": "A collection of software types.",
+      "items": {
+        "$ref": "#/$defs/softwareType"
+      }
+    },
+    "systems": {
+      "type": "array",
+      "description": "A collection of system components.",
+      "items": {
+        "$ref": "#/$defs/system"
+      }
+    },
+    "hardware": {
+      "type": "array",
+      "description": "A collection of hardware components.",
+      "items": {
+        "$ref": "#/$defs/hardware"
+      }
+    },
+    "software": {
+      "type": "array",
+      "description": "A collection of software components.",
+      "items": {
+        "$ref": "#/$defs/software"
+      }
+    },
+    "protocolTypes": {
+      "type": "array",
+      "description": "A collection of protocol types.",
+      "items": {
+        "$ref": "#/$defs/protocolType"
+      }
+    },
+    "connections": {
+      "type": "array",
+      "description": "A collection of undirected connections between component interfaces.",
+      "items": {
+        "$ref": "#/$defs/connection"
+      }
+    },
+    "connectionData": {
+      "type": "array",
+      "description": "A collection of directional data transfers referencing connections and operational data.",
+      "items": {
+        "$ref": "#/$defs/connectionData"
+      }
+    },
+    "operationalData": {
+      "type": "array",
+      "description": "A collection of operational data entries for components.",
+      "items": {
+        "$ref": "#/$defs/operationalData"
+      }
+    },
+    "memory": {
+      "type": "array",
+      "description": "A collection of memory objects.",
+      "items": {
+        "$ref": "#/$defs/memory"
+      }
+    },
+    "memoryTypes": {
+      "type": "array",
+      "description": "A collection of memory types.",
+      "items": {
+        "$ref": "#/$defs/memoryType"
+      }
+    },
+    "memorySizeTypes": {
+      "type": "array",
+      "description": "A collection of memory size types.",
+      "items": {
+        "$ref": "#/$defs/memorySizeType"
+      }
+    },
+    "dataTypes": {
+      "type": "array",
+      "description": "A collection of data types.",
+      "items": {
+        "$ref": "#/$defs/dataType"
+      }
+    },
+    "securityAlgorithms": {
+      "type": "array",
+      "description": "A collection of security algorithms.",
+      "items": {
+        "$ref": "#/$defs/securityAlgorithm"
+      }
+    },
+    "systemCollections": {
+      "type": "array",
+      "description": "A collection of system collections that group related systems together.",
+      "items": {
+        "$ref": "#/$defs/systemCollection"
+      }
+    },
+    "functionTypes": {
+      "type": "array",
+      "description": "A collection of function types.",
+      "items": {
+        "$ref": "#/$defs/functionType"
+      }
+    },
+    "interfaces": {
+      "type": "array",
+      "description": "A collection of interface objects.",
+      "items": {
+        "$ref": "#/$defs/interface"
+      }
+    },
+    "functions": {
+      "type": "array",
+      "description": "A collection of functions performed by components.",
+      "items": {
+        "$ref": "#/$defs/function"
+      }
+    }
+  }
+}

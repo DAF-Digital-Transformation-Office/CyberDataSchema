@@ -1,0 +1,151 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://web.git.mil/daf-digital-transformation-office/CyberDataSchema/SubSchemas/SystemSecurityEngineering.json",
+    "title": "System Security Engineering Data Schema",
+    "description": "A schema for managing the application of security controls and overlays to specific systems.",
+    "$comment": {
+        "version": "2.0.0",
+        "releaseDate": "2026-02-02"
+    },
+    "type": "object",
+    "$defs": {
+        "systemOverlay": {
+            "type": "object",
+            "description": "Associates a security control overlay with a specific system and defines its applicability.",
+            "properties": {
+                "id": {
+                    "allOf": [
+                        { "$ref": "../common/identifier.json" },
+                        { "pattern": "^systemOverlay--" }
+                    ],
+                    "description": "A unique primary key identifier."
+                },
+                "system": {
+                    "$comment": "References: SystemArchitecture.json#/$defs/system, hardwareType, or softwareType",
+                    "description": "Reference to the system to which the overlay applies.",
+                    "allOf": [
+                        { "$ref": "../common/identifier.json" },
+                        { "pattern": "^(system|hardwareType|softwareType)--" }
+                    ]
+                },
+                "overlayId": {
+                    "$comment": "References: SecurityControls.json#/$defs/securityControlOverlay",
+                    "description": "A reference to the UUID of the security control overlay being applied.",
+                    "allOf": [
+                        { "$ref": "../common/identifier.json" },
+                        { "pattern": "^securityControlOverlay--" }
+                    ]
+                },
+                "applicability": {
+                    "type": "object",
+                    "description": "Indicates if the overlay is applicable to this system. If not applicable, provides the reasoning.",
+                    "properties": {
+                        "applicable": {
+                            "type": "boolean",
+                            "description": "True if the overlay is relevant for this system; false if not applicable."
+                        },
+                        "reasoning": {
+                            "type": "string",
+                            "description": "If 'applicable' is false, this field provides the rationale or justification for non-applicability.",
+                            "default": ""
+                        }
+                    },
+                    "required": [
+                        "applicable"
+                    ]
+                }
+            },
+            "required": [
+                "id",
+                "system",
+                "overlayId"
+            ]
+        },
+        "systemSecurityControl": {
+            "type": "object",
+            "description": "Associates a security control with a particular system, hardware, or software, capturing applicability, compliance, and tailored implementation to support system-specific security assessments.",
+            "properties": {
+                "id": {
+                    "allOf": [
+                        { "$ref": "../common/identifier.json" },
+                        { "pattern": "^systemSecurityControl--" }
+                    ],
+                    "description": "A unique primary key identifier."
+                },
+                "component": {
+                    "$comment": "References: SystemArchitecture.json#/$defs/system, hardwareType, or softwareType",
+                    "description": "Reference to the system, hardware, or software to which this control applies.",
+                    "allOf": [
+                        { "$ref": "../common/identifier.json" },
+                        { "pattern": "^(system|hardwareType|softwareType)--" }
+                    ]
+                },
+                "controlId": {
+                    "$comment": "References: SecurityControls.json#/$defs/securityControl",
+                    "description": "A reference to the UUID of the security control being evaluated for this system; can reference standard or custom controls.",
+                    "allOf": [
+                        { "$ref": "../common/identifier.json" },
+                        { "pattern": "^securityControl--" }
+                    ]
+                },
+                "applicability": {
+                    "type": "object",
+                    "description": "Indicates if the control is applicable to this system. If not applicable, provides the reasoning.",
+                    "properties": {
+                        "applicable": {
+                            "type": "boolean",
+                            "description": "True if the control is relevant and should be implemented for this system; false if not applicable."
+                        },
+                        "reasoning": {
+                            "type": "string",
+                            "description": "Explaination of why the control is applicable or not applicable to the given system.",
+                            "default": ""
+                        }
+                    },
+                    "required": [
+                        "applicable"
+                    ]
+                },
+                "compliant": {
+                    "type": "boolean",
+                    "description": "A flag denoting if the system meets the requirements of this control, used for compliance reporting."
+                },
+                "implementationStatus": {
+                    "type": "string",
+                    "description": "The current state of the control's implementation on the system.",
+                    "enum": [
+                        "Implemented",
+                        "Partially Implemented",
+                        "Planned",
+                        "Not Implemented"
+                    ]
+                },
+                "discussion": {
+                    "type": "string",
+                    "description": "Narrative details on how the control is implemented, any deviations, compensating measures, or reasons for non-applicability/compliance."
+                }
+            },
+            "required": [
+                "id",
+                "component",
+                "controlId"
+            ]
+        }
+    },
+    "properties": {
+        "systemOverlays": {
+            "type": "array",
+            "description": "A list of associations between systems and security control overlays.",
+            "items": {
+                "$ref": "#/$defs/systemOverlay"
+            }
+        },
+        "systemSecurityControls": {
+            "type": "array",
+            "description": "An array tracking the application of security controls to specific systems, including compliance status and implementation details, for system-level risk management and auditing.",
+            "items": {
+                "$ref": "#/$defs/systemSecurityControl"
+            }
+        }
+    }
+}

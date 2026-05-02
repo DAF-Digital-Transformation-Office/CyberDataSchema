@@ -1,0 +1,171 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://web.git.mil/daf-digital-transformation-office/CyberDataSchema/SubSchemas/LogicalExpressions.json",
+  "title": "Logical Expressions",
+  "description": "JSON Schema for logical expressions, comparisons, operands, and subjects used for quantitative evaluation.",
+  "$comment": {
+    "version": "2.0.0",
+    "releaseDate": "2026-02-02"
+  },
+  "type": "object",
+  "$defs": {
+    "logicalExpression": {
+      "type": "object",
+      "description": "A logical expression is a verifiable statement composed of one or more comparisons or other expressions.",
+      "properties": {
+        "id": {
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^logicalExpression--" }
+          ],
+          "description": "Unique identifier for this logical expression."
+        },
+        "name": {
+          "type": "string",
+          "description": "Optional short label or title for this expression."
+        },
+        "description": {
+          "type": "string",
+          "description": "Human-readable explanation of what this logical expression represents."
+        },
+        "conjunction": {
+          "type": "string",
+          "enum": ["AND", "OR"],
+          "description": "How to combine the referenced clauses: AND = all must be true, OR = any must be true."
+        },
+        "comparisonIds": {
+          "type": "array",
+          "items": {
+            "$comment": "References: #/$defs/comparison",
+            "allOf": [
+              { "$ref": "../common/identifier.json" },
+              { "pattern": "^comparison--" }
+            ]
+          },
+          "description": "List of comparison identifiers that belong to this logical expression."
+        },
+        "expressionIds": {
+          "type": "array",
+          "items": {
+            "$comment": "References: #/$defs/logicalExpression",
+            "allOf": [
+              { "$ref": "../common/identifier.json" },
+              { "pattern": "^logicalExpression--" }
+            ]
+          },
+          "description": "List of subordinate logical expression identifiers combined under this one."
+        }
+      },
+      "required": ["id"],
+      "additionalProperties": false
+    },
+    "comparison": {
+      "type": "object",
+      "description": "A single verifiable comparison statement (e.g., speed >= 120 mph).",
+      "properties": {
+        "id": {
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^comparison--" }
+          ],
+          "description": "Unique identifier for this comparison statement."
+        },
+        "subject": {
+          "$comment": "References: #/$defs/subject",
+          "description": "Reference to a subject representing the measurable attribute or data item being compared.",
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^subject--" }
+          ]
+        },
+        "operator": {
+          "type": "string",
+          "enum": ["==", "!=", ">", ">=", "<", "<=", "IN", "NOT IN"],
+          "description": "The operator defining how to compare the subject to the target value."
+        },
+        "target": {
+          "$ref": "#/$defs/operand",
+          "description": "The right-hand operand — a value or set of values with optional unit."
+        }
+      },
+      "required": ["id", "subject", "operator", "target"],
+      "additionalProperties": false
+    },
+    "operand": {
+      "type": "object",
+      "description": "A value or array of values, with an optional unit, used as a comparison target.",
+      "properties": {
+        "value": {
+          "oneOf": [
+            { "$ref": "#/$defs/operandValue" },
+            {
+              "type": "array",
+              "items": { "$ref": "#/$defs/operandValue" },
+              "description": "Array of permissible values (for IN or NOT IN operators)."
+            }
+          ]
+        },
+        "unit": {
+          "type": ["string", "null"],
+          "description": "Optional unit of measure (e.g., 'mph', 'kg')."
+        }
+      },
+      "required": ["value"],
+      "additionalProperties": false
+    },
+    "operandValue": {
+      "description": "Primitive value used in a comparison.",
+      "oneOf": [
+        { "type": "number" },
+        { "type": "string" },
+        { "type": "boolean" },
+        { "type": "null" }
+      ]
+    },
+    "subject": {
+      "type": "object",
+      "description": "Defines a measurable attribute or data item that can be compared.",
+      "properties": {
+        "id": {
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^subject--" }
+          ],
+          "description": "Unique identifier for the subject."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the subject (e.g., parameter or metric name)."
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description of what the subject represents."
+        }
+      },
+      "required": ["id", "name"]
+    }
+  },
+  "properties": {
+    "subjects": {
+      "type": "array",
+      "description": "A collection of subjects.",
+      "items": {
+        "$ref": "#/$defs/subject"
+      }
+    },
+    "comparisons": {
+      "type": "array",
+      "description": "A collection of comparisons.",
+      "items": {
+        "$ref": "#/$defs/comparison"
+      }
+    },
+    "logicalExpressions": {
+      "type": "array",
+      "description": "A collection of logical expressions.",
+      "items": {
+        "$ref": "#/$defs/logicalExpression"
+      }
+    }
+  }
+}

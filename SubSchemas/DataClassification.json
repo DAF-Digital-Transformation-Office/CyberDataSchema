@@ -1,0 +1,202 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://web.git.mil/daf-digital-transformation-office/CyberDataSchema/SubSchemas/DataClassification.json",
+  "title": "Data Classification",
+  "description": "A schema for representing data classification concepts, including classification types, statements, disseminations, and control caveats.",
+  "$comment": {
+    "version": "2.0.0",
+    "releaseDate": "2026-02-02"
+  },
+  "type": "object",
+  "$defs": {
+    "classificationType": {
+      "type": "object",
+      "description": "Reference Table of Classification Types, ie Confidential, Secret, Top Secret, or Unclassified.",
+      "properties": {
+        "id": {
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^classificationType--" }
+          ],
+          "description": "Unique identifier for this classification type."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the Classification."
+        },
+        "acronym": {
+          "type": "string",
+          "description": "Acronym for the classification."
+        },
+        "groupOfOwnership": {
+          "$comment": "References: Entities.json#/$defs/organization",
+          "description": "The organization that owns this classification type.",
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^organization--" }
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ]
+    },
+    "dissemination": {
+      "type": "object",
+      "description": "Process or policy governing how information is distributed or transmitted among authorized recipients. It concerns the methods and channels through which classified or sensitive information can be shared, ensuring that such sharing respects the security protocols and access controls in place.",
+      "properties": {
+        "id": {
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^dissemination--" }
+          ],
+          "description": "Unique identifier for this dissemination."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the Dissemination."
+        },
+        "codeName": {
+          "type": "string",
+          "description": "If this Dissemination is a Program Identifier, then this is the value of it."
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ]
+    },
+    "classificationControlCaveat": {
+      "type": "object",
+      "description": "Specific markers or notations applied to classified information that impose additional handling restrictions beyond the basic classification level. These caveats are used to limit access to information within a specific group of users or for a particular purpose. For example, a control caveat might specify that certain information can only be accessed by individuals involved in a specific operation or mission, regardless of their general security clearance level. Common caveats include NOFORN, REL TO, etc.",
+      "properties": {
+        "id": {
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^classificationControlCaveat--" }
+          ],
+          "description": "Unique identifier for this classification control caveat."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the Information Protection Control."
+        },
+        "acronym": {
+          "type": "string",
+          "description": "Acronym of the Information Protection Control."
+        },
+        "children": {
+          "type": "array",
+          "description": "Collection of children Control Caveats that fall under this one.",
+          "items": {
+            "$comment": "References: #/$defs/classificationControlCaveat",
+            "allOf": [
+              { "$ref": "../common/identifier.json" },
+              { "pattern": "^classificationControlCaveat--" }
+            ]
+          }
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ]
+    },
+    "classificationStatement": {
+      "type": "object",
+      "description": "Full classification statements that include the Dissemination and Control Caveats.",
+      "properties": {
+        "id": {
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^classificationStatement--" }
+          ],
+          "description": "Unique identifier for this classification statement."
+        },
+        "name": {
+          "type": "string",
+          "description": "Spelled out classification statement. Ie, CUI//NOFORN."
+        },
+        "classificationTypes": {
+          "type": "array",
+          "description": "An array of references to Classification Types.",
+          "items": {
+            "$comment": "References: #/$defs/classificationType",
+            "allOf": [
+              { "$ref": "../common/identifier.json" },
+              { "pattern": "^classificationType--" }
+            ]
+          }
+        },
+        "disseminations": {
+          "type": "array",
+          "description": "An array of references to Disseminations.",
+          "items": {
+            "$comment": "References: #/$defs/dissemination",
+            "allOf": [
+              { "$ref": "../common/identifier.json" },
+              { "pattern": "^dissemination--" }
+            ]
+          }
+        },
+        "controlCaveats": {
+          "type": "array",
+          "description": "An array of references to Classification Control Caveats.",
+          "items": {
+            "$comment": "References: #/$defs/classificationControlCaveat",
+            "allOf": [
+              { "$ref": "../common/identifier.json" },
+              { "pattern": "^classificationControlCaveat--" }
+            ]
+          }
+        },
+        "releasabilityGroups": {
+          "type": "array",
+          "description": "An array of organizations to which this is releasable.",
+          "items": {
+            "$comment": "References: Entities.json#/$defs/organization",
+            "allOf": [
+              { "$ref": "../common/identifier.json" },
+              { "pattern": "^organization--" }
+            ]
+          }
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ]
+    }
+  },
+  "properties": {
+    "classificationTypes": {
+      "type": "array",
+      "description": "A collection of classification types.",
+      "items": {
+        "$ref": "#/$defs/classificationType"
+      }
+    },
+    "classificationStatements": {
+      "type": "array",
+      "description": "A collection of classification statements.",
+      "items": {
+        "$ref": "#/$defs/classificationStatement"
+      }
+    },
+    "disseminations": {
+      "type": "array",
+      "description": "A collection of disseminations.",
+      "items": {
+        "$ref": "#/$defs/dissemination"
+      }
+    },
+    "classificationControlCaveats": {
+      "type": "array",
+      "description": "A collection of classification control caveats.",
+      "items": {
+        "$ref": "#/$defs/classificationControlCaveat"
+      }
+    }
+  }
+} 

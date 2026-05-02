@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://web.git.mil/daf-digital-transformation-office/CyberDataSchema/SubSchemas/TestEngineering.json",
+  "title": "Test Engineering",
+  "description": "JSON Schema for test engineering artifacts, focusing on measures of performance for systems against defined subjects.",
+  "$comment": {
+    "version": "2.0.0",
+    "releaseDate": "2026-02-02"
+  },
+  "type": "object",
+  "$defs": {
+    "measureOfPerformance": {
+      "type": "object",
+      "description": "Represents how a specific system performs against a set of subjects (metrics).",
+      "properties": {
+        "id": {
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^measureOfPerformance--" }
+          ],
+          "description": "Unique identifier for this measure of performance entry."
+        },
+        "name": {
+          "type": "string",
+          "description": "Optional short label or title for this measure of performance."
+        },
+        "description": {
+          "type": "string",
+          "description": "Human-readable description of the measurement context and methodology."
+        },
+        "system": {
+          "$comment": "References: SystemArchitecture.json#/$defs/system, hardwareType, or softwareType",
+          "description": "Reference to the component (system, hardware, or software) whose performance is being measured.",
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^(system|hardwareType|softwareType)--" }
+          ]
+        },
+        "subjectValues": {
+          "type": "array",
+          "description": "List pairing subjects to observed values for this system.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "subjectId": {
+                "$comment": "References: LogicalExpressions.json#/$defs/subject",
+                "description": "Reference to a subject UUID representing the measurable attribute.",
+                "allOf": [
+                  { "$ref": "../common/identifier.json" },
+                  { "pattern": "^subject--" }
+                ]
+              },
+              "value": {
+                "$ref": "LogicalExpressions.json#/$defs/operand",
+                "description": "Observed value(s) for the subject, optionally with unit."
+              }
+            },
+            "required": ["subjectId", "value"],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": ["id", "system", "subjectValues"],
+      "additionalProperties": false
+    }
+  },
+  "properties": {
+    "measuresOfPerformance": {
+      "type": "array",
+      "description": "A collection of measures of performance.",
+      "items": {
+        "$ref": "#/$defs/measureOfPerformance"
+      }
+    }
+  }
+}

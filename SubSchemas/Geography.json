@@ -1,0 +1,234 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://web.git.mil/daf-digital-transformation-office/CyberDataSchema/SubSchemas/Geography.json",
+  "title": "Geography",
+  "description": "A schema for representing geographical entities (e.g., addresses, cities) and physical buildings, with hierarchical relationships.",
+  "$comment": {
+    "version": "2.0.0",
+    "releaseDate": "2026-02-02"
+  },
+  "type": "object",
+  "$defs": {
+    "GeographicalEntity": {
+      "type": "object",
+      "description": "A geographical entity such as an address, city, state, county, or country.",
+      "properties": {
+        "id": {
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^geographicalEntity--" }
+          ],
+          "description": "Unique identifier for this geographical entity."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the geographical entity (e.g., 'New York City', '123 Main St')."
+        },
+        "acronym": {
+          "type": "string",
+          "description": "Acronym or abbreviation for the geographical entity (e.g., 'NYC' for New York City, 'CA' for California)."
+        },
+        "description": {
+          "type": "string",
+          "description": "A human-readable description of the geographical entity."
+        },
+        "type": {
+          "$comment": "References: #/$defs/GeographyType",
+          "description": "Reference to a GeographyType.",
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^geographyType--" }
+          ]
+        },
+        "coordinates": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "description": "Geographical exact coordinate pair of the entity.",
+          "$ref": "#/$defs/Coordinates"
+        },
+        "boundary": {
+          "type": "array",
+          "description": "Boundary or perimeter of the geographical entity, represented as a polygon (array of coordinates that closes the loop).",
+          "items": {
+            "$ref": "#/$defs/Coordinates"
+          }
+        },
+        "isChildOf": {
+          "type": "array",
+          "description": "List of references to parent geographical entities (e.g., a city within a state).",
+          "items": {
+            "$comment": "References: #/$defs/GeographicalEntity",
+            "description": "Reference to a parent geographical entity.",
+            "allOf": [
+              { "$ref": "../common/identifier.json" },
+              { "pattern": "^geographicalEntity--" }
+            ]
+          }
+        },
+        "details": {
+          "type": "object",
+          "description": "Additional details about the entity (e.g., population for a city).",
+          "additionalProperties": true
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ]
+    },
+    "Building": {
+      "type": "object",
+      "description": "A physical building or structure tied to a geographical entity.",
+      "properties": {
+        "id": {
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^building--" }
+          ],
+          "description": "Unique identifier for this building."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the building (e.g., 'Empire State Building')."
+        },
+        "type": {
+          "$comment": "References: #/$defs/BuildingType",
+          "description": "Reference to a BuildingType.",
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^buildingType--" }
+          ]
+        },
+        "address": {
+          "$comment": "References: #/$defs/GeographicalEntity",
+          "description": "Reference to a geographical entity associated with an address type.",
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^geographicalEntity--" }
+          ]
+        },
+        "coordinates": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "description": "Optional precise coordinates of the building.",
+          "$ref": "#/$defs/Coordinates"
+        },
+        "details": {
+          "type": "object",
+          "description": "Additional details about the building (e.g., height, purpose).",
+          "additionalProperties": true
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ]
+    },
+    "Coordinates": {
+      "type": "object",
+      "description": "Geographical coordinates.",
+      "properties": {
+        "latitude": {
+          "type": "number",
+          "minimum": -90,
+          "maximum": 90,
+          "description": "Latitude in degrees."
+        },
+        "longitude": {
+          "type": "number",
+          "minimum": -180,
+          "maximum": 180,
+          "description": "Longitude in degrees."
+        }
+      },
+      "required": [
+        "latitude",
+        "longitude"
+      ]
+    },
+    "GeographyType": {
+      "type": "object",
+      "description": "A unique type for geographical entities.",
+      "properties": {
+        "id": {
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^geographyType--" }
+          ],
+          "description": "Unique identifier for this geography type."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the geography type (e.g., 'address', 'city', 'state', 'county', 'country', 'other')."
+        },
+        "description": {
+          "type": "string",
+          "description": "Optional description of the geography type."
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ]
+    },
+    "BuildingType": {
+      "type": "object",
+      "description": "A unique type for buildings.",
+      "properties": {
+        "id": {
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^buildingType--" }
+          ],
+          "description": "Unique identifier for this building type."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the building type (e.g., 'residential', 'commercial', 'historical')."
+        },
+        "description": {
+          "type": "string",
+          "description": "Optional description of the building type."
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ]
+    }
+  },
+  "properties": {
+    "geographicalEntities": {
+      "type": "array",
+      "description": "A collection of geographical entities such as addresses, cities, states, etc.",
+      "items": {
+        "$ref": "#/$defs/GeographicalEntity"
+      }
+    },
+    "buildings": {
+      "type": "array",
+      "description": "A collection of physical buildings or structures.",
+      "items": {
+        "$ref": "#/$defs/Building"
+      }
+    },
+    "geographyTypes": {
+      "type": "array",
+      "description": "A collection of unique geography types.",
+      "items": {
+        "$ref": "#/$defs/GeographyType"
+      }
+    },
+    "buildingTypes": {
+      "type": "array",
+      "description": "A collection of unique building types.",
+      "items": {
+        "$ref": "#/$defs/BuildingType"
+      }
+    }
+  }
+}

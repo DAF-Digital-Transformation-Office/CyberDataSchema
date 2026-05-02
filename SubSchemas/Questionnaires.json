@@ -1,0 +1,199 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://web.git.mil/daf-digital-transformation-office/CyberDataSchema/SubSchemas/Questionnaires.json",
+  "title": "Questionnaire Schema",
+  "description": "A generic schema for questionnaires and their responses",
+  "$comment": {
+    "version": "2.0.0",
+    "releaseDate": "2026-02-02"
+  },
+  "type": "object",
+  "$defs": {
+    "questionnaire": {
+      "type": "object",
+      "description": "A questionnaire is a collection of questions and answers that are used to collect information from a subject.",
+      "properties": {
+        "id": {
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^questionnaire--" }
+          ],
+          "description": "Unique identifier for this questionnaire."
+        },
+        "title": {
+          "type": "string",
+          "description": "Title or name of the questionnaire"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the questionnaire's purpose or scope"
+        },
+        "managingOrganization": {
+          "$comment": "References: Entities.json#/$defs/organization",
+          "description": "Reference to the organization that manages the questionnaire.",
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^organization--" }
+          ]
+        },
+        "version": {
+          "type": "string",
+          "description": "Version number of the questionnaire"
+        },
+        "creationDate": {
+          "type": "string",
+          "format": "date",
+          "description": "Date the questionnaire was created"
+        },
+        "supersededBy": {
+          "$comment": "References: #/$defs/questionnaire",
+          "description": "Reference to the questionnaire that supersedes this one, if any.",
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^questionnaire--" }
+          ]
+        },
+        "questions": {
+          "type": "array",
+          "description": "The actual questions in the questionnaire.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "allOf": [
+                  { "$ref": "../common/identifier.json" },
+                  { "pattern": "^question--" }
+                ],
+                "description": "Unique identifier for this question."
+              },
+              "text": {
+                "type": "string",
+                "description": "The question text"
+              },
+              "reference": {
+                "type": "string",
+                "description": "Reference to standards or documentation (e.g., CNSSI 1253F)"
+              },
+              "responseType": {
+                "type": "string",
+                "enum": [
+                  "boolean",
+                  "text",
+                  "multiple_choice",
+                  "number"
+                ],
+                "description": "Type of response expected for the question"
+              },
+              "options": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Possible options for multiple_choice response type"
+              }
+            },
+            "required": [
+              "id",
+              "text",
+              "responseType"
+            ]
+          }
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "questions",
+        "managingOrganization",
+        "version",
+        "creationDate"
+      ]
+    },
+    "questionnaireResponseSet": {
+      "type": "object",
+      "description": "A questionnaire response set is a collection of responses to a specific questionnaire.",
+      "properties": {
+        "id": {
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^questionnaireResponseSet--" }
+          ],
+          "description": "Unique identifier for this questionnaire response set."
+        },
+        "questionnaire": {
+          "$comment": "References: #/$defs/questionnaire",
+          "description": "Reference to the questionnaire.",
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^questionnaire--" }
+          ]
+        },
+        "responses": {
+          "type": "array",
+          "description": "The actual responses to the questions in the questionnaire.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "questionId": {
+                "$comment": "References: #/$defs/questionnaire questions",
+                "description": "Reference to the question.",
+                "allOf": [
+                  { "$ref": "../common/identifier.json" },
+                  { "pattern": "^question--" }
+                ]
+              },
+              "responseValue": {
+                "type": [
+                  "boolean",
+                  "string",
+                  "number",
+                  "null"
+                ],
+                "description": "The response value, type depends on question's response_type"
+              }
+            },
+            "required": [
+              "questionId",
+              "responseValue"
+            ]
+          }
+        },
+        "completedBy": {
+          "type": "array",
+          "description": "List of references to the people who completed the questionnaire",
+          "items": {
+            "$comment": "References: Entities.json#/$defs/person",
+            "allOf": [
+              { "$ref": "../common/identifier.json" },
+              { "pattern": "^person--" }
+            ]
+          }
+        },
+          "completedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the questionnaire was completed"
+        }
+      },
+      "required": [
+        "id",
+        "questionnaire",
+        "responses"
+      ]
+    }
+  },
+  "properties": {
+    "questionnaires": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/questionnaire"
+      }
+    },
+    "questionnaireResponseSets": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/questionnaireResponseSet"
+      }
+    }
+  }
+}

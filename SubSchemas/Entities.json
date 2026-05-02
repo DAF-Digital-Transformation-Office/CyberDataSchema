@@ -1,0 +1,382 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://web.git.mil/daf-digital-transformation-office/CyberDataSchema/SubSchemas/Entities.json",
+  "title": "Entities",
+  "description": "A collection of entities representing organizations, people, and their relationships.",
+  "$comment": {
+    "version": "2.0.0",
+    "releaseDate": "2026-02-02"
+  },
+  "type": "object",
+  "$defs": {
+    "organizationType": {
+      "type": "object",
+      "description": "The type of organization.",
+      "properties": {
+        "id": {
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^organizationType--" }
+          ],
+          "description": "Unique identifier for this organization type."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the organization type."
+        },
+        "description": {
+          "type": "string",
+          "description": "A brief description of the organization type."
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ]
+    },
+    "organization": {
+      "type": "object",
+      "description": "Represents a formal organization, such as a company, non-profit, or government body.",
+      "properties": {
+        "id": {
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^organization--" }
+          ],
+          "description": "Unique identifier for this organization."
+        },
+        "name": {
+          "type": "string",
+          "description": "The legal name of the organization."
+        },
+        "acronym": {
+          "type": "string",
+          "description": "A short abbreviation or acronym for the organization."
+        },
+        "description": {
+          "type": "string",
+          "description": "A brief description of the organization."
+        },
+        "creationDate": {
+          "type": "string",
+          "format": "date",
+          "description": "The date the organization was founded or created (YYYY-MM-DD)."
+        },
+        "type": {
+          "$comment": "References: #/$defs/organizationType",
+          "description": "The type of organization.",
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^organizationType--" }
+          ]
+        },
+        "contactInformation": {
+          "type": "array",
+          "description": "A list of contact details for the organization.",
+          "items": {
+            "$ref": "#/$defs/contactInformation"
+          }
+        },
+        "geographicalLocations": {
+          "type": "array",
+          "description": "A list of geographical locations associated with the organization.",
+          "items": {
+            "type": "object",
+            "description": "A reference to a geographical location for an organization, with a description of its purpose.",
+            "properties": {
+              "geographicalEntityId": {
+                "$comment": "References: Geography.json#/$defs/GeographicalEntity",
+                "description": "Reference to a geographical entity from the Geography schema.",
+                "allOf": [
+                  { "$ref": "../common/identifier.json" },
+                  { "pattern": "^geographicalEntity--" }
+                ]
+              },
+              "description": {
+                "type": "string",
+                "description": "A description of the organization's use of this location (e.g., 'Headquarters', 'Regional Office')."
+              }
+            },
+            "required": [
+              "geographicalEntityId"
+            ]
+          }
+        },
+        "buildingLocations": {
+          "type": "array",
+          "description": "A list of buildings associated with the organization.",
+          "items": {
+            "type": "object",
+            "description": "A reference to a building for an organization, with a description of its purpose.",
+            "properties": {
+              "buildingId": {
+                "$comment": "References: Geography.json#/$defs/Building",
+                "description": "Reference to a building from the Geography schema.",
+                "allOf": [
+                  { "$ref": "../common/identifier.json" },
+                  { "pattern": "^building--" }
+                ]
+              },
+              "description": {
+                "type": "string",
+                "description": "A description of the organization's use of this building (e.g., 'Main Campus', 'Data Center')."
+              }
+            },
+            "required": [
+              "buildingId"
+            ]
+          }
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ]
+    },
+    "person": {
+      "type": "object",
+      "description": "Represents an individual person, including their personal details and contact information.",
+      "properties": {
+        "id": {
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^person--" }
+          ],
+          "description": "Unique identifier for this person."
+        },
+        "firstName": {
+          "type": "string",
+          "description": "The person's first name."
+        },
+        "lastName": {
+          "type": "string",
+          "description": "The person's last name."
+        },
+        "preferredName": {
+          "type": "string",
+          "description": "The person's preferred name."
+        },
+        "contactInformation": {
+          "type": "array",
+          "description": "A list of contact details for the person.",
+          "items": {
+            "$ref": "#/$defs/contactInformation"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "firstName"
+      ]
+    },
+    "entityRelationshipType": {
+      "type": "object",
+      "description": "Defines a type of relationship between entities, specifying the nature of the connection and the types of entities it can connect.",
+      "properties": {
+        "id": {
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^entityRelationshipType--" }
+          ],
+          "description": "Unique identifier for this entity relationship type."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the relationship type (e.g., 'Employment', 'Subsidiary')."
+        },
+        "description": {
+          "type": "string",
+          "description": "A brief description of the relationship type."
+        },
+        "sourceTypes": {
+          "type": "array",
+          "description": "An array of allowed entity types for the source of this relationship.",
+          "items": {
+            "type": "string",
+            "enum": [
+              "organization",
+              "person"
+            ]
+          }
+        },
+        "targetTypes": {
+          "type": "array",
+          "description": "An array of allowed entity types for the target of this relationship.",
+          "items": {
+            "type": "string",
+            "enum": [
+              "organization",
+              "person"
+            ]
+          }
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "sourceTypes",
+        "targetTypes"
+      ]
+    },
+    "contactInformationType": {
+      "type": "object",
+      "description": "Defines a type of contact information, such as email or phone number.",
+      "properties": {
+        "id": {
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^contactInformationType--" }
+          ],
+          "description": "Unique identifier for this contact information type."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the contact type (e.g., 'Email', 'Phone')."
+        },
+        "description": {
+          "type": "string",
+          "description": "A brief description of the contact information type."
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ]
+    },
+    "contactInformation": {
+      "type": "object",
+      "description": "A specific piece of contact information for an entity.",
+      "properties": {
+        "type": {
+          "$comment": "References: #/$defs/contactInformationType",
+          "description": "The type of contact information.",
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^contactInformationType--" }
+          ]
+        },
+        "value": {
+          "type": "string",
+          "description": "The actual contact detail (e.g., the email address or phone number)."
+        }
+      },
+      "required": [
+        "type",
+        "value"
+      ]
+    },
+    "entityRelationship": {
+      "type": "object",
+      "description": "Represents a connection or association between two entities.",
+      "properties": {
+        "id": {
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^entityRelationship--" }
+          ],
+          "description": "Unique identifier for this entity relationship."
+        },
+        "type": {
+          "$comment": "References: #/$defs/entityRelationshipType",
+          "description": "The type of relationship.",
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^entityRelationshipType--" }
+          ]
+        },
+        "source": {
+          "$comment": "References: #/$defs/organization | #/$defs/person",
+          "description": "The origin entity of the relationship.",
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^(organization|person)--" }
+          ]
+        },
+        "target": {
+          "$comment": "References: #/$defs/organization | #/$defs/person",
+          "description": "The destination entity of the relationship.",
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^(organization|person)--" }
+          ]
+        },
+        "notes": {
+          "type": "array",
+          "description": "A list of time-stamped notes about the relationship.",
+          "items": {
+            "$ref": "#/$defs/noteEntry"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "source",
+        "target"
+      ]
+    },
+    "noteEntry": {
+      "type": "object",
+      "description": "A time-stamped note.",
+      "properties": {
+        "date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The date and time the note was created."
+        },
+        "note": {
+          "type": "string",
+          "description": "The content of the note."
+        }
+      },
+      "required": [
+        "date",
+        "note"
+      ]
+    }
+  },
+  "properties": {
+    "organizationTypes": {
+      "type": "array",
+      "description": "A list of all defined organization types.",
+      "items": {
+        "$ref": "#/$defs/organizationType"
+      }
+    },
+    "organizations": {
+      "type": "array",
+      "description": "A list of all organizations in the digital twin.",
+      "items": {
+        "$ref": "#/$defs/organization"
+      }
+    },
+    "people": {
+      "type": "array",
+      "description": "A list of all people in the digital twin.",
+      "items": {
+        "$ref": "#/$defs/person"
+      }
+    },
+    "contactInformationTypes": {
+      "type": "array",
+      "description": "A list of all defined contact information types.",
+      "items": {
+        "$ref": "#/$defs/contactInformationType"
+      }
+    },
+    "entityRelationshipTypes": {
+      "type": "array",
+      "description": "A list of all defined relationship types.",
+      "items": {
+        "$ref": "#/$defs/entityRelationshipType"
+      }
+    },
+    "entityRelationships": {
+      "type": "array",
+      "description": "A list of all relationships between entities.",
+      "items": {
+        "$ref": "#/$defs/entityRelationship"
+      }
+    }
+  }
+}

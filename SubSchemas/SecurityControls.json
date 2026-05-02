@@ -1,0 +1,243 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://web.git.mil/daf-digital-transformation-office/CyberDataSchema/SubSchemas/SecurityControls.json",
+  "title": "Cyber Engineering Security Controls Data Schema",
+  "description": "A comprehensive JSON Schema defining the structure for managing security controls in a cyber engineering environment. This schema supports various frameworks such as NIST SP 800-53 and ISO/IEC 27001, as well as custom or organization-specific controls. It enables the organization, categorization, relationship mapping, overlay application, and system-specific implementation of security controls, facilitating compliance tracking, risk management, and tailoring processes.",
+  "$comment": {
+    "version": "2.0.0",
+    "releaseDate": "2026-02-02"
+  },
+  "type": "object",
+  "$defs": {
+    "securityControlFramework": {
+      "type": "object",
+      "description": "Defines a single security control framework, encapsulating its metadata such as name, version, and purpose, to provide a structured reference for grouping related controls.",
+      "properties": {
+        "id": {
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^securityControlFramework--" }
+          ],
+          "description": "A unique primary key identifier."
+        },
+        "name": {
+          "type": "string",
+          "description": "The official or descriptive name of the security control framework, such as 'NIST SP 800-53' or 'Organization Custom Framework', used for identification and reference."
+        },
+        "version": {
+          "type": "string",
+          "description": "The version identifier of the framework, indicating revisions or updates, e.g., 'Revision 5' for NIST SP 800-53."
+        },
+        "description": {
+          "type": "string",
+          "description": "A detailed overview of the framework, including its scope, objectives, and intended use in cybersecurity practices."
+        },
+        "acronym": {
+          "type": "string",
+          "description": "An optional acronym or abbreviation for the framework, such as 'NIST' or 'ISO', for concise referencing in documentation and systems."
+        }
+      },
+      "required": ["id", "name"]
+    },
+    "securityControlCategory": {
+      "type": "object",
+      "description": "Represents a category or family of security controls, which helps in logically grouping controls for easier management, analysis, and application across frameworks or custom setups.",
+      "properties": {
+        "id": {
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^securityControlCategory--" }
+          ],
+          "description": "A unique primary key identifier."
+        },
+        "frameworkId": {
+          "$comment": "References: #/$defs/securityControlFramework",
+          "description": "A reference to the UUID of the associated security control framework; can be null for standalone or custom categories not tied to a specific framework.",
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^securityControlFramework--" }
+          ]
+        },
+        "abbreviation": {
+          "type": "string",
+          "description": "A short abbreviation or code for the category, such as 'AC' for Access Control in NIST, used for quick reference and labeling."
+        },
+        "name": {
+          "type": "string",
+          "description": "The full name of the category or family, providing a clear and descriptive title, e.g., 'Access Control' or 'Custom Data Protection'."
+        },
+        "description": {
+          "type": "string",
+          "description": "An explanatory text detailing the purpose, scope, and types of controls encompassed by this category."
+        }
+      },
+      "required": ["id", "frameworkId", "name"]
+    },
+    "securityControl": {
+      "type": "object",
+      "description": "Details a single security control, including its identifier, description, and attributes, supporting both standard framework controls and custom ones for tailored cybersecurity implementations.",
+      "properties": {
+        "id": {
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^securityControl--" }
+          ],
+          "description": "A unique primary key identifier."
+        },
+        "frameworkId": {
+          "$comment": "References: #/$defs/securityControlFramework",
+          "description": "A reference to the UUID of the parent security control framework; null indicates a fully custom control not affiliated with any standard framework.",
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^securityControlFramework--" }
+          ]
+        },
+        "categoryId": {
+          "$comment": "References: #/$defs/securityControlCategory",
+          "description": "A reference to the UUID of the associated category or family; null for controls that are uncategorized, often in custom scenarios.",
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^securityControlCategory--" }
+          ]
+        },
+        "identifier": {
+          "type": "string",
+          "description": "A concise code or label uniquely identifying the control within its framework or custom context, e.g., 'AC-1' for NIST or 'CORP-SEC-001' for custom controls."
+        },
+        "name": {
+          "type": "string",
+          "description": "The descriptive title of the security control, summarizing its primary focus, such as 'Access Control Policy and Procedures'."
+        },
+        "description": {
+          "type": "string",
+          "description": "A comprehensive explanation of the control's requirements, objectives, and implementation guidance."
+        },
+        "discussion": {
+          "type": "string",
+          "description": "Additional context, rationale, or elaboration on the control, including potential challenges, benefits, or examples of application."
+        },
+        "relatedControlIds": {
+          "type": "array",
+          "description": "A list of UUIDs for security controls that are related to this control.",
+          "items": {
+            "$comment": "References: #/$defs/securityControl",
+            "description": "A reference to the UUID of a related security control.",
+            "allOf": [
+              { "$ref": "../common/identifier.json" },
+              { "pattern": "^securityControl--" }
+            ]
+          }
+        }
+      },
+      "required": ["id", "identifier", "name"]
+    },
+    "securityControlOverlay": {
+      "type": "object",
+      "description": "Defines an overlay, which modifies or supplements a set of controls for targeted applications, such as cloud environments or high-impact systems, supporting adaptability in cybersecurity strategies.",
+      "properties": {
+        "id": {
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^securityControlOverlay--" }
+          ],
+          "description": "A unique primary key identifier."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the overlay, describing its purpose or scope, e.g., 'Cloud Security Overlay' or 'Privacy Enhancement Overlay'."
+        },
+        "frameworkId": {
+          "$comment": "References: #/$defs/securityControlFramework",
+          "description": "A reference to the UUID of the base framework this overlay applies to; null if the overlay is broadly applicable or targets custom controls.",
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^securityControlFramework--" }
+          ]
+        },
+        "createDate": {
+          "type": "string",
+          "format": "date",
+          "description": "The date on which the overlay was initially created, in YYYY-MM-DD format, for versioning and historical tracking."
+        },
+        "modifiedDate": {
+          "type": "string",
+          "format": "date",
+          "description": "The date of the last modification to the overlay, in YYYY-MM-DD format, to track updates and revisions."
+        },
+        "version": {
+          "type": "string",
+          "description": "The version number of the overlay, indicating iterative changes or updates."
+        },
+        "owner": {
+          "$comment": "References: Entities.json#/$defs/organization",
+          "description": "A reference to the UUID of the organization or office entity responsible for maintaining and overseeing this overlay.",
+          "allOf": [
+            { "$ref": "../common/identifier.json" },
+            { "pattern": "^organization--" }
+          ]
+        },
+        "acronym": {
+          "type": "string",
+          "description": "An optional acronym for the overlay, for abbreviated referencing in documents and systems."
+        },
+        "description": {
+          "type": "string",
+          "description": "A detailed explanation of the overlay's intent, scope, tailoring rationale, and how it modifies baseline controls."
+        },
+        "controlMappings": {
+          "type": "array",
+          "description": "A list of controls and their customizations for this overlay.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "controlId": {
+                "$comment": "References: #/$defs/securityControl",
+                "description": "A reference to the UUID of the security control affected by this overlay; can reference any control, including custom ones.",
+                "allOf": [
+                  { "$ref": "../common/identifier.json" },
+                  { "pattern": "^securityControl--" }
+                ]
+              },
+              "customization": {
+                "type": "string",
+                "description": "Detailed notes or modifications specific to this overlay-control pair, such as parameter adjustments, scoping changes, or additional requirements."
+              }
+            },
+            "required": ["controlId"]
+          }
+        }
+      },
+      "required": ["id", "name"]
+    }
+  },
+  "properties": {
+    "securityControlFrameworks": {
+      "type": "array",
+      "description": "An array of security control frameworks, which serve as the foundational standards or guidelines for security controls. This includes established frameworks like NIST or ISO, as well as custom frameworks created by organizations to address unique requirements.",
+      "items": {
+        "$ref": "#/$defs/securityControlFramework"
+      }
+    },
+    "securityControlCategories": {
+      "type": "array",
+      "description": "An array of categories or families that group related security controls within frameworks, aiding in organization and navigation of controls by thematic areas like access control or incident response.",
+      "items": {
+        "$ref": "#/$defs/securityControlCategory"
+      }
+    },
+    "securityControls": {
+      "type": "array",
+      "description": "An array of individual security controls, which are the core elements defining specific security requirements, practices, or safeguards applicable to systems and organizations.",
+      "items": {
+        "$ref": "#/$defs/securityControl"
+      }
+    },
+    "securityControlOverlays": {
+      "type": "array",
+      "description": "An array of overlays that allow for the tailoring or customization of security controls for specific environments, systems, or risk profiles, enhancing baseline frameworks.",
+      "items": {
+        "$ref": "#/$defs/securityControlOverlay"
+      }
+    }
+  }
+}
