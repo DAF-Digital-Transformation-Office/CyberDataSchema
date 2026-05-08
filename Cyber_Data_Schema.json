@@ -1,6 +1,6 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "$id": "https://web.git.mil/.../CyberDataSchema.json",
+    "$id": "https://web.git.mil/daf-digital-transformation-office/CyberDataSchema/CyberDataSchema.json",
     "title": "CyberDataSchema",
     "$comment": "Cyber Data Schema v3.0.0 (2025-08-09). Major redesign to JSON Schema Draft 2020-12 compliance with domain-driven sub-schemas.",
     "version": "3.0.0",
