@@ -1,13 +1,12 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "$id": "https://web.git.mil/daf-digital-transformation-office/CyberDataSchema/CyberDataSchema.json",
+    "$id": "https://web.git.mil/.../CyberDataSchema.json",
     "title": "CyberDataSchema",
-    "$comment": {
-        "version": "3.0.0",
-        "releaseDate": "2025-08-09",
-        "commentary": "Major redesign to JSON Schema (Draft 2020-12) compliance with domain-driven sub-schemas. Root schema aggregates all domain properties."
-    },
+    "$comment": "Cyber Data Schema v3.0.0 (2025-08-09). Major redesign to JSON Schema Draft 2020-12 compliance with domain-driven sub-schemas.",
+    "version": "3.0.0",
+    "releaseDate": "2025-08-09",
     "description": "Top-level Cyber Data Schema aggregating all domain sub-schemas with complete property definitions.",
+    
     "type": "object",
     "properties": {
         "acats": {
