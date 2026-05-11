@@ -1,0 +1,468 @@
+{
+  "_comment": "EXAMPLE DATA ONLY. This file contains no real-world, operational, personal, or program data. All values are synthetic and were 100% auto-generated using GPT-5.2 on 2025-12-19. Any information which looks real is a result of the model's predictions from the training data. Do not use for decisions, assessments, or operational purposes. It may contain significant errors in the schema and table keys.",
+  "_generated_by": "GPT-5.2",
+  "_generated_on": "2025-12-19",
+  "_data_classification": "FOR TRAINING AND DEMONSTRATION ONLY",
+  "schema_version": "2.0.4",
+  "example": "C-130Z",
+  "data": {
+    "ACAT": [
+      {
+        "UUID": "0f32eeda-88c1-4591-83d9-3d2d2e3a1484",
+        "Value": "I",
+        "Name": "ACAT I"
+      }
+    ],
+    "InformationTechnologyType": [
+      {
+        "UUID": "9f13bda7-25c0-4c61-9c13-061a9e7f9e44",
+        "Subset": "Platform IT",
+        "Categorization": "Platform IT (PIT)"
+      }
+    ],
+    "RDTEType": [
+      {
+        "UUID": "c9d57c55-329a-432d-9033-6db2a94e5aa0",
+        "Name": "Operations & Sustainment"
+      }
+    ],
+    "OperationalStatusType": [
+      {
+        "UUID": "9b7a1a2c-9bfe-4d99-9d50-9a4f1e9f9b41",
+        "Type": "Operational"
+      }
+    ],
+    "SystemProtectionLevel": [
+      {
+        "UUID": "ff1cdb7a-614a-44db-b855-8b0f5cf7c2a5",
+        "Name": "Moderate",
+        "Description": "Example protection level placeholder for demonstration."
+      }
+    ],
+    "GeographicalLocation": [
+      {
+        "UUID": "4d8ae821-2320-4d4b-8e8e-190bff5fd7dd",
+        "Name": "Milky Way",
+        "Acronym": "MW",
+        "Description": "Country",
+        "Type": "Country",
+        "Children": [
+          "f03c9d4e-f9d6-4bcb-9f48-9d4187f5c0f7"
+        ]
+      },
+      {
+        "UUID": "f03c9d4e-f9d6-4bcb-9f48-9d4187f5c0f7",
+        "Name": "Proxima",
+        "Acronym": "PrA",
+        "Description": "State",
+        "Type": "State",
+        "Children": [
+          "f5d2f3ff-8c2f-4c4c-a77c-2c9a0b573d9b"
+        ]
+      },
+      {
+        "UUID": "f5d2f3ff-8c2f-4c4c-a77c-2c9a0b573d9b",
+        "Name": "Real Galactic Air Force Base",
+        "Acronym": "RGAFB",
+        "Description": "Example base location",
+        "Type": "Installation",
+        "Children": []
+      }
+    ],
+    "Base": [
+      {
+        "UUID": "52fca2d5-3e5d-4b59-9a45-3c6a2d06b5f8",
+        "Name": "Real GAF",
+        "Location_ID": "f5d2f3ff-8c2f-4c4c-a77c-2c9a0b573d9b"
+      }
+    ],
+    "Organization": [
+      {
+        "UUID": "6fae4b75-b94d-4e8e-a236-3c2cf4d0de20",
+        "Name": "Galactic Air Force",
+        "CreationDate": "1947-09-18",
+        "Base_ID": null,
+        "Acronym": "GAF",
+        "Parent_ID": null,
+        "Description": "Service headquarters (example)."
+      },
+      {
+        "UUID": "31aefc28-6e4b-46ce-8f25-8a3ec8c4d2a2",
+        "Name": "Air Flying Command",
+        "CreationDate": "1992-06-01",
+        "Base_ID": "52fca2d5-3e5d-4b59-9a45-3c6a2d06b5f8",
+        "Acronym": "AFC",
+        "Parent_ID": "6fae4b75-b94d-4e8e-a236-3c2cf4d0de20",
+        "Description": "MAJCOM responsible for air mobility (example)."
+      },
+      {
+        "UUID": "0c2d0c8a-4ed0-4c35-8dd0-7d4f0b8a6e4e",
+        "Name": "Big Fat Airplane Company",
+        "CreationDate": "1995-03-15",
+        "Base_ID": null,
+        "Acronym": "BFAC",
+        "Parent_ID": null,
+        "Description": "Prime contractor (example supplier organization)."
+      }
+    ],
+    "AuthorizingOfficialType": [
+      {
+        "UUID": "efcc5f11-98d9-4aa4-9c23-6f7d86c5d1aa",
+        "Name": "Authorizing Official"
+      }
+    ],
+    "SecurityControlOverlay": [
+      {
+        "UUID": "e87a6e92-8f75-4a4a-9d7f-7b5fd7d93b3b",
+        "Name": "Platform IT Overlay (example)",
+        "CreateDate": "2024-01-15",
+        "Version": "1.0",
+        "ModifiedDate": "2024-01-15",
+        "OfficePrimaryResponsibility_ID": "31aefc28-6e4b-46ce-8f25-8a3ec8c4d2a2",
+        "Acronym": "PIT-O",
+        "SecurityControls": []
+      }
+    ],
+    "ProgramDtl": [
+      {
+        "UUID": "5f35663e-7f2f-46a7-947c-0ce915c7a0f4",
+        "Name": "C-130Z Stuper Hercules",
+        "Acronym": "C-130Z",
+        "Version": "Block 18.1 (example)",
+        "MDS": "C-130Z",
+        "CONOPS": "Tactical airlift mission set supporting intra-theater airlift, airdrop, and aeromedical evacuation (example).",
+        "ITIPSNumber": "ITIPS-000123 (example)",
+        "SystemPurpose": "Airlift aircraft platform and associated mission/avionics computing environment (example).",
+        "DITPRNumber": "DITPR-000000 (example)",
+        "AFIDNumber": "AFID-000000 (example)",
+        "EMASSNumber": "eMASS-000000 (example)",
+        "ACAT_ID": "0f32eeda-88c1-4591-83d9-3d2d2e3a1484",
+        "ITType_ID": "9f13bda7-25c0-4c61-9c13-061a9e7f9e44",
+        "RDTEType_ID": "c9d57c55-329a-432d-9033-6db2a94e5aa0",
+        "OperationalStatus_ID": "9b7a1a2c-9bfe-4d99-9d50-9a4f1e9f9b41",
+        "Organization_ID": "31aefc28-6e4b-46ce-8f25-8a3ec8c4d2a2",
+        "SystemProtectionLevel_ID": "ff1cdb7a-614a-44db-b855-8b0f5cf7c2a5",
+        "ForeignUsers": false,
+        "UserFullDataAccess": false,
+        "SecurityControlOverlays": [
+          "e87a6e92-8f75-4a4a-9d7f-7b5fd7d93b3b"
+        ]
+      }
+    ],
+    "Program": [
+      {
+        "UUID": "13d28c65-75fa-4a8b-9e1d-6c56bf3afc88",
+        "CreatedDate": "2025-12-19T10:00:00",
+        "Previous_ID": null,
+        "ProgramDtl_ID": "5f35663e-7f2f-46a7-947c-0ce915c7a0f4"
+      }
+    ],
+    "AuthorizationBoundary": [
+      {
+        "UUID": "0aee2f3c-7e4d-4d15-bf9d-10d7d2ac3c2e",
+        "Name": "C-130Z Avionics and Mission Computing Authorization Boundary (example)",
+        "Description": "Boundary covering mission computer, avionics buses, and aircraft data loading interfaces for the C-130Z (example).",
+        "Program_ID": "13d28c65-75fa-4a8b-9e1d-6c56bf3afc88",
+        "Acronym": "C130Z-AB",
+        "Children": [],
+        "AuthorizingOfficialType_ID": "efcc5f11-98d9-4aa4-9c23-6f7d86c5d1aa"
+      }
+    ],
+    "DurationType": [
+      {
+        "UUID": "b4bb3a4a-0e6f-4568-bc2e-792f5b3f5f4f",
+        "Long": "3 years",
+        "Short": "3Y"
+      }
+    ],
+    "CyberAuthorizationType": [
+      {
+        "UUID": "07db5a6e-0a6b-4c5b-bb14-3a6ad4d56a4a",
+        "Name": "Authority to Operate",
+        "Acronym": "ATO"
+      }
+    ],
+    "UserDtl": [
+      {
+        "UUID": "9f8e9d0b-11c9-4fd7-9d8b-8a6d74c5f0c1",
+        "FirstName": "Alex",
+        "LastName": "Authorizer",
+        "PhoneNumber": "555-0100",
+        "Organization_ID": "31aefc28-6e4b-46ce-8f25-8a3ec8c4d2a2"
+      }
+    ],
+    "User": [
+      {
+        "UUID": "7f0b5f7c-9b52-4b62-9c6f-2d1c2a5a0f1d",
+        "Previous_ID": null,
+        "UserDtl_ID": "9f8e9d0b-11c9-4fd7-9d8b-8a6d74c5f0c1",
+        "CreatedDate": "2025-12-19T09:30:00",
+        "ModifiedDate": "2025-12-19T09:30:00"
+      }
+    ],
+    "CyberAuthorization": [
+      {
+        "UUID": "e3c0a1c2-6e5d-4c9a-8c1f-5e0d7a6b9c1a",
+        "Duration": 3.0,
+        "Program_ID": "13d28c65-75fa-4a8b-9e1d-6c56bf3afc88",
+        "Type_ID": "07db5a6e-0a6b-4c5b-bb14-3a6ad4d56a4a",
+        "DurationType_ID": "b4bb3a4a-0e6f-4568-bc2e-792f5b3f5f4f",
+        "AuthorizingOffical_ID": "7f0b5f7c-9b52-4b62-9c6f-2d1c2a5a0f1d",
+        "ApprovalDate": "2025-10-01",
+        "ExpirationDate": "2028-10-01"
+      }
+    ],
+    "Encryption": [
+      {
+        "UUID": "86b3f2a5-1f8c-4b4a-9c3f-7d1c2b3a4e5f",
+        "Name": "None"
+      },
+      {
+        "UUID": "2f1a3b4c-5d6e-7f80-9a1b-2c3d4e5f6a7b",
+        "Name": "Type 1 (example)"
+      }
+    ],
+    "SystemType": [
+      {
+        "UUID": "6b8d9e0f-1a2b-4c3d-9e5f-0a1b2c3d4e5f",
+        "Name": "Aircraft Platform",
+        "Description": "The aircraft as a system-of-systems (example).",
+        "D3FEND_ID": "d3f:platform"
+      },
+      {
+        "UUID": "1c2d3e4f-5a6b-4c7d-8e9f-0a1b2c3d4e5f",
+        "Name": "Mission Computer",
+        "Description": "Primary mission computing (example).",
+        "D3FEND_ID": "d3f:compute-device"
+      },
+      {
+        "UUID": "9e8d7c6b-5a4f-3e2d-1c0b-9a8f7e6d5c4b",
+        "Name": "Navigation System",
+        "Description": "GPS/INS navigation subsystem (example).",
+        "D3FEND_ID": "d3f:sensor"
+      },
+      {
+        "UUID": "4b5c6d7e-8f9a-4b0c-9d1e-2f3a4b5c6d7e",
+        "Name": "Communications",
+        "Description": "Radio/data link/communication management (example).",
+        "D3FEND_ID": "d3f:network-device"
+      },
+      {
+        "UUID": "7e6d5c4b-3a2f-1e9d-0c4b-9a8f7e6d5c4b",
+        "Name": "Support Equipment",
+        "Description": "Ground/maintenance support system (example).",
+        "D3FEND_ID": "d3f:hardware"
+      }
+    ],
+    "System": [
+      {
+        "UUID": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+        "Name": "C-130Z Aircraft Platform",
+        "Acronym": "C130Z",
+        "ImageReference": null,
+        "PartNumber": "C130Z-AIRFRAME (example)",
+        "Program_ID": "13d28c65-75fa-4a8b-9e1d-6c56bf3afc88",
+        "AuthorizationBoundary_ID": "0aee2f3c-7e4d-4d15-bf9d-10d7d2ac3c2e",
+        "DAREncryptionType_ID": "86b3f2a5-1f8c-4b4a-9c3f-7d1c2b3a4e5f",
+        "Supplier_ID": "0c2d0c8a-4ed0-4c35-8dd0-7d4f0b8a6e4e",
+        "Parent_ID": null,
+        "Description": "Top-level aircraft platform representation (example).",
+        "Types": [
+          "6b8d9e0f-1a2b-4c3d-9e5f-0a1b2c3d4e5f"
+        ],
+        "Requirements": [],
+        "StoredData": "Flight and maintenance data (example).",
+        "Software": "Avionics and mission software baseline (example).",
+        "InstanceOf": null
+      },
+      {
+        "UUID": "b2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d6e",
+        "Name": "Mission Computer",
+        "Acronym": "MC",
+        "ImageReference": null,
+        "PartNumber": "MC-001 (example)",
+        "Program_ID": "13d28c65-75fa-4a8b-9e1d-6c56bf3afc88",
+        "AuthorizationBoundary_ID": "0aee2f3c-7e4d-4d15-bf9d-10d7d2ac3c2e",
+        "DAREncryptionType_ID": "2f1a3b4c-5d6e-7f80-9a1b-2c3d4e5f6a7b",
+        "Supplier_ID": "0c2d0c8a-4ed0-4c35-8dd0-7d4f0b8a6e4e",
+        "Parent_ID": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+        "Description": "Central mission computing hosting avionics applications (example).",
+        "Types": [
+          "1c2d3e4f-5a6b-4c7d-8e9f-0a1b2c3d4e5f"
+        ],
+        "Requirements": [],
+        "StoredData": "Mission plans and aircraft configuration (example).",
+        "Software": "Operational flight program (example).",
+        "InstanceOf": null
+      },
+      {
+        "UUID": "c3d4e5f6-a7b8-4c9d-0e1f-2a3b4c5d6e7f",
+        "Name": "Embedded GPS/INS",
+        "Acronym": "EGI",
+        "ImageReference": null,
+        "PartNumber": "EGI-001 (example)",
+        "Program_ID": "13d28c65-75fa-4a8b-9e1d-6c56bf3afc88",
+        "AuthorizationBoundary_ID": "0aee2f3c-7e4d-4d15-bf9d-10d7d2ac3c2e",
+        "DAREncryptionType_ID": "86b3f2a5-1f8c-4b4a-9c3f-7d1c2b3a4e5f",
+        "Supplier_ID": "0c2d0c8a-4ed0-4c35-8dd0-7d4f0b8a6e4e",
+        "Parent_ID": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+        "Description": "Navigation sensor providing position, navigation, and timing (example).",
+        "Types": [
+          "9e8d7c6b-5a4f-3e2d-1c0b-9a8f7e6d5c4b"
+        ],
+        "Requirements": [],
+        "StoredData": "Navigation state (example).",
+        "Software": "EGI firmware (example).",
+        "InstanceOf": null
+      },
+      {
+        "UUID": "d4e5f6a7-b8c9-4d0e-1f2a-3b4c5d6e7f80",
+        "Name": "Communication Management Unit",
+        "Acronym": "CMU",
+        "ImageReference": null,
+        "PartNumber": "CMU-001 (example)",
+        "Program_ID": "13d28c65-75fa-4a8b-9e1d-6c56bf3afc88",
+        "AuthorizationBoundary_ID": "0aee2f3c-7e4d-4d15-bf9d-10d7d2ac3c2e",
+        "DAREncryptionType_ID": "2f1a3b4c-5d6e-7f80-9a1b-2c3d4e5f6a7b",
+        "Supplier_ID": "0c2d0c8a-4ed0-4c35-8dd0-7d4f0b8a6e4e",
+        "Parent_ID": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+        "Description": "Manages radios and aircraft data communications (example).",
+        "Types": [
+          "4b5c6d7e-8f9a-4b0c-9d1e-2f3a4b5c6d7e"
+        ],
+        "Requirements": [],
+        "StoredData": "Comms keys and configuration (example).",
+        "Software": "Comms control software (example).",
+        "InstanceOf": null
+      },
+      {
+        "UUID": "e5f6a7b8-c9d0-4e1f-2a3b-4c5d6e7f8091",
+        "Name": "Portable Data Loader",
+        "Acronym": "PDL",
+        "ImageReference": null,
+        "PartNumber": "PDL-001 (example)",
+        "Program_ID": "13d28c65-75fa-4a8b-9e1d-6c56bf3afc88",
+        "AuthorizationBoundary_ID": "0aee2f3c-7e4d-4d15-bf9d-10d7d2ac3c2e",
+        "DAREncryptionType_ID": "2f1a3b4c-5d6e-7f80-9a1b-2c3d4e5f6a7b",
+        "Supplier_ID": "0c2d0c8a-4ed0-4c35-8dd0-7d4f0b8a6e4e",
+        "Parent_ID": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+        "Description": "Loads mission data and software to aircraft subsystems (example).",
+        "Types": [
+          "7e6d5c4b-3a2f-1e9d-0c4b-9a8f7e6d5c4b"
+        ],
+        "Requirements": [],
+        "StoredData": "Loads and logs (example).",
+        "Software": "Data loading application (example).",
+        "InstanceOf": null
+      }
+    ],
+    "InterfaceType": [
+      {
+        "UUID": "f1a2b3c4-d5e6-4f70-8a9b-0c1d2e3f4a5b",
+        "Name": "MIL-STD-1553",
+        "Description": "Dual-redundant avionics data bus (example)."
+      },
+      {
+        "UUID": "a5b4c3d2-e1f0-4a9b-8c7d-6e5f4a3b2c1d",
+        "Name": "Ethernet",
+        "Description": "Aircraft internal Ethernet segment (example)."
+      }
+    ],
+    "InterfaceRestrictionType": [
+      {
+        "UUID": "3c2b1a0f-9e8d-4c7b-6a5f-4e3d2c1b0a9f",
+        "Name": "Read/Write"
+      },
+      {
+        "UUID": "0a9f1b2c-3d4e-5f6a-7b8c-9d0e1f2a3b4c",
+        "Name": "Read Only"
+      }
+    ],
+    "Interface": [
+      {
+        "UUID": "aa1b2c3d-4e5f-4a6b-8c9d-0e1f2a3b4c5d",
+        "System_ID": "b2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d6e",
+        "InterfaceType_ID": "f1a2b3c4-d5e6-4f70-8a9b-0c1d2e3f4a5b",
+        "Restrictions": [
+          "3c2b1a0f-9e8d-4c7b-6a5f-4e3d2c1b0a9f"
+        ],
+        "Parent_ID": null,
+        "Name": "MC 1553 Bus A/B"
+      },
+      {
+        "UUID": "bb2c3d4e-5f6a-4b7c-9d0e-1f2a3b4c5d6e",
+        "System_ID": "c3d4e5f6-a7b8-4c9d-0e1f-2a3b4c5d6e7f",
+        "InterfaceType_ID": "f1a2b3c4-d5e6-4f70-8a9b-0c1d2e3f4a5b",
+        "Restrictions": [
+          "0a9f1b2c-3d4e-5f6a-7b8c-9d0e1f2a3b4c"
+        ],
+        "Parent_ID": null,
+        "Name": "EGI 1553 Bus A/B"
+      },
+      {
+        "UUID": "cc3d4e5f-6a7b-4c8d-0e1f-2a3b4c5d6e7f",
+        "System_ID": "d4e5f6a7-b8c9-4d0e-1f2a-3b4c5d6e7f80",
+        "InterfaceType_ID": "f1a2b3c4-d5e6-4f70-8a9b-0c1d2e3f4a5b",
+        "Restrictions": [
+          "3c2b1a0f-9e8d-4c7b-6a5f-4e3d2c1b0a9f"
+        ],
+        "Parent_ID": null,
+        "Name": "CMU 1553 Bus A/B"
+      },
+      {
+        "UUID": "dd4e5f6a-7b8c-4d0e-1f2a-3b4c5d6e7f80",
+        "System_ID": "b2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d6e",
+        "InterfaceType_ID": "a5b4c3d2-e1f0-4a9b-8c7d-6e5f4a3b2c1d",
+        "Restrictions": [
+          "3c2b1a0f-9e8d-4c7b-6a5f-4e3d2c1b0a9f"
+        ],
+        "Parent_ID": null,
+        "Name": "MC Ethernet Port"
+      },
+      {
+        "UUID": "ee5f6a7b-8c9d-4e1f-2a3b-4c5d6e7f8091",
+        "System_ID": "e5f6a7b8-c9d0-4e1f-2a3b-4c5d6e7f8091",
+        "InterfaceType_ID": "a5b4c3d2-e1f0-4a9b-8c7d-6e5f4a3b2c1d",
+        "Restrictions": [
+          "3c2b1a0f-9e8d-4c7b-6a5f-4e3d2c1b0a9f"
+        ],
+        "Parent_ID": null,
+        "Name": "PDL Ethernet Port"
+      }
+    ],
+    "ConnectionType": [
+      {
+        "UUID": "11111111-2222-3333-4444-555555555555",
+        "Name": "Avionics Data Bus (1553)",
+        "Wireless": false
+      },
+      {
+        "UUID": "66666666-7777-8888-9999-aaaaaaaaaaaa",
+        "Name": "Ethernet",
+        "Wireless": false
+      }
+    ],
+    "SystemConnection": [
+      {
+        "UUID": "f0e1d2c3-b4a5-4f6e-8d9c-0b1a2c3d4e5f",
+        "Parent_ID": null,
+        "ConnectionType_ID": "11111111-2222-3333-4444-555555555555",
+        "EncryptionType_ID": "86b3f2a5-1f8c-4b4a-9c3f-7d1c2b3a4e5f",
+        "Interface1_ID": "aa1b2c3d-4e5f-4a6b-8c9d-0e1f2a3b4c5d",
+        "Interface2_ID": "bb2c3d4e-5f6a-4b7c-9d0e-1f2a3b4c5d6e",
+        "System1_ID": "b2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d6e",
+        "System2_ID": "c3d4e5f6-a7b8-4c9d-0e1f-2a3b4c5d6e7f"
+      },
+      {
+        "UUID": "0f1e2d3c-4b5a-4c6d-8e9f-0a1b2c3d4e5f",
+        "Parent_ID": null,
+        "ConnectionType_ID": "66666666-7777-8888-9999-aaaaaaaaaaaa",
+        "EncryptionType_ID": "2f1a3b4c-5d6e-7f80-9a1b-2c3d4e5f6a7b",
+        "Interface1_ID": "dd4e5f6a-7b8c-4d0e-1f2a-3b4c5d6e7f80",
+        "Interface2_ID": "ee5f6a7b-8c9d-4e1f-2a3b-4c5d6e7f8091",
+        "System1_ID": "b2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d6e",
+        "System2_ID": "e5f6a7b8-c9d0-4e1f-2a3b-4c5d6e7f8091"
+      }
+    ]
+  }
+}
